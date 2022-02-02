@@ -1,4 +1,4 @@
-# RobotTemplate2022
+# RobotCode2022
 
 This is TRIGON 5990 robot code for the 2022 FRC season: RAPID REACT.
 
