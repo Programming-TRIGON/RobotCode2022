@@ -3,6 +3,7 @@ package frc.robot.constants;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
 import frc.robot.components.TrigonTalonSRX;
@@ -94,5 +95,14 @@ public class RobotComponents {
         public static final PIDFTalonFX REAR_RIGHT_DRIVE_MOTOR = new PIDFTalonFX(
                 CAN.Swerve.REAR_RIGHT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG.withPID(
                 LOCAL_SWERVE_MODULES.rearRightModuleConstants.driveCoefs));
+    }
+
+    protected static class IntakeComponents {
+        public static TrigonTalonSRX INTAKE_MOTOR = SwerveComponents.FRONT_LEFT_ENCODER;
+    }
+
+    protected static class IntakeOpenerComponents {
+        public static TrigonTalonSRX INTAKE_OPENER_MOTOR = new TrigonTalonSRX(CAN.intakeOpener.INTAKE_OPENER_ID);
+        public static DigitalInput SWITCH = new DigitalInput(RobotMap.DIO.IntakeOpener.SWITCH_PORT);
     }
 }

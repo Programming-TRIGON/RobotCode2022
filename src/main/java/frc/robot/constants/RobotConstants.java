@@ -2,10 +2,11 @@ package frc.robot.constants;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
-import frc.robot.constants.RobotComponents.LEDComponents;
-import frc.robot.constants.RobotComponents.SwerveComponents;
+import frc.robot.components.TrigonTalonSRX;
+import frc.robot.constants.RobotComponents.*;
 import frc.robot.utilities.JsonHandler;
 import frc.robot.utilities.pid.PIDCoefs;
 
@@ -98,5 +99,15 @@ public class RobotConstants {
         public static final double DRIVING_SPEED_DIVIDER = LOCAL_CONSTANTS.localDriverConstants.drivingSpeedDivider;
         public static final int XBOX_PORT = 0;
         public static final double RUMBLE_INTERMISSION_TIME = 0.15;
+    }
+
+    public static class Intake {
+        public static final TrigonTalonSRX INTAKE_MOTOR = RobotComponents.IntakeComponents.INTAKE_MOTOR;
+    }
+
+    public static class IntakeOpener{
+        public static final TrigonTalonSRX INTAKE_OPEN_MOTOR = IntakeOpenerComponents.INTAKE_OPENER_MOTOR;
+        public static final DigitalInput INTAKE_OPENER_SWITCH = IntakeOpenerComponents.SWITCH;
+        public static final double MOTOR_OPENER_POWER = 0.4;
     }
 }

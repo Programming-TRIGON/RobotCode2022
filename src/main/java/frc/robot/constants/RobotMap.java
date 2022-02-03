@@ -29,6 +29,10 @@ public class RobotMap {
             public static final int REAR_RIGHT_ANGLE_MOTOR_ID = 5;
             public static final int REAR_RIGHT_ANGLE_ENCODER_ID = 10;
         }
+
+        public static class intakeOpener{
+            public static final int INTAKE_OPENER_ID = 3;
+        }
     }
 
     protected static class PCM {
@@ -36,7 +40,9 @@ public class RobotMap {
     }
 
     protected static class DIO {
-
+        public static class IntakeOpener {
+            public static final int SWITCH_PORT = 0;
+        }
     }
 
     protected static class PWM {
