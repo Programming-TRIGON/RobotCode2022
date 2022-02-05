@@ -4,8 +4,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
-import frc.robot.constants.RobotComponents.LEDComponents;
-import frc.robot.constants.RobotComponents.SwerveComponents;
+import frc.robot.components.TrigonTalonFX;
+import frc.robot.constants.RobotComponents.*;
 import frc.robot.utilities.JsonHandler;
 import frc.robot.utilities.pid.PIDCoefs;
 
@@ -98,5 +98,10 @@ public class RobotConstants {
         public static final double DRIVING_SPEED_DIVIDER = LOCAL_CONSTANTS.localDriverConstants.drivingSpeedDivider;
         public static final int XBOX_PORT = 0;
         public static final double RUMBLE_INTERMISSION_TIME = 0.15;
+    }
+
+    public static class ShooterConstants {
+        public static final TrigonTalonFX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
+        public static final TrigonTalonFX LEFT_MOTOR = ShooterComponents.LEFT_MOTOR;
     }
 }

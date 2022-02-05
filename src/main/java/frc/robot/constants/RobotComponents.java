@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
+import frc.robot.components.TrigonTalonFX;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotMap.CAN;
 import frc.robot.constants.RobotMap.PWM;
@@ -94,5 +95,13 @@ public class RobotComponents {
         public static final PIDFTalonFX REAR_RIGHT_DRIVE_MOTOR = new PIDFTalonFX(
                 CAN.Swerve.REAR_RIGHT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG.withPID(
                 LOCAL_SWERVE_MODULES.rearRightModuleConstants.driveCoefs));
+    }
+
+    protected static class ShooterComponents {
+        // TODO: Set correct MotorConfig
+        public static final MotorConfig MOTOR_CONFIG = new MotorConfig();
+        public static final TrigonTalonFX RIGHT_MOTOR = new TrigonTalonFX(CAN.Shooter.RIGHT_MOTOR_ID, MOTOR_CONFIG);
+        public static final TrigonTalonFX LEFT_MOTOR = new TrigonTalonFX(
+                CAN.Shooter.LEFT_MOTOR_ID, new MotorConfig(MOTOR_CONFIG, true));
     }
 }
