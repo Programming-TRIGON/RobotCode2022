@@ -3,6 +3,9 @@ package frc.robot.subsystems.swerve;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.SwerveConstants;
@@ -15,12 +18,13 @@ import frc.robot.utilities.pid.PIDFTalonFX;
  * The module has two motors, one for the drive and one for the angle.
  * There's a
  */
-public class SwerveModule {
+public class SwerveModule implements Sendable {
     private final PIDFTalonFX angleMotor;
     private final PIDFTalonFX driveMotor;
     private final TrigonTalonSRX angleEncoder;
     private final SwerveModuleConstants constants;
     private SwerveModuleState lastDesiredState;
+    private boolean isTuning;
 
     public SwerveModule(SwerveModuleConstants moduleConstants) {
         this.constants = moduleConstants;
@@ -31,6 +35,8 @@ public class SwerveModule {
 
         resetToAbsolute();
         driveMotor.ce_setSelectedSensorPosition(0);
+        lastDesiredState = new SwerveModuleState(0, new Rotation2d());
+        putOnShuffleboard(constants.module.getName());
     }
 
     /**
@@ -175,6 +181,22 @@ public class SwerveModule {
         return new SwerveModuleState(velocity, angle);
     }
 
+    public void setDesiredAngle(double angle, boolean isOpenLoop) {
+        setDesiredState(
+                new SwerveModuleState(
+                        getLastDesiredState().speedMetersPerSecond,
+                        Rotation2d.fromDegrees(angle)),
+                isOpenLoop);
+    }
+
+    public void setDesiredSpeed(double speed, boolean isOpenLoop) {
+        setDesiredState(
+                new SwerveModuleState(
+                        speed,
+                        getLastDesiredState().angle),
+                isOpenLoop);
+    }
+
     /**
      * Returns the desired state of the module.
      *
@@ -182,5 +204,53 @@ public class SwerveModule {
      */
     public SwerveModuleState getLastDesiredState() {
         return lastDesiredState;
+    }
+
+    public void putOnShuffleboard(String name) {
+        SmartDashboard.putData("Swerve/" + name + "/Stats", this);
+        SmartDashboard.putData("Swerve/" + name + "/Angle Motor", angleMotor);
+        SmartDashboard.putData("Swerve/" + name + "/Drive Motor", driveMotor);
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.addDoubleProperty(
+                "Desired Angle",
+                () -> getLastDesiredState().angle.getDegrees(),
+                x -> {
+                    if(isTuning())
+                        setDesiredAngle(x, false);
+                });
+        builder.addDoubleProperty(
+                "Angle",
+                () -> getAngle().getDegrees(),
+                null);
+        builder.addDoubleProperty(
+                "Desired Speed",
+                () -> getLastDesiredState().speedMetersPerSecond
+                , speed -> {
+                    if(isTuning())
+                        setDesiredSpeed(speed, false);
+                });
+        builder.addDoubleProperty(
+                "Speed",
+                () -> getState().speedMetersPerSecond
+                , null);
+        builder.addDoubleProperty(
+                "Angle Error",
+                () -> getAngle().getDegrees() - getLastDesiredState().angle.getDegrees()
+                , null);
+        builder.addBooleanProperty(
+                "Is Tuning",
+                this::isTuning
+                , this::setTuning);
+    }
+
+    public boolean isTuning() {
+        return isTuning;
+    }
+
+    public void setTuning(boolean tuning) {
+        isTuning = tuning;
     }
 }

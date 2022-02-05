@@ -47,9 +47,9 @@ public interface PIDConfigurable extends Sendable {
 
     @Override
     default void initSendable(SendableBuilder builder) {
-        builder.setSmartDashboardType("RobotPreferences");
         // sends the pid values to the dashboard but only allows them to be changed if
         // isTuning is true
+        builder.setSmartDashboardType("PIDConfigurable");
         builder.addDoubleProperty("p", this::getKP, kP -> setKP(isTuning() ? kP : getKP()));
         builder.addDoubleProperty("i", this::getKI, kI -> setKI(isTuning() ? kI : getKI()));
         builder.addDoubleProperty("d", this::getKD, kD -> setKD(isTuning() ? kD : getKD()));

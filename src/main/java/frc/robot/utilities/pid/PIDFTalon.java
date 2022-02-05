@@ -2,7 +2,6 @@ package frc.robot.utilities.pid;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
-import edu.wpi.first.util.sendable.SendableBuilder;
 import frc.robot.utilities.ConfigurableTalon;
 
 public interface PIDFTalon extends ConfigurableTalon, PIDFMotor {
@@ -21,7 +20,7 @@ public interface PIDFTalon extends ConfigurableTalon, PIDFMotor {
 
     void setPIDFCoefs(PIDFCoefs coefs);
 
-    default void tunePIDF(ControlMode controlMode) {
+    default void setTuning(ControlMode controlMode) {
         set(controlMode, getTuningSetpoint(), DemandType.ArbitraryFeedForward, getCoefs().getKS());
     }
 
@@ -72,16 +71,7 @@ public interface PIDFTalon extends ConfigurableTalon, PIDFMotor {
         //  This does nothing
     }
 
-    void stopMotor();
-
     double get();
 
     void set(double value);
-
-    @Override
-    default void initSendable(SendableBuilder builder) {
-        PIDFMotor.super.initSendable(builder);
-        builder.setSafeState(this::stopMotor);
-        builder.addDoubleProperty("Percentage Value", this::get, this::set);
-    }
 }

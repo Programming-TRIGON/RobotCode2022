@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
 import frc.robot.constants.RobotConstants.SwerveConstants;
 import frc.robot.subsystems.TestableSubsystem;
-import frc.robot.utilities.Modules;
+import frc.robot.utilities.Module;
 
 /**
  * The Swerve subsystem.
@@ -29,10 +29,10 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
         swerveOdometry = new SwerveDriveOdometry(SwerveConstants.SWERVE_KINEMATICS, getAngle());
 
         swerveModules = new SwerveModule[4];
-        swerveModules[Modules.FRONT_LEFT.getId()] = new SwerveModule(SwerveConstants.FRONT_LEFT_CONSTANTS);
-        swerveModules[Modules.FRONT_RIGHT.getId()] = new SwerveModule(SwerveConstants.FRONT_RIGHT_CONSTANTS);
-        swerveModules[Modules.REAR_LEFT.getId()] = new SwerveModule(SwerveConstants.REAR_LEFT_CONSTANTS);
-        swerveModules[Modules.REAR_RIGHT.getId()] = new SwerveModule(SwerveConstants.REAR_RIGHT_CONSTANTS);
+        swerveModules[Module.FRONT_LEFT.getId()] = new SwerveModule(SwerveConstants.FRONT_LEFT_CONSTANTS);
+        swerveModules[Module.FRONT_RIGHT.getId()] = new SwerveModule(SwerveConstants.FRONT_RIGHT_CONSTANTS);
+        swerveModules[Module.REAR_LEFT.getId()] = new SwerveModule(SwerveConstants.REAR_LEFT_CONSTANTS);
+        swerveModules[Module.REAR_RIGHT.getId()] = new SwerveModule(SwerveConstants.REAR_RIGHT_CONSTANTS);
     }
 
     /**

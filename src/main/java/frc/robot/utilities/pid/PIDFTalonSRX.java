@@ -1,5 +1,6 @@
 package frc.robot.utilities.pid;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.utilities.MotorConfig;
 
@@ -50,5 +51,9 @@ public class PIDFTalonSRX extends TrigonTalonSRX implements PIDFTalon {
     @Override
     public boolean isTuning() {
         return isTuning;
+    }
+
+    public void initSendable(SendableBuilder builder) {
+        PIDFTalon.super.initSendable(builder);
     }
 }

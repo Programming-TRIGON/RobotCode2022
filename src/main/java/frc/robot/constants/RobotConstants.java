@@ -7,6 +7,7 @@ import frc.robot.components.Pigeon;
 import frc.robot.constants.RobotComponents.LEDComponents;
 import frc.robot.constants.RobotComponents.SwerveComponents;
 import frc.robot.utilities.JsonHandler;
+import frc.robot.utilities.Module;
 import frc.robot.utilities.pid.PIDCoefs;
 
 /**
@@ -64,28 +65,32 @@ public class RobotConstants {
                 SwerveComponents.FRONT_LEFT_ANGLE_MOTOR,
                 SwerveComponents.FRONT_LEFT_DRIVE_MOTOR,
                 SwerveComponents.FRONT_LEFT_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.frontLeftModuleConstants.encoderOffset
+                LOCAL_CONSTANTS.localSwerveConstants.modules.frontLeftModuleConstants.encoderOffset,
+                Module.FRONT_LEFT
         );
 
         public static final SwerveModuleConstants FRONT_RIGHT_CONSTANTS = new SwerveModuleConstants(
                 SwerveComponents.FRONT_RIGHT_ANGLE_MOTOR,
                 SwerveComponents.FRONT_RIGHT_DRIVE_MOTOR,
                 SwerveComponents.FRONT_RIGHT_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.frontRightModuleConstants.encoderOffset
+                LOCAL_CONSTANTS.localSwerveConstants.modules.frontRightModuleConstants.encoderOffset,
+                Module.FRONT_RIGHT
         );
 
         public static final SwerveModuleConstants REAR_LEFT_CONSTANTS = new SwerveModuleConstants(
                 SwerveComponents.REAR_LEFT_ANGLE_MOTOR,
                 SwerveComponents.REAR_LEFT_DRIVE_MOTOR,
                 SwerveComponents.REAR_LEFT_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.rearLeftModuleConstants.encoderOffset
+                LOCAL_CONSTANTS.localSwerveConstants.modules.rearLeftModuleConstants.encoderOffset,
+                Module.REAR_LEFT
         );
 
         public static final SwerveModuleConstants REAR_RIGHT_CONSTANTS = new SwerveModuleConstants(
                 SwerveComponents.REAR_RIGHT_ANGLE_MOTOR,
                 SwerveComponents.REAR_RIGHT_DRIVE_MOTOR,
                 SwerveComponents.REAR_RIGHT_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.rearRightModuleConstants.encoderOffset
+                LOCAL_CONSTANTS.localSwerveConstants.modules.rearRightModuleConstants.encoderOffset,
+                Module.REAR_RIGHT
         );
     }
 

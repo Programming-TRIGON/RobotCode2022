@@ -1,6 +1,7 @@
 package frc.robot.utilities.pid;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.util.sendable.SendableBuilder;
 
 public class TrigonPIDController extends PIDController implements PIDConfigurable {
     private final PIDCoefs pidCoefs;
@@ -56,5 +57,9 @@ public class TrigonPIDController extends PIDController implements PIDConfigurabl
     public void setDeltaTolerance(double deltaTolerance) {
         pidCoefs.setDeltaTolerance(deltaTolerance);
         super.setTolerance(pidCoefs.getTolerance(), deltaTolerance);
+    }
+
+    public void initSendable(SendableBuilder builder) {
+        PIDConfigurable.super.initSendable(builder);
     }
 }
