@@ -60,24 +60,6 @@ public class MotorConfig {
         coefs = config.getCoefs();
     }
 
-    /**
-     * Copy constructor but takes its own isInverted
-     */
-    public MotorConfig(MotorConfig config, boolean isInverted) {
-        openLoopRampRate = config.getOpenLoopRampRate();
-        closedLoopRampRate = config.getClosedLoopRampRate();
-        this.isInverted = isInverted;
-        isSensorInverted = config.isSensorInverted();
-        feedbackNotContinuous = config.isFeedbackNotContinuous();
-        neutralMode = config.getNeutralMode();
-        voltageCompSaturation = config.getVoltageCompSaturation();
-        currentLimitConfig = config.getCurrentLimitConfig();
-        feedbackDevice = config.getFeedbackDevice();
-        remoteSensorSourceType = config.getRemoteSensorSourceType();
-        remoteSensorSourceDeviceId = config.getRemoteSensorSourceDeviceId();
-        coefs = config.getCoefs();
-    }
-
     public double getOpenLoopRampRate() {
         return openLoopRampRate;
     }

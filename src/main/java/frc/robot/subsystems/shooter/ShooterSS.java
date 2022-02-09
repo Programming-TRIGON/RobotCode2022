@@ -29,11 +29,18 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
         return masterMotor.getSelectedSensorVelocity() * 600 / 2048;
     }
 
+    public void setRampRate(double rampRate) {
+        ShooterConstants.RIGHT_MOTOR.configClosedloopRamp(rampRate);
+        ShooterConstants.LEFT_MOTOR.configClosedloopRamp(rampRate);
+        ShooterConstants.RIGHT_MOTOR.configOpenloopRamp(rampRate);
+        ShooterConstants.LEFT_MOTOR.configOpenloopRamp(rampRate);
+    }
+
     /**
      * @return an array of the current encoder position
      */
     public double[] getValues() {
-        return new double[]{masterMotor.getSelectedSensorPosition()};
+        return new double[] {masterMotor.getSelectedSensorPosition()};
     }
 }
 

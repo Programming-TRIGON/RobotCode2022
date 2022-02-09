@@ -99,9 +99,9 @@ public class RobotComponents {
 
     protected static class ShooterComponents {
         // TODO: Set correct MotorConfig
-        public static final MotorConfig MOTOR_CONFIG = new MotorConfig();
+        public static final MotorConfig MOTOR_CONFIG = new MotorConfig().withOpenLoopRampRate(3);
         public static final TrigonTalonFX RIGHT_MOTOR = new TrigonTalonFX(CAN.Shooter.RIGHT_MOTOR_ID, MOTOR_CONFIG);
         public static final TrigonTalonFX LEFT_MOTOR = new TrigonTalonFX(
-                CAN.Shooter.LEFT_MOTOR_ID, new MotorConfig(MOTOR_CONFIG, true));
+                CAN.Shooter.LEFT_MOTOR_ID, new MotorConfig().inverted(true).withOpenLoopRampRate(3));
     }
 }
