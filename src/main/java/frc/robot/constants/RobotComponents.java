@@ -103,6 +103,5 @@ public class RobotComponents {
 
     protected static class IntakeOpenerComponents {
         public static TrigonTalonSRX INTAKE_OPENER_MOTOR = new TrigonTalonSRX(CAN.intakeOpener.INTAKE_OPENER_ID);
-        public static DigitalInput SWITCH = new DigitalInput(RobotMap.DIO.IntakeOpener.SWITCH_PORT);
     }
 }

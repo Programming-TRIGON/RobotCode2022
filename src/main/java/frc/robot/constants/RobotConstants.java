@@ -107,7 +107,11 @@ public class RobotConstants {
 
     public static class IntakeOpener{
         public static final TrigonTalonSRX INTAKE_OPEN_MOTOR = IntakeOpenerComponents.INTAKE_OPENER_MOTOR;
-        public static final DigitalInput INTAKE_OPENER_SWITCH = IntakeOpenerComponents.SWITCH;
+        //public static final DigitalInput INTAKE_OPENER_SWITCH = IntakeOpenerComponents.SWITCH;
         public static final double MOTOR_OPENER_POWER = 0.4;
+        public static double OPENED_ANGLE = 13;
+        public static double CLOSED_ANGLE = 110;
+        public static double STALL_CURRENT_LIMIT = 20;
     }
 }
+
