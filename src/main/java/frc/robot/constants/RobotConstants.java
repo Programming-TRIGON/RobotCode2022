@@ -1,11 +1,12 @@
 package frc.robot.constants;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
-import frc.robot.constants.RobotComponents.LEDComponents;
-import frc.robot.constants.RobotComponents.SwerveComponents;
+import frc.robot.components.TrigonTalonSRX;
+import frc.robot.constants.RobotComponents.*;
 import frc.robot.utilities.JsonHandler;
 import frc.robot.utilities.pid.PIDCoefs;
 
@@ -98,5 +99,10 @@ public class RobotConstants {
         public static final double DRIVING_SPEED_DIVIDER = LOCAL_CONSTANTS.localDriverConstants.drivingSpeedDivider;
         public static final int XBOX_PORT = 0;
         public static final double RUMBLE_INTERMISSION_TIME = 0.15;
+    }
+
+    public static class TransporterConstants {
+        public static final TrigonTalonSRX MOTOR = TransporterComponents.MOTOR;
+        public static final int STALL_CURRENT_LIMIT = 20;
     }
 }

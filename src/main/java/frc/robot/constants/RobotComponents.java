@@ -95,4 +95,8 @@ public class RobotComponents {
                 CAN.Swerve.REAR_RIGHT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG.withPID(
                 LOCAL_SWERVE_MODULES.rearRightModuleConstants.driveCoefs));
     }
+    protected static class TransporterComponents{
+        public static final TrigonTalonSRX MOTOR = SwerveComponents.FRONT_RIGHT_ENCODER;
+
+    }
 }
