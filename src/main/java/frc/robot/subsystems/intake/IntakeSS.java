@@ -12,9 +12,12 @@ public class IntakeSS extends OverridableSubsystem {
         motor = IntakeConstants.MOTOR;
     }
 
+    public void setPower(double power){
+        motor.set(power);
+    }
     @Override
     public void overriddenMove(double power) {
-        motor.set(power);
+        setPower(power);
     }
 
     /**
