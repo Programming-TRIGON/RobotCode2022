@@ -15,6 +15,10 @@ public interface PIDConfigurable extends Sendable {
 
     void setIsTuning(boolean isTuning);
 
+    double getTuningSetpoint();
+
+    void setTuningSetpoint(double tuningSetpoint);
+
     default double getKP() {
         return getCoefs().getKP();
     }
@@ -59,8 +63,7 @@ public interface PIDConfigurable extends Sendable {
         builder.addDoubleProperty(
                 "deltaTolerance", getCoefs()::getDeltaTolerance,
                 deltaTolerance -> setDeltaTolerance(isTuning() ? deltaTolerance : getDeltaTolerance()));
-        builder.addDoubleProperty("setpoint", this::getSetpoint,
-                setpoint -> setSetpoint(isTuning() ? setpoint : getSetpoint()));
+        builder.addDoubleProperty("setpoint", this::getSetpoint, this::setTuningSetpoint);
         builder.addBooleanProperty("isTuning", this::isTuning, this::setIsTuning);
     }
 }

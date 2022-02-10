@@ -1,5 +1,6 @@
 package frc.robot.constants;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
@@ -63,36 +64,44 @@ public class RobotComponents {
                 CAN.Swerve.FRONT_LEFT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG.withPID(
                         LOCAL_SWERVE_MODULES.frontLeftModuleConstants.angleCoefs).
                 withRemoteSensorSource(
-                        CAN.Swerve.FRONT_LEFT_ANGLE_MOTOR_ID, RemoteSensorSource.TalonSRX_SelectedSensor));
+                        CAN.Swerve.FRONT_LEFT_ANGLE_MOTOR_ID, RemoteSensorSource.TalonSRX_SelectedSensor),
+                ControlMode.Position);
         public static final PIDFTalonFX FRONT_LEFT_DRIVE_MOTOR = new PIDFTalonFX(
                 CAN.Swerve.FRONT_LEFT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG.withPID(
-                LOCAL_SWERVE_MODULES.frontLeftModuleConstants.driveCoefs));
+                LOCAL_SWERVE_MODULES.frontLeftModuleConstants.driveCoefs),
+                ControlMode.Velocity);
         /* Front Right */
         public static final PIDFTalonFX FRONT_RIGHT_ANGLE_MOTOR = new PIDFTalonFX(
                 CAN.Swerve.FRONT_RIGHT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG.
                 withPID(LOCAL_SWERVE_MODULES.frontRightModuleConstants.angleCoefs).
                 withRemoteSensorSource(
-                        CAN.Swerve.FRONT_RIGHT_ANGLE_MOTOR_ID, RemoteSensorSource.TalonSRX_SelectedSensor));
+                        CAN.Swerve.FRONT_RIGHT_ANGLE_MOTOR_ID, RemoteSensorSource.TalonSRX_SelectedSensor),
+                ControlMode.Position);
         public static final PIDFTalonFX FRONT_RIGHT_DRIVE_MOTOR = new PIDFTalonFX(
                 CAN.Swerve.FRONT_RIGHT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG.withPID(
-                LOCAL_SWERVE_MODULES.frontRightModuleConstants.driveCoefs));
+                LOCAL_SWERVE_MODULES.frontRightModuleConstants.driveCoefs),
+                ControlMode.Velocity);
         /* Rear Left */
         public static final PIDFTalonFX REAR_LEFT_ANGLE_MOTOR = new PIDFTalonFX(
                 CAN.Swerve.REAR_LEFT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG.
                 withPID(LOCAL_SWERVE_MODULES.rearLeftModuleConstants.angleCoefs).
                 withRemoteSensorSource(
-                        CAN.Swerve.REAR_LEFT_ANGLE_MOTOR_ID, RemoteSensorSource.TalonSRX_SelectedSensor));
+                        CAN.Swerve.REAR_LEFT_ANGLE_MOTOR_ID, RemoteSensorSource.TalonSRX_SelectedSensor),
+                ControlMode.Position);
         public static final PIDFTalonFX REAR_LEFT_DRIVE_MOTOR = new PIDFTalonFX(
                 CAN.Swerve.REAR_LEFT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG.
-                withPID(LOCAL_SWERVE_MODULES.rearLeftModuleConstants.driveCoefs));
+                withPID(LOCAL_SWERVE_MODULES.rearLeftModuleConstants.driveCoefs),
+                ControlMode.Velocity);
         /* Rear Right */
         public static final PIDFTalonFX REAR_RIGHT_ANGLE_MOTOR = new PIDFTalonFX(
                 CAN.Swerve.REAR_RIGHT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG.
                 withPID(LOCAL_SWERVE_MODULES.rearRightModuleConstants.angleCoefs).
                 withRemoteSensorSource(
-                        CAN.Swerve.REAR_RIGHT_ANGLE_MOTOR_ID, RemoteSensorSource.TalonSRX_SelectedSensor));
+                        CAN.Swerve.REAR_RIGHT_ANGLE_MOTOR_ID, RemoteSensorSource.TalonSRX_SelectedSensor),
+                ControlMode.Position);
         public static final PIDFTalonFX REAR_RIGHT_DRIVE_MOTOR = new PIDFTalonFX(
                 CAN.Swerve.REAR_RIGHT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG.withPID(
-                LOCAL_SWERVE_MODULES.rearRightModuleConstants.driveCoefs));
+                LOCAL_SWERVE_MODULES.rearRightModuleConstants.driveCoefs),
+                ControlMode.Velocity);
     }
 }

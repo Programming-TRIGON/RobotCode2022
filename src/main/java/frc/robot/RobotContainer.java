@@ -1,14 +1,11 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.components.TrigonXboxController;
 import frc.robot.constants.RobotConstants.DriverConstants;
 import frc.robot.subsystems.swerve.SupplierDriveCMD;
 import frc.robot.subsystems.swerve.SwerveSS;
 import frc.robot.utilities.DashboardController;
-import frc.robot.utilities.MotorConfig;
-import frc.robot.utilities.pid.*;
 
 public class RobotContainer {
     private final DashboardController dashboardController;
@@ -30,9 +27,6 @@ public class RobotContainer {
         initializeSubsystems();
         initializeCommands();
         bindCommands();
-        SmartDashboard.putData(new TrigonPIDController(new PIDCoefs()));
-        SmartDashboard.putData(new TrigonPIDFController(new PIDFCoefs()));
-        SmartDashboard.putData(new PIDFTalonFX(0, new MotorConfig()));
     }
 
     /**

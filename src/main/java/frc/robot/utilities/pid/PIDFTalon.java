@@ -20,10 +20,6 @@ public interface PIDFTalon extends ConfigurableTalon, PIDFMotor {
 
     void setPIDFCoefs(PIDFCoefs coefs);
 
-    default void setTuning(ControlMode controlMode) {
-        set(controlMode, getTuningSetpoint(), DemandType.ArbitraryFeedForward, getCoefs().getKS());
-    }
-
     double getTuningSetpoint();
 
     default void setWithF(ControlMode controlMode, double setpoint) {

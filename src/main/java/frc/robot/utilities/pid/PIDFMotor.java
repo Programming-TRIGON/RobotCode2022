@@ -1,6 +1,5 @@
 package frc.robot.utilities.pid;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.util.sendable.SendableBuilder;
 
 /**
@@ -8,8 +7,6 @@ import edu.wpi.first.util.sendable.SendableBuilder;
  */
 public interface PIDFMotor extends PIDFConfigurable {
     void setCoefs(PIDFCoefs pidfCoefs);
-
-    void setTuning(ControlMode controlMode);
 
     void set(double output);
 
