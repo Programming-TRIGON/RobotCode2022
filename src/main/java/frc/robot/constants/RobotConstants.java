@@ -101,14 +101,13 @@ public class RobotConstants {
         public static final double RUMBLE_INTERMISSION_TIME = 0.15;
     }
 
-    public static class Intake {
-        public static final TrigonTalonSRX INTAKE_MOTOR = RobotComponents.IntakeComponents.INTAKE_MOTOR;
+    public static class IntakeConstants {
+        public static final TrigonTalonSRX MOTOR = IntakeComponents.MOTOR;
     }
 
-    public static class IntakeOpener{
-        public static final TrigonTalonSRX INTAKE_OPEN_MOTOR = IntakeOpenerComponents.INTAKE_OPENER_MOTOR;
-        //public static final DigitalInput INTAKE_OPENER_SWITCH = IntakeOpenerComponents.SWITCH;
-        public static final double MOTOR_OPENER_POWER = 0.4;
+    public static class IntakeOpenerConstants {
+        public static final TrigonTalonSRX MOTOR = IntakeOpenerComponents.MOTOR;
+        public static final double OPERATING_POWER = 0.4;
         public static double OPENED_ANGLE = 13;
         public static double CLOSED_ANGLE = 110;
         public static double STALL_CURRENT_LIMIT = 20;

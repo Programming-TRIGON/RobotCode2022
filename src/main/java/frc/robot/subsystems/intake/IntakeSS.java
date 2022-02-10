@@ -2,14 +2,14 @@ package frc.robot.subsystems.intake;
 
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants;
-import frc.robot.constants.RobotConstants.Intake;
+import frc.robot.constants.RobotConstants.IntakeConstants;
 import frc.robot.subsystems.OverridableSubsystem;
 
 public class IntakeSS extends OverridableSubsystem {
     private final TrigonTalonSRX motor;
 
     public IntakeSS() {
-        motor = Intake.INTAKE_MOTOR;
+        motor = IntakeConstants.MOTOR;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class IntakeSS extends OverridableSubsystem {
      * @return if the motor is currently stalled
      */
     public boolean isStalled() {
-        return motor.getStatorCurrent() > RobotConstants.IntakeOpener.STALL_CURRENT_LIMIT;
+        return motor.getStatorCurrent() > RobotConstants.IntakeOpenerConstants.STALL_CURRENT_LIMIT;
     }
 
 }

@@ -3,7 +3,6 @@ package frc.robot.constants;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
 import frc.robot.components.TrigonTalonSRX;
@@ -98,10 +97,15 @@ public class RobotComponents {
     }
 
     protected static class IntakeComponents {
-        public static TrigonTalonSRX INTAKE_MOTOR = SwerveComponents.FRONT_LEFT_ENCODER;
+        public static TrigonTalonSRX MOTOR = SwerveComponents.FRONT_LEFT_ENCODER;
     }
 
     protected static class IntakeOpenerComponents {
-        public static TrigonTalonSRX INTAKE_OPENER_MOTOR = new TrigonTalonSRX(CAN.intakeOpener.INTAKE_OPENER_ID);
+        private static final MotorConfig INTAKE_OPENER_MOTOR_CONFIG = new MotorConfig().
+                coast().
+                inverted(true).
+                withOpenLoopRampRate(0.5).
+                withClosedLoopRampRate(0.5);
+        public static TrigonTalonSRX MOTOR = new TrigonTalonSRX(CAN.MOTOR_ID.INTAKE_OPENER_MOTOR_ID, INTAKE_OPENER_MOTOR_CONFIG);
     }
 }

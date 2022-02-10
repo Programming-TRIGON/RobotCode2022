@@ -13,8 +13,8 @@ import frc.robot.utilities.DashboardController;
 public class RobotContainer {
     private final DashboardController dashboardController;
     private final TrigonXboxController driverXbox;
-    private IntakeOpenerSS intakeOpenerMotor;
-    private IntakeSS intakeMotor;
+    private IntakeOpenerSS intakeOpener;
+    private IntakeSS intake;
 
     // Subsystems
     private SwerveSS swerveSS;
@@ -39,8 +39,8 @@ public class RobotContainer {
      */
     private void initializeSubsystems() {
         swerveSS = new SwerveSS();
-        intakeMotor = new IntakeSS();
-        intakeOpenerMotor =new IntakeOpenerSS();
+        intake = new IntakeSS();
+        intakeOpener =new IntakeOpenerSS();
     }
 
     /**
