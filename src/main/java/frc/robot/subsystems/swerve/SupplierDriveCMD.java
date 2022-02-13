@@ -2,6 +2,7 @@ package frc.robot.subsystems.swerve;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.constants.RobotConstants.DriverConstants;
 
 import java.util.function.Supplier;
 
@@ -29,7 +30,12 @@ public class SupplierDriveCMD extends CommandBase {
 
     @Override
     public void execute() {
-        swerveSS.drive(new Translation2d(xPower.get(), yPower.get()), rotPower.get(), fieldRelative, false);
+        swerveSS.drive(new Translation2d(
+            xPower.get() / DriverConstants.DRIVING_SPEED_DIVIDER,
+            yPower.get() / DriverConstants.DRIVING_SPEED_DIVIDER),
+            rotPower.get() / DriverConstants.DRIVING_SPEED_DIVIDER,
+            fieldRelative,
+            false);
     }
 
     @Override

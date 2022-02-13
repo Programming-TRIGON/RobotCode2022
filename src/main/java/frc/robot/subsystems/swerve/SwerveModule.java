@@ -110,7 +110,7 @@ public class SwerveModule {
                     desiredState.speedMetersPerSecond / SwerveConstants.MAX_SPEED;
             driveMotor.set(
                     ControlMode.PercentOutput,
-                    percentOutput / RobotConstants.DriverConstants.DRIVING_SPEED_DIVIDER);
+                    percentOutput);
         } else {
             /* If we're in closed loop, we want to use the PID controller,
             and we set the drive speed in meters per second  */

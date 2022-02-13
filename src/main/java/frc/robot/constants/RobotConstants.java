@@ -87,6 +87,14 @@ public class RobotConstants {
                 SwerveComponents.REAR_RIGHT_ENCODER,
                 LOCAL_CONSTANTS.localSwerveConstants.modules.rearRightModuleConstants.encoderOffset
         );
+
+        public static class CharacterizationConstants {
+            public static final double INITIAL_POWER = 0.2;
+            public static final double POWER_INCREMENT = 0.1;
+            public static final int TEST_COUNT = 4;
+            // the amount of length in meters that the robot shall move
+            public static final double TEST_LENGTH = 2;
+        }
     }
 
     public static class LedConstants {
