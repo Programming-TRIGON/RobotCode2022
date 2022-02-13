@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.TrigonTalonFX;
 import frc.robot.constants.RobotConstants.ShooterConstants;
 import frc.robot.subsystems.TestableSubsystem;
+import frc.robot.utilities.EncoderConversions;
 
 public class ShooterSS extends SubsystemBase implements TestableSubsystem {
     private final TrigonTalonFX masterMotor;
@@ -26,7 +27,7 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
      */
     public double getVelocityRPM() {
         // timesed by 600 to convert to minutes and divided by 2048 to convert to revolutions
-        return masterMotor.getSelectedSensorVelocity() * 600 / 2048;
+        return EncoderConversions.falconToRPM(masterMotor.getSelectedSensorVelocity());
     }
 
     public void setRampRate(double rampRate) {

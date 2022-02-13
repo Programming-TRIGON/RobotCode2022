@@ -9,10 +9,13 @@ public class LocalConstants {
     public LocalDriverConstants localDriverConstants;
     @SerializedName("Swerve")
     public LocalSwerveConstants localSwerveConstants;
+    @SerializedName("Shooter")
+    public LocalShooterConstants localShooterConstants;
 
     public LocalConstants() {
         localDriverConstants = new LocalDriverConstants();
         localSwerveConstants = new LocalSwerveConstants();
+        localShooterConstants = new LocalShooterConstants();
     }
 
     public void write() {
@@ -56,6 +59,14 @@ public class LocalConstants {
                     driveCoefs = new PIDFCoefs();
                 }
             }
+        }
+    }
+
+    public static class LocalShooterConstants {
+        PIDFCoefs pidfCoefs;
+
+        public LocalShooterConstants() {
+            pidfCoefs = new PIDFCoefs();
         }
     }
 }

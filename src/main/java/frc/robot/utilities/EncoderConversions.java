@@ -32,6 +32,16 @@ public class EncoderConversions {
     }
 
     /**
+     * Default gear ratio of 1
+     *
+     * @param velocityCounts Falcon Velocity Counts
+     * @return RPM of Mechanism
+     */
+    public static double falconToRPM(double velocityCounts) {
+        return falconToRPM(velocityCounts, 1);
+    }
+
+    /**
      * @param RPM       RPM of mechanism
      * @param gearRatio Gear Ratio between Falcon and Mechanism (set to 1 for Falcon RPM)
      * @return RPM of Mechanism
