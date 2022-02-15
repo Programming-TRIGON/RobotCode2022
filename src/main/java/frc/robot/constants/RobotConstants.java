@@ -62,33 +62,33 @@ public class RobotConstants {
         public static final double MAX_ANGULAR_VELOCITY = 11.5;
 
         public static final SwerveModuleConstants FRONT_LEFT_CONSTANTS = new SwerveModuleConstants(
-                SwerveComponents.FRONT_LEFT_ANGLE_MOTOR,
-                SwerveComponents.FRONT_LEFT_DRIVE_MOTOR,
-                SwerveComponents.FRONT_LEFT_ENCODER,
+                SwerveComponents.FrontLeft.ANGLE_MOTOR,
+                SwerveComponents.FrontLeft.DRIVE_MOTOR,
+                SwerveComponents.FrontLeft.ANGLE_ENCODER,
                 LOCAL_CONSTANTS.localSwerveConstants.modules.frontLeftModuleConstants.encoderOffset,
                 Module.FRONT_LEFT
         );
 
         public static final SwerveModuleConstants FRONT_RIGHT_CONSTANTS = new SwerveModuleConstants(
-                SwerveComponents.FRONT_RIGHT_ANGLE_MOTOR,
-                SwerveComponents.FRONT_RIGHT_DRIVE_MOTOR,
-                SwerveComponents.FRONT_RIGHT_ENCODER,
+                SwerveComponents.FrontRight.ANGLE_MOTOR,
+                SwerveComponents.FrontRight.DRIVE_MOTOR,
+                SwerveComponents.FrontRight.ANGLE_ENCODER,
                 LOCAL_CONSTANTS.localSwerveConstants.modules.frontRightModuleConstants.encoderOffset,
                 Module.FRONT_RIGHT
         );
 
         public static final SwerveModuleConstants REAR_LEFT_CONSTANTS = new SwerveModuleConstants(
-                SwerveComponents.REAR_LEFT_ANGLE_MOTOR,
-                SwerveComponents.REAR_LEFT_DRIVE_MOTOR,
-                SwerveComponents.REAR_LEFT_ENCODER,
+                SwerveComponents.RearLeft.ANGLE_MOTOR,
+                SwerveComponents.RearLeft.DRIVE_MOTOR,
+                SwerveComponents.RearLeft.ANGLE_ENCODER,
                 LOCAL_CONSTANTS.localSwerveConstants.modules.rearLeftModuleConstants.encoderOffset,
                 Module.REAR_LEFT
         );
 
         public static final SwerveModuleConstants REAR_RIGHT_CONSTANTS = new SwerveModuleConstants(
-                SwerveComponents.REAR_RIGHT_ANGLE_MOTOR,
-                SwerveComponents.REAR_RIGHT_DRIVE_MOTOR,
-                SwerveComponents.REAR_RIGHT_ENCODER,
+                SwerveComponents.RearRight.ANGLE_MOTOR,
+                SwerveComponents.RearRight.DRIVE_MOTOR,
+                SwerveComponents.RearRight.ANGLE_ENCODER,
                 LOCAL_CONSTANTS.localSwerveConstants.modules.rearRightModuleConstants.encoderOffset,
                 Module.REAR_RIGHT
         );

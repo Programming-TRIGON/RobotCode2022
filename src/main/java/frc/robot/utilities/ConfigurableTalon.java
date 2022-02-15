@@ -18,9 +18,15 @@ public interface ConfigurableTalon extends IMotorController {
         ce_configClosedloopRamp(motorConfig.getClosedLoopRampRate());
         ce_configVoltageCompSaturation(motorConfig.getVoltageCompSaturation());
         ce_configSupplyCurrentLimit(motorConfig.getCurrentLimitConfig());
-        ce_configSelectedFeedbackSensor(motorConfig.getFeedbackDevice());
+        ce_configSelectedFeedbackSensor(motorConfig.getPrimaryFeedbackDevice(), 0);
+        ce_configSelectedFeedbackSensor(motorConfig.getSecondaryFeedbackDevice(), 1);
         ce_configRemoteFeedbackFilter(
-                motorConfig.getRemoteSensorSourceDeviceId(), motorConfig.getRemoteSensorSourceType());
+                motorConfig.getRemoteSensorSource0DeviceId(),
+                motorConfig.getRemoteSensorSource0Type(), 0);
+        ce_configRemoteFeedbackFilter(
+                motorConfig.getRemoteSensorSource1DeviceId(),
+                motorConfig.getRemoteSensorSource1Type(),
+                1);
         ce_config_kP(0, motorConfig.getCoefs().getKP());
         ce_config_kI(0, motorConfig.getCoefs().getKI());
         ce_config_kD(0, motorConfig.getCoefs().getKD());
