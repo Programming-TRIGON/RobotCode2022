@@ -23,13 +23,17 @@ public interface PIDFTalon extends ConfigurableTalon, PIDFMotor {
     double getTuningSetpoint();
 
     default void setWithF(ControlMode controlMode, double setpoint) {
+        if(isTuning() && setpoint != getTuningSetpoint())
+            return;
         set(controlMode, setpoint, DemandType.ArbitraryFeedForward, getCoefs().getKS());
     }
 
     double getClosedLoopTarget();
 
     default double getSetpoint() {
-        return isTuning() ? getTuningSetpoint() : getClosedLoopTarget();
+        boolean closedLoop = getControlMode() == ControlMode.Position || getControlMode() == ControlMode.Velocity;
+
+        return closedLoop ? getClosedLoopTarget() : 0;
     }
 
     boolean isTuning();

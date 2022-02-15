@@ -36,7 +36,7 @@ public class MotorConfig {
         neutralMode = NeutralMode.Coast;
         voltageCompSaturation = 0;
         currentLimitConfig = new SupplyCurrentLimitConfiguration();
-        feedbackDevice = FeedbackDevice.None;
+        feedbackDevice = FeedbackDevice.IntegratedSensor;
         remoteSensorSourceType = RemoteSensorSource.Off;
         remoteSensorSourceDeviceId = 0;
         coefs = new PIDFCoefs();

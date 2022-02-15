@@ -1,7 +1,10 @@
 package frc.robot.utilities;
 
 import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.motorcontrol.*;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.IMotorController;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import frc.robot.constants.RobotConstants;
 
 public interface ConfigurableTalon extends IMotorController {
@@ -77,10 +80,13 @@ public interface ConfigurableTalon extends IMotorController {
                 RobotConstants.DEFAULT_CAN_TIMEOUT));
     }
 
+    ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs);
+
     default ErrorCode ce_configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx) {
         return CTREUtil.checkError(
                 () -> configSelectedFeedbackSensor(
-                        RemoteFeedbackDevice.valueOf(feedbackDevice.value), pidIdx,
+                        feedbackDevice,
+                        pidIdx,
                         RobotConstants.DEFAULT_CAN_TIMEOUT));
     }
 

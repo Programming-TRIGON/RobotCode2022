@@ -5,8 +5,8 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 
 public class TrigonPIDController extends PIDController implements PIDConfigurable {
     private final PIDCoefs pidCoefs;
-    private boolean isTuning;
     private double tuningSetpoint;
+    private boolean isTuning;
 
     public TrigonPIDController(PIDCoefs pidCoefs) {
         super(pidCoefs.getKP(), pidCoefs.getKI(), pidCoefs.getKD());

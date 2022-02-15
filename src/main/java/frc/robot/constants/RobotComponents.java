@@ -18,7 +18,7 @@ public class RobotComponents {
     }
 
     protected static class SwerveComponents {
-        public static final Pigeon PIGEON = new Pigeon(CAN.Swerve.PIGEON_ID);
+        public static final Pigeon PIGEON = new Pigeon(new TrigonTalonSRX(12));
 
         // configs
         private static final MotorConfig ANGLE_MOTOR_CONFIG = new MotorConfig().
@@ -27,6 +27,7 @@ public class RobotComponents {
                 withOpenLoopRampRate(2).
                 withClosedLoopRampRate(0.5).
                 withFeedbackDevice(FeedbackDevice.IntegratedSensor).
+                withFeedbackNotContinuous(true).
                 brake().
                 withCurrentLimit(new SupplyCurrentLimitConfiguration(
                         true,
@@ -64,7 +65,7 @@ public class RobotComponents {
                 CAN.Swerve.FRONT_LEFT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG.withPID(
                         LOCAL_SWERVE_MODULES.frontLeftModuleConstants.angleCoefs).
                 withRemoteSensorSource(
-                        CAN.Swerve.FRONT_LEFT_ANGLE_MOTOR_ID, RemoteSensorSource.TalonSRX_SelectedSensor),
+                        CAN.Swerve.FRONT_LEFT_ANGLE_ENCODER_ID, RemoteSensorSource.TalonSRX_SelectedSensor),
                 ControlMode.Position);
         public static final PIDFTalonFX FRONT_LEFT_DRIVE_MOTOR = new PIDFTalonFX(
                 CAN.Swerve.FRONT_LEFT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG.withPID(
@@ -75,7 +76,7 @@ public class RobotComponents {
                 CAN.Swerve.FRONT_RIGHT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG.
                 withPID(LOCAL_SWERVE_MODULES.frontRightModuleConstants.angleCoefs).
                 withRemoteSensorSource(
-                        CAN.Swerve.FRONT_RIGHT_ANGLE_MOTOR_ID, RemoteSensorSource.TalonSRX_SelectedSensor),
+                        CAN.Swerve.FRONT_RIGHT_ANGLE_ENCODER_ID, RemoteSensorSource.TalonSRX_SelectedSensor),
                 ControlMode.Position);
         public static final PIDFTalonFX FRONT_RIGHT_DRIVE_MOTOR = new PIDFTalonFX(
                 CAN.Swerve.FRONT_RIGHT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG.withPID(
@@ -86,7 +87,7 @@ public class RobotComponents {
                 CAN.Swerve.REAR_LEFT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG.
                 withPID(LOCAL_SWERVE_MODULES.rearLeftModuleConstants.angleCoefs).
                 withRemoteSensorSource(
-                        CAN.Swerve.REAR_LEFT_ANGLE_MOTOR_ID, RemoteSensorSource.TalonSRX_SelectedSensor),
+                        CAN.Swerve.REAR_LEFT_ANGLE_ENCODER_ID, RemoteSensorSource.TalonSRX_SelectedSensor),
                 ControlMode.Position);
         public static final PIDFTalonFX REAR_LEFT_DRIVE_MOTOR = new PIDFTalonFX(
                 CAN.Swerve.REAR_LEFT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG.
@@ -97,7 +98,7 @@ public class RobotComponents {
                 CAN.Swerve.REAR_RIGHT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG.
                 withPID(LOCAL_SWERVE_MODULES.rearRightModuleConstants.angleCoefs).
                 withRemoteSensorSource(
-                        CAN.Swerve.REAR_RIGHT_ANGLE_MOTOR_ID, RemoteSensorSource.TalonSRX_SelectedSensor),
+                        CAN.Swerve.REAR_RIGHT_ANGLE_ENCODER_ID, RemoteSensorSource.TalonSRX_SelectedSensor),
                 ControlMode.Position);
         public static final PIDFTalonFX REAR_RIGHT_DRIVE_MOTOR = new PIDFTalonFX(
                 CAN.Swerve.REAR_RIGHT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG.withPID(

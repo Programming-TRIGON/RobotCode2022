@@ -103,5 +103,6 @@ public class RobotConstants {
         public static final double DRIVING_SPEED_DIVIDER = LOCAL_CONSTANTS.localDriverConstants.drivingSpeedDivider;
         public static final int XBOX_PORT = 0;
         public static final double RUMBLE_INTERMISSION_TIME = 0.15;
+        public static final double CONTROLLER_DEADBAND = 0.1;
     }
 }

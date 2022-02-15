@@ -51,16 +51,14 @@ public class SwerveModule implements Sendable {
      */
     public static SwerveModuleState optimize(
             SwerveModuleState desiredState, Rotation2d currentAngle) {
-        double targetAngle = placeInAppropriate0To360Scope(
-                currentAngle.getDegrees(), desiredState.angle.getDegrees());
+        double targetAngle = placeInAppropriate0To360Scope(currentAngle.getDegrees(), desiredState.angle.getDegrees());
         double targetSpeed = desiredState.speedMetersPerSecond;
         double delta = targetAngle - currentAngle.getDegrees();
         if(Math.abs(delta) > 90) {
-            targetSpeed *= -1;
-            targetAngle -= delta > 90 ? 180 : -180;
+            targetSpeed = -targetSpeed;
+            targetAngle = delta > 90 ? (targetAngle -= 180) : (targetAngle += 180);
         }
-        return new SwerveModuleState(
-                targetSpeed, Rotation2d.fromDegrees(targetAngle));
+        return new SwerveModuleState(targetSpeed, Rotation2d.fromDegrees(targetAngle));
     }
 
     /**
@@ -102,7 +100,9 @@ public class SwerveModule implements Sendable {
         };
     }
 
-    public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
+    public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop, boolean isTuning) {
+        if(!isTuning && isTuning())
+            return;
         // Custom optimize command, since default WPILib optimize assumes
         // continuous controller which CTRE is not
         desiredState = optimize(
@@ -181,20 +181,22 @@ public class SwerveModule implements Sendable {
         return new SwerveModuleState(velocity, angle);
     }
 
-    public void setDesiredAngle(double angle, boolean isOpenLoop) {
+    public void setDesiredAngle(double angle, boolean isOpenLoop, boolean isTuning) {
         setDesiredState(
                 new SwerveModuleState(
                         getLastDesiredState().speedMetersPerSecond,
                         Rotation2d.fromDegrees(angle)),
-                isOpenLoop);
+                isOpenLoop,
+                isTuning);
     }
 
-    public void setDesiredSpeed(double speed, boolean isOpenLoop) {
+    public void setDesiredSpeed(double speed, boolean isOpenLoop, boolean isTuning) {
         setDesiredState(
                 new SwerveModuleState(
                         speed,
                         getLastDesiredState().angle),
-                isOpenLoop);
+                isOpenLoop,
+                isTuning);
     }
 
     /**
@@ -219,18 +221,18 @@ public class SwerveModule implements Sendable {
                 () -> getLastDesiredState().angle.getDegrees(),
                 x -> {
                     if(isTuning())
-                        setDesiredAngle(x, false);
+                        setDesiredAngle(x, false, true);
                 });
         builder.addDoubleProperty(
                 "Angle",
-                () -> getAngle().getDegrees(),
+                () -> getState().angle.getDegrees(),
                 null);
         builder.addDoubleProperty(
                 "Desired Speed",
                 () -> getLastDesiredState().speedMetersPerSecond
                 , speed -> {
                     if(isTuning())
-                        setDesiredSpeed(speed, false);
+                        setDesiredSpeed(speed, false, isTuning);
                 });
         builder.addDoubleProperty(
                 "Speed",
@@ -238,7 +240,8 @@ public class SwerveModule implements Sendable {
                 , null);
         builder.addDoubleProperty(
                 "Angle Error",
-                () -> getAngle().getDegrees() - getLastDesiredState().angle.getDegrees()
+                () -> EncoderConversions.falconToDegrees(
+                        angleMotor.getClosedLoopError(), SwerveConstants.ANGLE_GEAR_RATIO)
                 , null);
         builder.addBooleanProperty(
                 "Is Tuning",

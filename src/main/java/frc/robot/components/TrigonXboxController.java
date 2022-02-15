@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.constants.RobotConstants.DriverConstants;
+import frc.robot.utilities.Math;
 
 public class TrigonXboxController extends XboxController {
     private final JoystickButton aBtn;
@@ -18,9 +19,13 @@ public class TrigonXboxController extends XboxController {
     private final JoystickButton startBtn;
     private final Notifier notifier;
     private int rumbleAmount;
+    private final boolean squared;
+    private final double deadband;
 
-    public TrigonXboxController(int port) {
+    public TrigonXboxController(int port, double deadband, boolean squared) {
         super(port);
+        this.deadband = deadband;
+        this.squared = squared;
         aBtn = new JoystickButton(this, Button.kA.value);
         bBtn = new JoystickButton(this, Button.kB.value);
         xBtn = new JoystickButton(this, Button.kX.value);
@@ -106,13 +111,31 @@ public class TrigonXboxController extends XboxController {
     }
 
     @Override
-    public double getRightY() {
-        return -super.getRightY();
+    public double getLeftX() {
+        if(super.getLeftX() < deadband && super.getLeftX() > -deadband)
+            return 0;
+        return squared ? Math.signedSquare(super.getLeftX()) : super.getLeftX();
     }
 
     @Override
     public double getLeftY() {
-        return -super.getLeftY();
+        if(super.getLeftY() < deadband && super.getLeftY() > -deadband)
+            return 0;
+        return squared ? Math.signedSquare(super.getLeftY()) : super.getLeftY();
+    }
+
+    @Override
+    public double getRightX() {
+        if(super.getRightX() < deadband && super.getRightX() > -deadband)
+            return 0;
+        return squared ? Math.signedSquare(super.getRightX()) : super.getRightX();
+    }
+
+    @Override
+    public double getRightY() {
+        if(super.getRightY() < deadband && super.getRightY() > -deadband)
+            return 0;
+        return squared ? Math.signedSquare(super.getRightY()) : super.getRightY();
     }
 
     public void notifierPeriodic() {
