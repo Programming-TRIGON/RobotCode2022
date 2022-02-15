@@ -6,11 +6,8 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
 import frc.robot.components.TrigonTalonSRX;
-import frc.robot.constants.RobotMap.CAN;
-import frc.robot.constants.RobotMap.PWM;
+import frc.robot.constants.RobotMap.*;
 import frc.robot.utilities.MotorConfig;
-import frc.robot.utilities.pid.PIDCoefs;
-import frc.robot.utilities.pid.PIDFCoefs;
 import frc.robot.utilities.pid.PIDFTalonFX;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 

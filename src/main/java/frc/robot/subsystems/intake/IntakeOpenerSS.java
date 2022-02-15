@@ -32,7 +32,6 @@ public class IntakeOpenerSS extends OverridableSubsystem {
      * @return the current angle of the intake
      */
     public double getAngle() {
-
         return EncoderConversions.MagToDegrees(motor.getSelectedSensorPosition());
     }
 

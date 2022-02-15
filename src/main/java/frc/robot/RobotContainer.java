@@ -40,8 +40,9 @@ public class RobotContainer {
      */
     private void initializeSubsystems() {
         swerveSS = new SwerveSS();
-        intakeOpener =new IntakeOpenerSS();
         intake = new IntakeSS();
+        intakeOpener =new IntakeOpenerSS();
+
 
     }
 
