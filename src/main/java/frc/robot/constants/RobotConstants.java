@@ -9,6 +9,7 @@ import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotComponents.*;
 import frc.robot.utilities.JsonHandler;
 import frc.robot.utilities.pid.PIDCoefs;
+import frc.robot.utilities.pid.PIDFTalonSRX;
 
 /**
  * All the constants to be uses for the robot
@@ -103,11 +104,11 @@ public class RobotConstants {
 
     public static class IntakeConstants {
         public static final TrigonTalonSRX MOTOR = IntakeComponents.MOTOR;
+        public static double STALL_CURRENT_LIMIT = 20;
     }
 
     public static class IntakeOpenerConstants {
-        public static final TrigonTalonSRX MOTOR = IntakeOpenerComponents.MOTOR;
-        public static final double OPERATING_POWER = 0.4;
+        public static final PIDFTalonSRX MOTOR = IntakeOpenerComponents.MOTOR;
         public static double OPENED_ANGLE = 13;
         public static double CLOSED_ANGLE = 110;
         public static double STALL_CURRENT_LIMIT = 20;

@@ -12,12 +12,10 @@ public class IntakeSS extends OverridableSubsystem {
         motor = IntakeConstants.MOTOR;
     }
 
-    public void setPower(double power){
-        motor.set(power);
-    }
+
     @Override
     public void overriddenMove(double power) {
-        setPower(power);
+        motor.set(power);
     }
 
     /**
@@ -31,7 +29,7 @@ public class IntakeSS extends OverridableSubsystem {
      * @return if the motor is currently stalled
      */
     public boolean isStalled() {
-        return motor.getStatorCurrent() > RobotConstants.IntakeOpenerConstants.STALL_CURRENT_LIMIT;
+        return motor.getStatorCurrent() >= IntakeConstants.STALL_CURRENT_LIMIT;
     }
 
 }

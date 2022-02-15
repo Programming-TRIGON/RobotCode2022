@@ -40,8 +40,7 @@ public class RobotMap {
     }
 
     protected static class DIO {
-        public static class IntakeOpener {
-        }
+
     }
 
     protected static class PWM {

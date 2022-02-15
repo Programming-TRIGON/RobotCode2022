@@ -9,7 +9,10 @@ import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotMap.CAN;
 import frc.robot.constants.RobotMap.PWM;
 import frc.robot.utilities.MotorConfig;
+import frc.robot.utilities.pid.PIDCoefs;
+import frc.robot.utilities.pid.PIDFCoefs;
 import frc.robot.utilities.pid.PIDFTalonFX;
+import frc.robot.utilities.pid.PIDFTalonSRX;
 
 public class RobotComponents {
     protected static class LEDComponents {
@@ -105,7 +108,9 @@ public class RobotComponents {
                 coast().
                 inverted(true).
                 withOpenLoopRampRate(0.5).
-                withClosedLoopRampRate(0.5);
-        public static TrigonTalonSRX MOTOR = new TrigonTalonSRX(CAN.MOTOR_ID.INTAKE_OPENER_MOTOR_ID, INTAKE_OPENER_MOTOR_CONFIG);
+                withClosedLoopRampRate(0.5).
+                withPID(new PIDFCoefs(0, 0, 0, 0, 0, 0, 0));
+        public static PIDFTalonSRX MOTOR = new PIDFTalonSRX(
+                CAN.MOTOR_ID.INTAKE_OPENER_MOTOR_ID, INTAKE_OPENER_MOTOR_CONFIG);
     }
 }

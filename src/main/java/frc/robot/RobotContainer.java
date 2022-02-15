@@ -13,12 +13,12 @@ import frc.robot.utilities.DashboardController;
 public class RobotContainer {
     private final DashboardController dashboardController;
     private final TrigonXboxController driverXbox;
-    private IntakeOpenerSS intakeOpener;
-    private IntakeSS intake;
+
 
     // Subsystems
     private SwerveSS swerveSS;
-
+    private IntakeOpenerSS intakeOpener;
+    private IntakeSS intake;
     // Commands
     private SupplierDriveCMD driveWithXboxCMD;
 
