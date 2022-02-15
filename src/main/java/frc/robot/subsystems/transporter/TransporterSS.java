@@ -12,13 +12,10 @@ public class TransporterSS extends OverridableSubsystem {
         motor = TransporterConstants.MOTOR;
     }
 
-    public void setPower(double power){
-        motor.set(power);
-    }
 
     @Override
     public void overriddenMove(double power) {
-        setPower(power);
+        motor.set(power);
     }
     /**
      * @return the current being given to the motor
