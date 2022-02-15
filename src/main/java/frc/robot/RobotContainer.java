@@ -17,8 +17,9 @@ public class RobotContainer {
 
     // Subsystems
     private SwerveSS swerveSS;
-    private IntakeOpenerSS intakeOpener;
     private IntakeSS intake;
+    private IntakeOpenerSS intakeOpener;
+
     // Commands
     private SupplierDriveCMD driveWithXboxCMD;
 
@@ -39,8 +40,9 @@ public class RobotContainer {
      */
     private void initializeSubsystems() {
         swerveSS = new SwerveSS();
-        intake = new IntakeSS();
         intakeOpener =new IntakeOpenerSS();
+        intake = new IntakeSS();
+
     }
 
     /**

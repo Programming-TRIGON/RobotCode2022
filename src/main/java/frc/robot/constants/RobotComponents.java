@@ -109,7 +109,7 @@ public class RobotComponents {
                 inverted(true).
                 withOpenLoopRampRate(0.5).
                 withClosedLoopRampRate(0.5).
-                withPID(new PIDFCoefs(0, 0, 0, 0, 0, 0, 0));
+                withPID(RobotConstants.LOCAL_CONSTANTS.localIntakeOpenerConstants.pidfCoefs);
         public static PIDFTalonSRX MOTOR = new PIDFTalonSRX(
                 CAN.MOTOR_ID.INTAKE_OPENER_MOTOR_ID, INTAKE_OPENER_MOTOR_CONFIG);
     }

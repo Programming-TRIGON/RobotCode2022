@@ -32,8 +32,7 @@ public class IntakeOpenerSS extends OverridableSubsystem {
      * @return the current angle of the intake
      */
     public double getAngle() {
-        // Converts position ticks (returned by the encoder) to an angle relative to the ground
-        // by timesing by 2048 (ticks in a circle) and dividing by 360 (degrees in  circle)
+
         return EncoderConversions.MagToDegrees(motor.getSelectedSensorPosition());
     }
 
