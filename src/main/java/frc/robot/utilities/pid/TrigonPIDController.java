@@ -70,6 +70,7 @@ public class TrigonPIDController extends PIDController implements PIDConfigurabl
         super.setTolerance(pidCoefs.getTolerance(), deltaTolerance);
     }
 
+    @Override
     public void initSendable(SendableBuilder builder) {
         PIDConfigurable.super.initSendable(builder);
     }

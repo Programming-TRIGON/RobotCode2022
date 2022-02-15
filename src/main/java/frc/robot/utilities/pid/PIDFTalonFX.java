@@ -62,6 +62,7 @@ public class PIDFTalonFX extends TrigonTalonFX implements PIDFTalon {
         return isTuning;
     }
 
+    @Override
     public void initSendable(SendableBuilder builder) {
         PIDFTalon.super.initSendable(builder);
     }
