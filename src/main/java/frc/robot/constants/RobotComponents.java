@@ -6,10 +6,10 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
 import frc.robot.components.TrigonTalonSRX;
-import frc.robot.constants.RobotMap.CAN;
-import frc.robot.constants.RobotMap.PWM;
+import frc.robot.constants.RobotMap.*;
 import frc.robot.utilities.MotorConfig;
 import frc.robot.utilities.pid.PIDFTalonFX;
+import frc.robot.utilities.pid.PIDFTalonSRX;
 
 public class RobotComponents {
     protected static class LEDComponents {
@@ -95,8 +95,23 @@ public class RobotComponents {
                 CAN.Swerve.REAR_RIGHT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG.withPID(
                 LOCAL_SWERVE_MODULES.rearRightModuleConstants.driveCoefs));
     }
-    protected static class TransporterComponents{
-        public static final TrigonTalonSRX MOTOR = SwerveComponents.FRONT_RIGHT_ENCODER;
 
+    protected static class TransporterComponents {
+        public static final TrigonTalonSRX MOTOR = SwerveComponents.FRONT_RIGHT_ENCODER;
+    }
+
+    protected static class IntakeComponents {
+        public static TrigonTalonSRX MOTOR = SwerveComponents.FRONT_LEFT_ENCODER;
+    }
+
+    protected static class IntakeOpenerComponents {
+        private static final MotorConfig INTAKE_OPENER_MOTOR_CONFIG = new MotorConfig().
+                coast().
+                inverted(true).
+                withOpenLoopRampRate(0.5).
+                withClosedLoopRampRate(0.5).
+                withPID(RobotConstants.LOCAL_CONSTANTS.localIntakeOpenerConstants.pidfCoefs);
+        public static PIDFTalonSRX MOTOR = new PIDFTalonSRX(
+                CAN.MOTOR_ID.INTAKE_OPENER_MOTOR_ID, INTAKE_OPENER_MOTOR_CONFIG);
     }
 }
