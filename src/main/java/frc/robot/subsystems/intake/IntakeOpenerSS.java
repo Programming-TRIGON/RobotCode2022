@@ -16,9 +16,10 @@ public class IntakeOpenerSS extends OverridableSubsystem {
         resetEncoder();
     }
 
-    public void resetEncoder(){
+    public void resetEncoder() {
         motor.setSelectedSensorPosition(0);
     }
+
     /**
      * @param power to be applied to the motors
      */
@@ -32,7 +33,7 @@ public class IntakeOpenerSS extends OverridableSubsystem {
      * @return the current angle of the intake
      */
     public double getAngle() {
-        return EncoderConversions.MagToDegrees(motor.getSelectedSensorPosition());
+        return EncoderConversions.MagToDegrees(motor.getSelectedSensorPosition(), IntakeOpenerConstants.GEAR_RATIO);
     }
 
     /**
@@ -71,5 +72,4 @@ public class IntakeOpenerSS extends OverridableSubsystem {
     public boolean isStalled() {
         return motor.getStatorCurrent() >= RobotConstants.IntakeOpenerConstants.STALL_CURRENT_LIMIT;
     }
-
 }

@@ -14,7 +14,6 @@ public class RobotContainer {
     private final DashboardController dashboardController;
     private final TrigonXboxController driverXbox;
 
-
     // Subsystems
     private SwerveSS swerveSS;
     private IntakeSS intake;
@@ -41,9 +40,7 @@ public class RobotContainer {
     private void initializeSubsystems() {
         swerveSS = new SwerveSS();
         intake = new IntakeSS();
-        intakeOpener =new IntakeOpenerSS();
-
-
+        intakeOpener = new IntakeOpenerSS();
     }
 
     /**

@@ -24,15 +24,16 @@ public class LocalConstants {
     public static class LocalDriverConstants {
         int drivingSpeedDivider;
     }
-    public static class LocalIntakeOpenerConstants{
+
+    public static class LocalIntakeOpenerConstants {
 
         PIDFCoefs pidfCoefs;
 
-        public LocalIntakeOpenerConstants(){
+        public LocalIntakeOpenerConstants() {
             pidfCoefs = new PIDFCoefs();
         }
-
     }
+
     public static class LocalSwerveConstants {
         LocalSwerveModules modules;
 

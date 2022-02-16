@@ -109,7 +109,7 @@ public class RobotConstants {
 
     public static class IntakeOpenerConstants {
         public static final PIDFTalonSRX MOTOR = IntakeOpenerComponents.MOTOR;
-
+        public static final double GEAR_RATIO = 81;
         public static double OPENED_ANGLE = 97;
         public static double CLOSED_ANGLE = 0;
         public static double STALL_CURRENT_LIMIT = 20;
