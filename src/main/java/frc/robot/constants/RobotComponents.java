@@ -3,11 +3,11 @@ package frc.robot.constants;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
 import frc.robot.components.TrigonTalonSRX;
-import frc.robot.constants.RobotMap.CAN;
-import frc.robot.constants.RobotMap.PWM;
+import frc.robot.constants.RobotMap.*;
 import frc.robot.utilities.MotorConfig;
 import frc.robot.utilities.pid.PIDFTalonFX;
 
@@ -94,5 +94,12 @@ public class RobotComponents {
         public static final PIDFTalonFX REAR_RIGHT_DRIVE_MOTOR = new PIDFTalonFX(
                 CAN.Swerve.REAR_RIGHT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG.withPID(
                 LOCAL_SWERVE_MODULES.rearRightModuleConstants.driveCoefs));
+    }
+
+    protected static class ClimberComponents{
+        public static final TrigonTalonSRX LEFT_MOTOR = SwerveComponents.FRONT_LEFT_ENCODER;
+        public static final TrigonTalonSRX RIGHT_MOTOR = SwerveComponents.FRONT_RIGHT_ENCODER;
+        public static final DigitalInput LEFT_SWITCH = new DigitalInput(DIO.Climber.LEFT_SWITCH_CHANNEL);
+        public static final DigitalInput RIGHT_SWITCH = new DigitalInput(DIO.Climber.RIGHT_SWITCH_CHANNEL);
     }
 }

@@ -17,4 +17,3 @@ public class SwerveModuleConstants {
         this.encoderOffset = encoderOffset;
     }
 }
-
