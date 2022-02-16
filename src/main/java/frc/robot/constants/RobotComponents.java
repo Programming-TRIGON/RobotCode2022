@@ -10,6 +10,7 @@ import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotMap.*;
 import frc.robot.utilities.MotorConfig;
 import frc.robot.utilities.pid.PIDFTalonFX;
+import frc.robot.utilities.pid.PIDFTalonSRX;
 
 public class RobotComponents {
     protected static class LEDComponents {
@@ -96,10 +97,29 @@ public class RobotComponents {
                 LOCAL_SWERVE_MODULES.rearRightModuleConstants.driveCoefs));
     }
 
-    protected static class ClimberComponents{
+    protected static class ClimberComponents {
         public static final TrigonTalonSRX LEFT_MOTOR = SwerveComponents.FRONT_LEFT_ENCODER;
         public static final TrigonTalonSRX RIGHT_MOTOR = SwerveComponents.FRONT_RIGHT_ENCODER;
         public static final DigitalInput LEFT_SWITCH = new DigitalInput(DIO.Climber.LEFT_SWITCH_CHANNEL);
         public static final DigitalInput RIGHT_SWITCH = new DigitalInput(DIO.Climber.RIGHT_SWITCH_CHANNEL);
+    }
+
+    protected static class TransporterComponents {
+        public static final TrigonTalonSRX MOTOR = SwerveComponents.FRONT_RIGHT_ENCODER;
+    }
+
+    protected static class IntakeComponents {
+        public static TrigonTalonSRX MOTOR = SwerveComponents.FRONT_LEFT_ENCODER;
+    }
+
+    protected static class IntakeOpenerComponents {
+        private static final MotorConfig INTAKE_OPENER_MOTOR_CONFIG = new MotorConfig().
+                coast().
+                inverted(true).
+                withOpenLoopRampRate(0.5).
+                withClosedLoopRampRate(0.5).
+                withPID(RobotConstants.LOCAL_CONSTANTS.localIntakeOpenerConstants.pidfCoefs);
+        public static PIDFTalonSRX MOTOR = new PIDFTalonSRX(
+                CAN.MOTOR_ID.INTAKE_OPENER_MOTOR_ID, INTAKE_OPENER_MOTOR_CONFIG);
     }
 }

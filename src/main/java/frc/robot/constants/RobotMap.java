@@ -30,6 +30,9 @@ public class RobotMap {
             public static final int REAR_RIGHT_ANGLE_ENCODER_ID = 10;
         }
 
+        public static class MOTOR_ID {
+            public static final int INTAKE_OPENER_MOTOR_ID = 3;
+        }
     }
 
     protected static class PCM {
@@ -37,7 +40,7 @@ public class RobotMap {
     }
 
     protected static class DIO {
-        public static class Climber{
+        public static class Climber {
             public static final int LEFT_SWITCH_CHANNEL = 0;
             public static final int RIGHT_SWITCH_CHANNEL = 1;
         }
