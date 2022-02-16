@@ -108,24 +108,24 @@ public class RobotConstants {
         public static final TrigonTalonSRX RIGHT_MOTOR = ClimberComponents.RIGHT_MOTOR;
         public static final DigitalInput LEFT_DIGITAL_INPUT = ClimberComponents.LEFT_SWITCH;
         public static final DigitalInput RIGHT_DIGITAL_INPUT = ClimberComponents.RIGHT_SWITCH;
+    }
 
-        public static class TransporterConstants {
-            public static final TrigonTalonSRX MOTOR = TransporterComponents.MOTOR;
-            public static final int STALL_CURRENT_LIMIT = 20;
-        }
+    public static class TransporterConstants {
+        public static final TrigonTalonSRX MOTOR = TransporterComponents.MOTOR;
+        public static final int STALL_CURRENT_LIMIT = 20;
+    }
 
-        public static class IntakeConstants {
-            public static final TrigonTalonSRX MOTOR = IntakeComponents.MOTOR;
-            public static double STALL_CURRENT_LIMIT = 20;
-        }
+    public static class IntakeConstants {
+        public static final TrigonTalonSRX MOTOR = IntakeComponents.MOTOR;
+        public static double STALL_CURRENT_LIMIT = 20;
+    }
 
-        public static class IntakeOpenerConstants {
-            public static final PIDFTalonSRX MOTOR = IntakeOpenerComponents.MOTOR;
-            public static final double GEAR_RATIO = 81;
-            public static double OPENED_ANGLE = 97;
-            public static double CLOSED_ANGLE = 0;
-            public static double STALL_CURRENT_LIMIT = 20;
-        }
+    public static class IntakeOpenerConstants {
+        public static final PIDFTalonSRX MOTOR = IntakeOpenerComponents.MOTOR;
+        public static final double GEAR_RATIO = 81;
+        public static double OPENED_ANGLE = 97;
+        public static double CLOSED_ANGLE = 0;
+        public static double STALL_CURRENT_LIMIT = 20;
     }
 }
 
