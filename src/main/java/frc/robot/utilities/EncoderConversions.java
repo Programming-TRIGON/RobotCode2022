@@ -75,6 +75,6 @@ public class EncoderConversions {
     }
 
     public static double MagToDegrees(double magTick) {
-        return MagToDegrees(magTick, 0);
+        return MagToDegrees(magTick, 1);
     }
 }

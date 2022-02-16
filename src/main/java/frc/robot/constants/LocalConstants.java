@@ -26,7 +26,6 @@ public class LocalConstants {
     }
 
     public static class LocalIntakeOpenerConstants {
-
         PIDFCoefs pidfCoefs;
 
         public LocalIntakeOpenerConstants() {

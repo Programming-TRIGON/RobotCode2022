@@ -16,14 +16,9 @@ public class IntakeOpenerSS extends OverridableSubsystem {
         resetEncoder();
     }
 
-    public void resetEncoder() {
-        motor.setSelectedSensorPosition(0);
-    }
-
     /**
      * @param power to be applied to the motors
      */
-
     @Override
     public void overriddenMove(double power) {
         motor.set(power);
@@ -71,5 +66,9 @@ public class IntakeOpenerSS extends OverridableSubsystem {
      */
     public boolean isStalled() {
         return motor.getStatorCurrent() >= RobotConstants.IntakeOpenerConstants.STALL_CURRENT_LIMIT;
+    }
+
+    public void resetEncoder() {
+        motor.setSelectedSensorPosition(0);
     }
 }
