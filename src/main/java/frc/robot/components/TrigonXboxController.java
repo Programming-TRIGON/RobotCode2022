@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.constants.RobotConstants.DriverConstants;
-import frc.robot.utilities.Math;
 
 public class TrigonXboxController extends XboxController {
     private final JoystickButton aBtn;
@@ -112,30 +111,22 @@ public class TrigonXboxController extends XboxController {
 
     @Override
     public double getLeftX() {
-        if(super.getLeftX() < deadband && super.getLeftX() > -deadband)
-            return 0;
-        return squared ? Math.signedSquare(super.getLeftX()) : super.getLeftX();
+        return processValue(super.getLeftX());
     }
 
     @Override
     public double getLeftY() {
-        if(super.getLeftY() < deadband && super.getLeftY() > -deadband)
-            return 0;
-        return squared ? Math.signedSquare(super.getLeftY()) : super.getLeftY();
+        return processValue(super.getLeftY());
     }
 
     @Override
     public double getRightX() {
-        if(super.getRightX() < deadband && super.getRightX() > -deadband)
-            return 0;
-        return squared ? Math.signedSquare(super.getRightX()) : super.getRightX();
+        return processValue(super.getRightX());
     }
 
     @Override
     public double getRightY() {
-        if(super.getRightY() < deadband && super.getRightY() > -deadband)
-            return 0;
-        return squared ? Math.signedSquare(super.getRightY()) : super.getRightY();
+        return processValue(super.getRightY());
     }
 
     public void notifierPeriodic() {
@@ -149,5 +140,15 @@ public class TrigonXboxController extends XboxController {
                 setRumble(0);
             rumbleAmount--;
         }
+    }
+
+    private static double signedSquare(double value) {
+        return Math.signum(value) * Math.pow(Math.abs(value), 2);
+    }
+
+    private double processValue(double value) {
+        if(value < deadband && value > -deadband)
+            return 0;
+        return squared ? signedSquare(value) : value;
     }
 }

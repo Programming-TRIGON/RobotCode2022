@@ -5,7 +5,6 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 
 public class TrigonPIDController extends PIDController implements PIDConfigurable {
     private final PIDCoefs pidCoefs;
-    private double tuningSetpoint;
     private boolean isTuning;
 
     public TrigonPIDController(PIDCoefs pidCoefs) {
@@ -16,13 +15,18 @@ public class TrigonPIDController extends PIDController implements PIDConfigurabl
     }
 
     @Override
-    public double getTuningSetpoint() {
-        return tuningSetpoint;
+    public void setTuningSetpoint(double setpoint) {
+        setSetpoint(setpoint);
     }
 
-    @Override
-    public void setTuningSetpoint(double tuningSetpoint) {
-        this.tuningSetpoint = tuningSetpoint;
+    public void setSetpoint(double setpoint, boolean isTuning) {
+        if(isTuning() && !isTuning)
+            return;
+        super.setSetpoint(setpoint);
+    }
+
+    public void setSetpoint(double setpoint) {
+        setSetpoint(setpoint, false);
     }
 
     @Override

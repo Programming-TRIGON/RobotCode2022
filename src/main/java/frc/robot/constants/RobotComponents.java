@@ -18,7 +18,8 @@ public class RobotComponents {
     }
 
     protected static class SwerveComponents {
-        public static final Pigeon PIGEON = new Pigeon(new TrigonTalonSRX(12));
+        private static final TrigonTalonSRX PIGEON_SRX = new TrigonTalonSRX(CAN.Swerve.PIGEON_ID);
+        public static final Pigeon PIGEON = new Pigeon(PIGEON_SRX);
 
         // configs
         private static final MotorConfig ANGLE_MOTOR_CONFIG = new MotorConfig().

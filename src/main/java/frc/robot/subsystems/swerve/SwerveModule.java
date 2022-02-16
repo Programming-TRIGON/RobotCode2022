@@ -101,6 +101,7 @@ public class SwerveModule implements Sendable {
     }
 
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop, boolean isTuning) {
+        // If we are called by a command or something alike, that has nothing to do with tuning, then we ignore the call
         if(!isTuning && isTuning())
             return;
         // Custom optimize command, since default WPILib optimize assumes
@@ -125,13 +126,12 @@ public class SwerveModule implements Sendable {
                     SwerveConstants.WHEEL_CIRCUMFERENCE,
                     SwerveConstants.DRIVE_GEAR_RATIO);
             // Sets the drive motor velocity with the driveFeedforward.
-            driveMotor.setWithF(ControlMode.Velocity, velocity);
+            driveMotor.setSetpoint(velocity);
         }
 
         double desiredAngle = desiredState.angle.getDegrees();
         // Set the angle motor's position to the desired angle.
-        angleMotor.setWithF(
-                ControlMode.Position,
+        angleMotor.setSetpoint(
                 EncoderConversions.degreesToFalcon(
                         desiredAngle,
                         SwerveConstants.ANGLE_GEAR_RATIO));

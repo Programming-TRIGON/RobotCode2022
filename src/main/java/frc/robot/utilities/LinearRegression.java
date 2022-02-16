@@ -1,7 +1,5 @@
 package frc.robot.utilities;
 
-import java.lang.Math;
-
 /**
  * "borrowed" from https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/LinearRegression.java.html
  * <p>
