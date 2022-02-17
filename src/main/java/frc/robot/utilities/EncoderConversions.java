@@ -70,11 +70,19 @@ public class EncoderConversions {
      * @param magTicks the ticks from the mag sensor
      * @return the angle in degrees
      */
-    public static double MagToDegrees(double magTicks, double gearRatio) {
-        return (magTicks) / 4096f * 360 / gearRatio;
+    public static double magToDegrees(double magTicks, double gearRatio) {
+        return magTicks / 4096f * 360 / gearRatio;
     }
 
-    public static double MagToDegrees(double magTick) {
-        return MagToDegrees(magTick, 1);
+    public static double magToDegrees(double magTick) {
+        return magToDegrees(magTick, 1);
+    }
+
+    public static double degreesToMag(double degrees, double gearRatio) {
+        return degrees * 4096f / 360 * gearRatio;
+    }
+
+    public static double degreesToMag(double degrees){
+        return degreesToMag(degrees,1);
     }
 }

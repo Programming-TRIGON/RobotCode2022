@@ -1,7 +1,6 @@
 package frc.robot.subsystems.intake;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.IntakeOpenerConstants;
 import frc.robot.subsystems.OverridableSubsystem;
@@ -28,7 +27,7 @@ public class IntakeOpenerSS extends OverridableSubsystem {
      * @return the current angle of the intake
      */
     public double getAngle() {
-        return EncoderConversions.MagToDegrees(motor.getSelectedSensorPosition(), IntakeOpenerConstants.GEAR_RATIO);
+        return EncoderConversions.magToDegrees(motor.getSelectedSensorPosition(), IntakeOpenerConstants.GEAR_RATIO);
     }
 
     /**

@@ -153,7 +153,7 @@ public class SwerveModule {
      */
     public Rotation2d getAngle() {
         return Rotation2d.fromDegrees(
-                EncoderConversions.MagToDegrees(angleEncoder.getSelectedSensorPosition()));
+                EncoderConversions.magToDegrees(angleEncoder.getSelectedSensorPosition()));
     }
 
     /**
