@@ -16,7 +16,7 @@ import frc.robot.utilities.pid.PIDFTalonFX;
 /**
  * This class represents a single swerve module.
  * The module has two motors, one for the drive and one for the angle.
- * There's a
+ * There's a MAG encoder for the angle.
  */
 public class SwerveModule implements Sendable {
     private final PIDFTalonFX angleMotor;
@@ -35,7 +35,7 @@ public class SwerveModule implements Sendable {
 
         resetToAbsolute();
         driveMotor.ce_setSelectedSensorPosition(0);
-        lastDesiredState = new SwerveModuleState(0, new Rotation2d());
+        lastDesiredState = getState();
         putOnShuffleboard(constants.module.getName());
     }
 

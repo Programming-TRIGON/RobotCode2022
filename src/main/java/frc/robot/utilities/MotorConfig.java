@@ -250,11 +250,10 @@ public class MotorConfig {
      * @param pidIdx         The PID slot.
      */
     public MotorConfig withFeedbackDevice(FeedbackDevice feedbackDevice, int pidIdx) {
-        if(pidIdx == 0) {
+        if(pidIdx == 0)
             primaryFeedbackDevice = feedbackDevice;
-        } else {
+        else
             secondaryFeedbackDevice = feedbackDevice;
-        }
         return this;
     }
 

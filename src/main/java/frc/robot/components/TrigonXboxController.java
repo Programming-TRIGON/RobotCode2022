@@ -147,7 +147,6 @@ public class TrigonXboxController extends XboxController {
     }
 
     /**
-     * processValue:
      * If the value is within the deadband, return 0.
      * If squared is true, the value is squared, while keeping the sign.
      *

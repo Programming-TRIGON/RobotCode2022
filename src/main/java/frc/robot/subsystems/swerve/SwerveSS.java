@@ -39,8 +39,8 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
     /**
      * Drives the swerve by the given values
      *
-     * @param x             sideways power, in mps
-     * @param y             forward power, in mps
+     * @param x             sideways power, in MPS
+     * @param y             forward power, in MPS
      * @param rotation      The rotation to apply, in radians per second
      * @param fieldRelative Whether the translation and rotation are field-relative
      * @param isOpenLoop    Whether we should drive the modules in open loop, or in closed loop, with a PID loop for
