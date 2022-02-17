@@ -108,16 +108,16 @@ public class RobotComponents {
                 withClosedLoopRampRate(0.5).
                 withPID(RobotConstants.LOCAL_CONSTANTS.localIntakeOpenerConstants.pidfCoefs);
         public static PIDFTalonSRX MOTOR = new PIDFTalonSRX(
-                CAN.MOTOR_ID.INTAKE_OPENER_MOTOR_ID, INTAKE_OPENER_MOTOR_CONFIG);
+                CAN.IntakeOpener.INTAKE_OPENER_MOTOR_ID, INTAKE_OPENER_MOTOR_CONFIG);
     }
 
-    protected static class PitcherComponents{
+    protected static class PitcherComponents {
         private static final MotorConfig PITCHER_MOTOR_CONFIG = new MotorConfig().
                 brake().
                 inverted(true).
                 withOpenLoopRampRate(0.4).
                 withClosedLoopRampRate(0.4).
                 withPID(RobotConstants.LOCAL_CONSTANTS.localPitcherConstants.pidfCoefs);
-        public static PIDFTalonSRX MOTOR = new PIDFTalonSRX(CAN.MOTOR_ID.PITCHER_MOTOR_ID,PITCHER_MOTOR_CONFIG);
+        public static PIDFTalonSRX MOTOR = new PIDFTalonSRX(CAN.Pitcher.PITCHER_MOTOR_ID, PITCHER_MOTOR_CONFIG);
     }
 }

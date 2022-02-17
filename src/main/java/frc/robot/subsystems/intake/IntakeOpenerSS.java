@@ -1,6 +1,7 @@
 package frc.robot.subsystems.intake;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import edu.wpi.first.math.MathUtil;
 import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.IntakeOpenerConstants;
 import frc.robot.subsystems.OverridableSubsystem;
@@ -36,6 +37,9 @@ public class IntakeOpenerSS extends OverridableSubsystem {
      * @param degree desired angle in degrees
      */
     public void moveToAngle(double degree) {
+        degree = EncoderConversions.degreesToMag(
+                MathUtil.clamp(degree, RobotConstants.IntakeOpenerConstants.CLOSED_ANGLE, RobotConstants.IntakeOpenerConstants.OPENED_ANGLE),
+                RobotConstants.IntakeOpenerConstants.GEAR_RATIO);
         motor.set(ControlMode.Position, degree);
     }
 

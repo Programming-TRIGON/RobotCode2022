@@ -4,10 +4,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.math.MathUtil;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants.PitcherConstants;
-import frc.robot.subsystems.OverridableSubsystem;
+import frc.robot.subsystems.TestableSubsystem;
 import frc.robot.utilities.EncoderConversions;
 
-public class PitcherSS extends OverridableSubsystem {
+public class PitcherSS implements TestableSubsystem {
     private final TrigonTalonSRX motor;
 
     public PitcherSS() {
@@ -18,8 +18,8 @@ public class PitcherSS extends OverridableSubsystem {
     /**
      * @param power to be applied to the motors
      */
-    @Override
-    public void overriddenMove(double power) {
+@Override
+    public void move(double power) {
         motor.set(power);
     }
 
@@ -37,14 +37,20 @@ public class PitcherSS extends OverridableSubsystem {
      *
      * @param degree desired angle in degrees
      */
-    public void setPosition(double degree) {
-        motor.set(ControlMode.Position, EncoderConversions.degreesToMag(
+    public void setAngle(double degree) {
+        degree = EncoderConversions.degreesToMag(
                 MathUtil.clamp(degree, PitcherConstants.CLOSED_ANGLE, PitcherConstants.OPEN_ANGLE),
-                PitcherConstants.GEAR_RATIO));
+                PitcherConstants.GEAR_RATIO);
+        motor.set(ControlMode.Position, degree);
     }
 
     public void resetEncoder() {
         motor.setSelectedSensorPosition(PitcherConstants.CLOSED_ANGLE);
+    }
+
+    @Override
+    public double[] getValues() {
+        return new double[] {getAngle()};
     }
 }
 

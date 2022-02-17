@@ -82,7 +82,7 @@ public class EncoderConversions {
         return degrees * 4096f / 360 * gearRatio;
     }
 
-    public static double degreesToMag(double degrees){
-        return degreesToMag(degrees,1);
+    public static double degreesToMag(double degrees) {
+        return degreesToMag(degrees, 1);
     }
 }
