@@ -32,6 +32,7 @@ public class RobotContainer {
         initializeSubsystems();
         initializeCommands();
         bindCommands();
+        putData();
     }
 
     /**
@@ -39,7 +40,6 @@ public class RobotContainer {
      */
     private void initializeSubsystems() {
         swerveSS = new SwerveSS();
-        SmartDashboard.putData("Swerve", swerveSS);
     }
 
     /**
@@ -52,12 +52,18 @@ public class RobotContainer {
                 driverXbox::getLeftY,
                 driverXbox::getRightX,
                 true);
-        SmartDashboard.putData("Drive CMD", driveWithXboxCMD);
     }
 
     private void bindCommands() {
         swerveSS.setDefaultCommand(driveWithXboxCMD);
         driverXbox.getYBtn().whenPressed(new InstantCommand(() -> swerveSS.resetGyro()));
+    }
+
+    /**
+     * Puts the subsystems and commands in the dashboard
+     */
+    private void putData() {
+        SmartDashboard.putData("Swerve", swerveSS);
     }
 
     public void periodic() {

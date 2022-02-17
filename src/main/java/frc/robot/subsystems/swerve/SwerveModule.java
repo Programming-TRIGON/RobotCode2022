@@ -56,7 +56,7 @@ public class SwerveModule implements Sendable {
         double delta = targetAngle - currentAngle.getDegrees();
         if(Math.abs(delta) > 90) {
             targetSpeed = -targetSpeed;
-            targetAngle = delta > 90 ? (targetAngle -= 180) : (targetAngle += 180);
+            targetAngle -= delta > 90 ? 180 : -180;
         }
         return new SwerveModuleState(targetSpeed, Rotation2d.fromDegrees(targetAngle));
     }
@@ -208,6 +208,14 @@ public class SwerveModule implements Sendable {
         return lastDesiredState;
     }
 
+    public boolean isTuning() {
+        return isTuning;
+    }
+
+    public void setTuning(boolean tuning) {
+        isTuning = tuning;
+    }
+
     public void putOnShuffleboard(String name) {
         SmartDashboard.putData("Swerve/" + name + "/Stats", this);
         SmartDashboard.putData("Swerve/" + name + "/Angle Motor", angleMotor);
@@ -247,13 +255,5 @@ public class SwerveModule implements Sendable {
                 "Is Tuning",
                 this::isTuning
                 , this::setTuning);
-    }
-
-    public boolean isTuning() {
-        return isTuning;
-    }
-
-    public void setTuning(boolean tuning) {
-        isTuning = tuning;
     }
 }

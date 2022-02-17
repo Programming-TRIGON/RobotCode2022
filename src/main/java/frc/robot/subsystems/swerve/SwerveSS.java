@@ -39,15 +39,16 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
     /**
      * Drives the swerve by the given values
      *
-     * @param translation   The translation to apply, where x is forward and y is to the left
+     * @param x             sideways power, in mps
+     * @param y             forward power, in mps
      * @param rotation      The rotation to apply, in radians per second
      * @param fieldRelative Whether the translation and rotation are field-relative
      * @param isOpenLoop    Whether we should drive the modules in open loop, or in closed loop, with a PID loop for
      *                      each module's speed
      */
-    public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
-        translation = new Translation2d(translation.getY(), -translation.getX());
-        rotation *= -1;
+    public void drive(double x, double y, double rotation, boolean fieldRelative, boolean isOpenLoop) {
+        Translation2d translation = new Translation2d(y, -x); // Converting to X front positive and Y left positive
+        rotation *= -1; // Converting to CCW+
         // set the desired states based on the given
         // translation and rotation
         SwerveModuleState[] swerveModuleStates = SwerveConstants.SWERVE_KINEMATICS.toSwerveModuleStates(
@@ -146,7 +147,7 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
 
     @Override
     public void move(double power) {
-        drive(new Translation2d(0, 0), power, false, true);
+        drive(0, 0, power, false, true);
     }
 
     @Override

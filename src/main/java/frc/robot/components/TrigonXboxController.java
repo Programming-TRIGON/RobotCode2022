@@ -146,6 +146,14 @@ public class TrigonXboxController extends XboxController {
         return Math.signum(value) * Math.pow(Math.abs(value), 2);
     }
 
+    /**
+     * processValue:
+     * If the value is within the deadband, return 0.
+     * If squared is true, the value is squared, while keeping the sign.
+     *
+     * @param value the value from a stick
+     * @return the value after processing
+     */
     private double processValue(double value) {
         if(value < deadband && value > -deadband)
             return 0;

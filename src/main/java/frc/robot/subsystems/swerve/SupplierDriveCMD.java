@@ -1,6 +1,5 @@
 package frc.robot.subsystems.swerve;
 
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.RobotConstants.SwerveConstants;
 
@@ -31,7 +30,8 @@ public class SupplierDriveCMD extends CommandBase {
     @Override
     public void execute() {
         swerveSS.drive(
-                new Translation2d(xPower.get(), yPower.get()).times(SwerveConstants.MAX_SPEED),
+                xPower.get() * SwerveConstants.MAX_SPEED,
+                yPower.get() * SwerveConstants.MAX_SPEED,
                 rotPower.get() * SwerveConstants.MAX_ANGULAR_VELOCITY,
                 fieldRelative,
                 false);
@@ -39,7 +39,7 @@ public class SupplierDriveCMD extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        swerveSS.drive(new Translation2d(0, 0), 0, false, false);
+        swerveSS.stopMoving();
     }
 
     @Override
