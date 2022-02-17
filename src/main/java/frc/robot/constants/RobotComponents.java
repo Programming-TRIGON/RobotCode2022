@@ -98,10 +98,10 @@ public class RobotComponents {
     }
 
     protected static class ClimberComponents {
-        public static final TrigonTalonSRX LEFT_MOTOR = SwerveComponents.FRONT_LEFT_ENCODER;
         public static final TrigonTalonSRX RIGHT_MOTOR = SwerveComponents.FRONT_RIGHT_ENCODER;
-        public static final DigitalInput LEFT_SWITCH = new DigitalInput(DIO.Climber.LEFT_SWITCH_CHANNEL);
+        public static final TrigonTalonSRX LEFT_MOTOR = SwerveComponents.FRONT_LEFT_ENCODER;
         public static final DigitalInput RIGHT_SWITCH = new DigitalInput(DIO.Climber.RIGHT_SWITCH_CHANNEL);
+        public static final DigitalInput LEFT_SWITCH = new DigitalInput(DIO.Climber.LEFT_SWITCH_CHANNEL);
     }
 
     protected static class TransporterComponents {
