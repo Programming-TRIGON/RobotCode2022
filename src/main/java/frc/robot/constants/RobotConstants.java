@@ -10,6 +10,7 @@ import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotComponents.*;
 import frc.robot.utilities.JsonHandler;
 import frc.robot.utilities.pid.PIDCoefs;
+import frc.robot.utilities.pid.PIDFTalonFX;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 
 /**
@@ -104,12 +105,11 @@ public class RobotConstants {
     }
 
     public static class ClimberConstants {
-        public static final TrigonTalonSRX RIGHT_MOTOR = ClimberComponents.RIGHT_MOTOR;
-        public static final TrigonTalonSRX LEFT_MOTOR = ClimberComponents.LEFT_MOTOR;
+        public static final PIDFTalonFX RIGHT_MOTOR = ClimberComponents.RIGHT_MOTOR;
+        public static final PIDFTalonFX LEFT_MOTOR = ClimberComponents.LEFT_MOTOR;
         public static final DigitalInput RIGHT_DIGITAL_INPUT = ClimberComponents.RIGHT_SWITCH;
         public static final DigitalInput LEFT_DIGITAL_INPUT = ClimberComponents.LEFT_SWITCH;
-        public static final double lowBoundary = 0;
-        public static final double highBoundary = 0.761;
+        public static final int MAX_POSITION = 7000;
     }
 
     public static class TransporterConstants {

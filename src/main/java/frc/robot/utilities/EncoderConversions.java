@@ -43,13 +43,13 @@ public class EncoderConversions {
     }
 
     /**
-     * @param velocitycounts Falcon Velocity Counts
+     * @param velocityCounts Falcon Velocity Counts
      * @param circumference  Circumference of Wheel
      * @param gearRatio      Gear Ratio between Falcon and Mechanism (set to 1 for Falcon RPM)
      * @return Falcon Velocity Counts
      */
-    public static double falconToMPS(double velocitycounts, double circumference, double gearRatio) {
-        double wheelRPM = falconToRPM(velocitycounts, gearRatio);
+    public static double falconToMPS(double velocityCounts, double circumference, double gearRatio) {
+        double wheelRPM = falconToRPM(velocityCounts, gearRatio);
         double wheelMPS = (wheelRPM * circumference) / 60;
         return wheelMPS;
     }
@@ -76,5 +76,20 @@ public class EncoderConversions {
 
     public static double MagToDegrees(double magTick) {
         return MagToDegrees(magTick, 1);
+    }
+
+    /**
+     * @param degrees
+     * @param radius  of the wheel that move the system or What that
+     * @return the number of rounds that the system has moved
+     */
+    public static double DegreesToMeters(double degrees, double radius) {
+        double circumference = 2 * Math.PI * radius;
+        return degrees * circumference / 360;
+    }
+
+    public static double metersToDegrees(double distance, double radius) {
+        double circumference = 2 * Math.PI * radius;
+        return distance / circumference * 360;
     }
 }
