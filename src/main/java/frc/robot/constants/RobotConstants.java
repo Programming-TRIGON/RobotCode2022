@@ -111,7 +111,6 @@ public class RobotConstants {
         public static final PIDFTalonSRX MOTOR = IntakeOpenerComponents.MOTOR;
         public static final double GEAR_RATIO = 81;
         public static double OPENED_ANGLE = 97;
-        public static double CLOSED_ANGLE = 0;
         public static double STALL_CURRENT_LIMIT = 20;
     }
 
@@ -119,8 +118,8 @@ public class RobotConstants {
         public static final TrigonTalonSRX MOTOR = PitcherComponents.MOTOR;
         public static final double GEAR_RATIO = 10;
         public static final double STALL_CURRENT_LIMIT = 20;
-        public static double OPEN_ANGLE = 70;
-        public static double CLOSED_ANGLE = 0;
+        public static double OPEN_ANGLE = 50;
+        public static double CLOSED_ANGLE = 70;
         //TODO: TO SET ANGLES
     }
 }

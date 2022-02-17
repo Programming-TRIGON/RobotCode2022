@@ -18,7 +18,7 @@ public class PitcherSS implements TestableSubsystem {
     /**
      * @param power to be applied to the motors
      */
-@Override
+    @Override
     public void move(double power) {
         motor.set(power);
     }

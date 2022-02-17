@@ -38,7 +38,7 @@ public class IntakeOpenerSS extends OverridableSubsystem {
      */
     public void moveToAngle(double degree) {
         degree = EncoderConversions.degreesToMag(
-                MathUtil.clamp(degree, RobotConstants.IntakeOpenerConstants.CLOSED_ANGLE, RobotConstants.IntakeOpenerConstants.OPENED_ANGLE),
+                MathUtil.clamp(degree, 0, RobotConstants.IntakeOpenerConstants.OPENED_ANGLE),
                 RobotConstants.IntakeOpenerConstants.GEAR_RATIO);
         motor.set(ControlMode.Position, degree);
     }
@@ -54,7 +54,7 @@ public class IntakeOpenerSS extends OverridableSubsystem {
      * @return if the intake is currently in the closed position
      */
     public boolean isClosed() {
-        return getAngle() <= IntakeOpenerConstants.CLOSED_ANGLE;
+        return getAngle() <= 0;
     }
 
     /**
