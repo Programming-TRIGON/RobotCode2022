@@ -5,9 +5,11 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
 import frc.robot.components.TrigonTalonFX;
+import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotComponents.*;
 import frc.robot.utilities.JsonHandler;
 import frc.robot.utilities.pid.PIDCoefs;
+import frc.robot.utilities.pid.PIDFTalonSRX;
 
 /**
  * All the constants to be uses for the robot
@@ -104,4 +106,24 @@ public class RobotConstants {
         public static final TrigonTalonFX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
         public static final TrigonTalonFX LEFT_MOTOR = ShooterComponents.LEFT_MOTOR;
     }
+
+    public static class TransporterConstants {
+        public static final TrigonTalonSRX MOTOR = TransporterComponents.MOTOR;
+        public static final int STALL_CURRENT_LIMIT = 20;
+    }
+
+    public static class IntakeConstants {
+        public static final TrigonTalonSRX MOTOR = IntakeComponents.MOTOR;
+        public static double STALL_CURRENT_LIMIT = 20;
+    }
+
+    public static class IntakeOpenerConstants {
+        public static final PIDFTalonSRX MOTOR = IntakeOpenerComponents.MOTOR;
+        public static final double GEAR_RATIO = 81;
+        public static double OPENED_ANGLE = 97;
+        public static double CLOSED_ANGLE = 0;
+        public static double STALL_CURRENT_LIMIT = 20;
+    }
 }
+
+

@@ -34,6 +34,10 @@ public class RobotMap {
             public static final int RIGHT_MOTOR_ID = 2;
             public static final int LEFT_MOTOR_ID = 3;
         }
+
+        public static class MOTOR_ID {
+            public static final int INTAKE_OPENER_MOTOR_ID = 3;
+        }
     }
 
     protected static class PCM {

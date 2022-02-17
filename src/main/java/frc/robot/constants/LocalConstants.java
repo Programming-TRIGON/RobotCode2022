@@ -11,6 +11,8 @@ public class LocalConstants {
     public LocalSwerveConstants localSwerveConstants;
     @SerializedName("Shooter")
     public LocalShooterConstants localShooterConstants;
+    @SerializedName("IntakeOpener")
+    public LocalIntakeOpenerConstants localIntakeOpenerConstants;
 
     public LocalConstants() {
         localDriverConstants = new LocalDriverConstants();
@@ -24,6 +26,14 @@ public class LocalConstants {
 
     public static class LocalDriverConstants {
         int drivingSpeedDivider;
+    }
+
+    public static class LocalIntakeOpenerConstants {
+        PIDFCoefs pidfCoefs;
+
+        public LocalIntakeOpenerConstants() {
+            pidfCoefs = new PIDFCoefs();
+        }
     }
 
     public static class LocalSwerveConstants {
