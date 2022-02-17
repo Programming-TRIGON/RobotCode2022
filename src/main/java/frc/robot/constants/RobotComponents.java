@@ -96,6 +96,10 @@ public class RobotComponents {
                 LOCAL_SWERVE_MODULES.rearRightModuleConstants.driveCoefs));
     }
 
+    protected static class TransporterComponents {
+        public static final TrigonTalonSRX MOTOR = SwerveComponents.FRONT_RIGHT_ENCODER;
+    }
+
     protected static class IntakeComponents {
         public static TrigonTalonSRX MOTOR = SwerveComponents.FRONT_LEFT_ENCODER;
     }
