@@ -120,5 +120,9 @@ public class RobotConstants {
         public static double CLOSED_ANGLE = 0;
         public static double STALL_CURRENT_LIMIT = 20;
     }
+
+    public static class LoaderConstants {
+        public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
+    }
 }
 

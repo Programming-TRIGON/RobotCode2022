@@ -114,4 +114,13 @@ public class RobotComponents {
         public static PIDFTalonSRX MOTOR = new PIDFTalonSRX(
                 CAN.MOTOR_ID.INTAKE_OPENER_MOTOR_ID, INTAKE_OPENER_MOTOR_CONFIG);
     }
+
+    protected static class LoaderComponents {
+        private static final MotorConfig MOTOR_CONFIG = new MotorConfig().
+                brake().
+                withOpenLoopRampRate(0.5).
+                withClosedLoopRampRate(0.5);
+
+        public static final PIDFTalonSRX MOTOR = new PIDFTalonSRX(CAN.Loader.MOTOR_ID, MOTOR_CONFIG);
+    }
 }
