@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
-import frc.robot.components.TrigonTalonFX;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotMap.*;
 import frc.robot.utilities.MotorConfig;
@@ -99,11 +98,14 @@ public class RobotComponents {
 
     protected static class ShooterComponents {
         // TODO: Set correct MotorConfig
-        private static final MotorConfig MOTOR_CONFIG = new MotorConfig()
-                .withOpenLoopRampRate(3).withClosedLoopRampRate(3);
-        public static final TrigonTalonFX RIGHT_MOTOR = new TrigonTalonFX(CAN.Shooter.RIGHT_MOTOR_ID, MOTOR_CONFIG);
-        public static final TrigonTalonFX LEFT_MOTOR = new TrigonTalonFX(
-                CAN.Shooter.LEFT_MOTOR_ID, new MotorConfig(MOTOR_CONFIG).inverted(true));
+        public static final PIDFTalonFX RIGHT_MOTOR = new PIDFTalonFX(
+                CAN.Shooter.RIGHT_MOTOR_ID, new MotorConfig()
+                .withPID(RobotConstants.LOCAL_CONSTANTS.localShooterConstants.pidfCoefs)
+                .withOpenLoopRampRate(3).withClosedLoopRampRate(3));
+        public static final PIDFTalonFX LEFT_MOTOR = new PIDFTalonFX(
+                CAN.Shooter.LEFT_MOTOR_ID, new MotorConfig()
+                .withPID(RobotConstants.LOCAL_CONSTANTS.localShooterConstants.pidfCoefs)
+                .withOpenLoopRampRate(3).withClosedLoopRampRate(3).inverted(true));
     }
 
     protected static class TransporterComponents {

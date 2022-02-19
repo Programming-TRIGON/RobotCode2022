@@ -1,5 +1,6 @@
 package frc.robot.subsystems.shooter;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.TrigonTalonFX;
 import frc.robot.constants.RobotConstants.ShooterConstants;
@@ -26,15 +27,14 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
      * @return the velocity of the motors in RPM
      */
     public double getVelocityRPM() {
-        // timesed by 600 to convert to minutes and divided by 2048 to convert to revolutions
         return EncoderConversions.falconToRPM(masterMotor.getSelectedSensorVelocity());
     }
 
-    public void setRampRate(double rampRate) {
-        ShooterConstants.RIGHT_MOTOR.configClosedloopRamp(rampRate);
-        ShooterConstants.LEFT_MOTOR.configClosedloopRamp(rampRate);
-        ShooterConstants.RIGHT_MOTOR.configOpenloopRamp(rampRate);
-        ShooterConstants.LEFT_MOTOR.configOpenloopRamp(rampRate);
+    /**
+     * @param velocityRPM to be set to the motors
+     */
+    public void setVelocityRPM(double velocityRPM) {
+        masterMotor.set(ControlMode.Velocity, EncoderConversions.RPMToFalcon(velocityRPM));
     }
 
     /**
