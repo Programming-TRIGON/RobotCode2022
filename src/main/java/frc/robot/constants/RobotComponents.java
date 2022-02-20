@@ -144,7 +144,7 @@ public class RobotComponents {
                 brake().
                 withOpenLoopRampRate(0.5).
                 withClosedLoopRampRate(0.5);
-
-        public static final PIDFTalonSRX MOTOR = new PIDFTalonSRX(CAN.Loader.MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
+        public static final PIDFTalonSRX MOTOR = new PIDFTalonSRX(
+                CAN.Loader.MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
     }
 }

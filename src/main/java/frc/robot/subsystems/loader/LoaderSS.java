@@ -8,7 +8,6 @@ import frc.robot.utilities.pid.PIDFTalonFX;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 
 public class LoaderSS extends SubsystemBase implements TestableSubsystem {
-
     private final PIDFTalonSRX motor;
 
     public LoaderSS() {
