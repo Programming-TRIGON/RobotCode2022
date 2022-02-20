@@ -41,8 +41,6 @@ public class RobotMap {
 
     protected static class DIO {
         public static class Climber {
-            public static final int LEFT_SWITCH_CHANNEL = 0;
-            public static final int RIGHT_SWITCH_CHANNEL = 1;
         }
     }
 

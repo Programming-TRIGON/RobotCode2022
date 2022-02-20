@@ -79,7 +79,7 @@ public class EncoderConversions {
     }
 
     /**
-     * @param degrees
+     * @param degrees the degrees of the circle (wheel)
      * @param radius  of the wheel that move the system or What that
      * @return the number of rounds that the system has moved
      */
@@ -88,6 +88,11 @@ public class EncoderConversions {
         return degrees * circumference / 360;
     }
 
+    /**
+     * @param distance the distance that the object has passed (in meters)
+     * @param radius   the radius of the circle (wheel)
+     * @return the degrees of this distance
+     */
     public static double metersToDegrees(double distance, double radius) {
         double circumference = 2 * Math.PI * radius;
         return distance / circumference * 360;

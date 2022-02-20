@@ -1,9 +1,7 @@
 package frc.robot.constants;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
 import frc.robot.components.TrigonTalonSRX;
@@ -107,8 +105,6 @@ public class RobotConstants {
     public static class ClimberConstants {
         public static final PIDFTalonFX RIGHT_MOTOR = ClimberComponents.RIGHT_MOTOR;
         public static final PIDFTalonFX LEFT_MOTOR = ClimberComponents.LEFT_MOTOR;
-        public static final DigitalInput RIGHT_DIGITAL_INPUT = ClimberComponents.RIGHT_SWITCH;
-        public static final DigitalInput LEFT_DIGITAL_INPUT = ClimberComponents.LEFT_SWITCH;
         public static final int MAX_POSITION = 7000;
     }
 
