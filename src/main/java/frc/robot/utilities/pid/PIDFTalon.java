@@ -2,7 +2,6 @@ package frc.robot.utilities.pid;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
-import edu.wpi.first.util.sendable.SendableBuilder;
 import frc.robot.utilities.ConfigurableTalon;
 
 public interface PIDFTalon extends ConfigurableTalon, PIDFMotor {
@@ -21,20 +20,18 @@ public interface PIDFTalon extends ConfigurableTalon, PIDFMotor {
 
     void setPIDFCoefs(PIDFCoefs coefs);
 
-    default void tunePIDF(ControlMode controlMode) {
-        set(controlMode, getTuningSetpoint(), DemandType.ArbitraryFeedForward, getCoefs().getKS());
-    }
-
-    double getTuningSetpoint();
-
-    default void setWithF(ControlMode controlMode, double setpoint) {
-        set(controlMode, setpoint, DemandType.ArbitraryFeedForward, getCoefs().getKS());
+    default void setSetpoint(double setpoint, boolean isTuning) {
+        // If we're tuning and the setpoint is not the tuning setpoint, then we ignore and don't change the setpoint
+        if(isTuning() && !isTuning)
+            return;
+        set(getControlMode(), setpoint, DemandType.ArbitraryFeedForward, getCoefs().getKS());
     }
 
     double getClosedLoopTarget();
 
     default double getSetpoint() {
-        return isTuning() ? getTuningSetpoint() : getClosedLoopTarget();
+        boolean closedLoop = getControlMode() == ControlMode.Position || getControlMode() == ControlMode.Velocity;
+        return closedLoop ? getClosedLoopTarget() : 0;
     }
 
     boolean isTuning();
@@ -72,16 +69,7 @@ public interface PIDFTalon extends ConfigurableTalon, PIDFMotor {
         //  This does nothing
     }
 
-    void stopMotor();
-
     double get();
 
     void set(double value);
-
-    @Override
-    default void initSendable(SendableBuilder builder) {
-        PIDFMotor.super.initSendable(builder);
-        builder.setSafeState(this::stopMotor);
-        builder.addDoubleProperty("Percentage Value", this::get, this::set);
-    }
 }

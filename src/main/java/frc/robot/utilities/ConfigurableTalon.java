@@ -1,7 +1,10 @@
 package frc.robot.utilities;
 
 import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.motorcontrol.*;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.IMotorController;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import frc.robot.constants.RobotConstants;
 
 public interface ConfigurableTalon extends IMotorController {
@@ -15,9 +18,15 @@ public interface ConfigurableTalon extends IMotorController {
         ce_configClosedloopRamp(motorConfig.getClosedLoopRampRate());
         ce_configVoltageCompSaturation(motorConfig.getVoltageCompSaturation());
         ce_configSupplyCurrentLimit(motorConfig.getCurrentLimitConfig());
-        ce_configSelectedFeedbackSensor(motorConfig.getFeedbackDevice());
+        ce_configSelectedFeedbackSensor(motorConfig.getPrimaryFeedbackDevice(), 0);
+        ce_configSelectedFeedbackSensor(motorConfig.getSecondaryFeedbackDevice(), 1);
         ce_configRemoteFeedbackFilter(
-                motorConfig.getRemoteSensorSourceDeviceId(), motorConfig.getRemoteSensorSourceType());
+                motorConfig.getRemoteSensorSource0DeviceId(),
+                motorConfig.getRemoteSensorSource0Type(), 0);
+        ce_configRemoteFeedbackFilter(
+                motorConfig.getRemoteSensorSource1DeviceId(),
+                motorConfig.getRemoteSensorSource1Type(),
+                1);
         ce_config_kP(0, motorConfig.getCoefs().getKP());
         ce_config_kI(0, motorConfig.getCoefs().getKI());
         ce_config_kD(0, motorConfig.getCoefs().getKD());
@@ -77,10 +86,13 @@ public interface ConfigurableTalon extends IMotorController {
                 RobotConstants.DEFAULT_CAN_TIMEOUT));
     }
 
+    ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs);
+
     default ErrorCode ce_configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx) {
         return CTREUtil.checkError(
                 () -> configSelectedFeedbackSensor(
-                        RemoteFeedbackDevice.valueOf(feedbackDevice.value), pidIdx,
+                        feedbackDevice,
+                        pidIdx,
                         RobotConstants.DEFAULT_CAN_TIMEOUT));
     }
 

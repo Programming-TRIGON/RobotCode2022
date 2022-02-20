@@ -1,5 +1,7 @@
 package frc.robot.utilities.pid;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
+
 public class TrigonPIDFController extends TrigonPIDController implements PIDFConfigurable {
     private final PIDFCoefs pidfCoefs;
 
@@ -41,5 +43,10 @@ public class TrigonPIDFController extends TrigonPIDController implements PIDFCon
     @Override
     public PIDFCoefs getCoefs() {
         return pidfCoefs;
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        PIDFConfigurable.super.initSendable(builder);
     }
 }

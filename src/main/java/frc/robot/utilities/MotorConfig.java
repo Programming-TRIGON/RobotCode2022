@@ -19,9 +19,12 @@ public class MotorConfig {
     private NeutralMode neutralMode;
     private double voltageCompSaturation;
     private SupplyCurrentLimitConfiguration currentLimitConfig;
-    private FeedbackDevice feedbackDevice;
-    private RemoteSensorSource remoteSensorSourceType;
-    private int remoteSensorSourceDeviceId;
+    private FeedbackDevice primaryFeedbackDevice;
+    private FeedbackDevice secondaryFeedbackDevice;
+    private RemoteSensorSource remoteSensorSource0Type;
+    private RemoteSensorSource remoteSensorSource1Type;
+    private int remoteSensorSource0DeviceId;
+    private int remoteSensorSource1DeviceId;
     private PIDFCoefs coefs;
 
     /**
@@ -36,9 +39,12 @@ public class MotorConfig {
         neutralMode = NeutralMode.Coast;
         voltageCompSaturation = 0;
         currentLimitConfig = new SupplyCurrentLimitConfiguration();
-        feedbackDevice = FeedbackDevice.None;
-        remoteSensorSourceType = RemoteSensorSource.Off;
-        remoteSensorSourceDeviceId = 0;
+        primaryFeedbackDevice = FeedbackDevice.IntegratedSensor;
+        secondaryFeedbackDevice = FeedbackDevice.None;
+        remoteSensorSource0Type = RemoteSensorSource.Off;
+        remoteSensorSource1Type = RemoteSensorSource.Off;
+        remoteSensorSource0DeviceId = 0;
+        remoteSensorSource1DeviceId = 0;
         coefs = new PIDFCoefs();
     }
 
@@ -54,9 +60,12 @@ public class MotorConfig {
         neutralMode = config.getNeutralMode();
         voltageCompSaturation = config.getVoltageCompSaturation();
         currentLimitConfig = config.getCurrentLimitConfig();
-        feedbackDevice = config.getFeedbackDevice();
-        remoteSensorSourceType = config.getRemoteSensorSourceType();
-        remoteSensorSourceDeviceId = config.getRemoteSensorSourceDeviceId();
+        primaryFeedbackDevice = config.getPrimaryFeedbackDevice();
+        secondaryFeedbackDevice = config.getSecondaryFeedbackDevice();
+        remoteSensorSource0Type = config.getRemoteSensorSource0Type();
+        remoteSensorSource1Type = config.getRemoteSensorSource1Type();
+        remoteSensorSource0DeviceId = config.getRemoteSensorSource0DeviceId();
+        remoteSensorSource1DeviceId = config.getRemoteSensorSource1DeviceId();
         coefs = config.getCoefs();
     }
 
@@ -92,20 +101,32 @@ public class MotorConfig {
         return currentLimitConfig;
     }
 
-    public FeedbackDevice getFeedbackDevice() {
-        return feedbackDevice;
+    public FeedbackDevice getPrimaryFeedbackDevice() {
+        return primaryFeedbackDevice;
     }
 
-    public RemoteSensorSource getRemoteSensorSourceType() {
-        return remoteSensorSourceType;
+    public FeedbackDevice getSecondaryFeedbackDevice() {
+        return secondaryFeedbackDevice;
+    }
+
+    public RemoteSensorSource getRemoteSensorSource0Type() {
+        return remoteSensorSource0Type;
+    }
+
+    public RemoteSensorSource getRemoteSensorSource1Type() {
+        return remoteSensorSource1Type;
+    }
+
+    public int getRemoteSensorSource0DeviceId() {
+        return remoteSensorSource0DeviceId;
+    }
+
+    public int getRemoteSensorSource1DeviceId() {
+        return remoteSensorSource1DeviceId;
     }
 
     public PIDFCoefs getCoefs() {
         return coefs;
-    }
-
-    public int getRemoteSensorSourceDeviceId() {
-        return remoteSensorSourceDeviceId;
     }
 
     /**
@@ -226,24 +247,55 @@ public class MotorConfig {
      * This is the sensor that the motor controller will use to report speed and position.
      *
      * @param feedbackDevice The feedback device
+     * @param pidIdx         The PID slot.
      */
-    public MotorConfig withFeedbackDevice(FeedbackDevice feedbackDevice) {
-        this.feedbackDevice = feedbackDevice;
+    public MotorConfig withFeedbackDevice(FeedbackDevice feedbackDevice, int pidIdx) {
+        if(pidIdx == 0)
+            primaryFeedbackDevice = feedbackDevice;
+        else
+            secondaryFeedbackDevice = feedbackDevice;
         return this;
     }
 
     /**
-     * Chain setter for the remote sensor source type.
-     * This determines the type of sensor that is connected to the remote slot.
+     * Chain setter for the primary feedback device.
+     * This is the sensor that the motor controller will use to report speed and position.
      *
-     * @param remoteSensorSourceType     The remote sensor source type
+     * @param feedbackDevice The feedback device
+     */
+    public MotorConfig withPrimaryFeedbackDevice(FeedbackDevice feedbackDevice) {
+        primaryFeedbackDevice = feedbackDevice;
+        return this;
+    }
+
+    /**
+     * Chain setter for the secondary feedback device.
+     * This is the sensor that the motor controller will use to report speed and position.
+     *
+     * @param feedbackDevice The feedback device
+     */
+    public MotorConfig withSecondaryFeedbackDevice(FeedbackDevice feedbackDevice) {
+        secondaryFeedbackDevice = feedbackDevice;
+        return this;
+    }
+
+    /**
+     * Chain setter for the remote sensor source.
+     * This determines the type and id of the sensor that is connected to the remote slot.
+     *
      * @param remoteSensorSourceDeviceId The remote sensor source device ID
+     * @param remoteSensorSourceType     The remote sensor source type
+     * @param slot                       The slot (0 or 1)
      */
     public MotorConfig withRemoteSensorSource(
-            int remoteSensorSourceDeviceId,
-            RemoteSensorSource remoteSensorSourceType) {
-        this.remoteSensorSourceDeviceId = remoteSensorSourceDeviceId;
-        this.remoteSensorSourceType = remoteSensorSourceType;
+            int remoteSensorSourceDeviceId, RemoteSensorSource remoteSensorSourceType, int slot) {
+        if(slot == 0) {
+            remoteSensorSource0DeviceId = remoteSensorSourceDeviceId;
+            remoteSensorSource0Type = remoteSensorSourceType;
+        } else {
+            remoteSensorSource1DeviceId = remoteSensorSourceDeviceId;
+            remoteSensorSource1Type = remoteSensorSourceType;
+        }
         return this;
     }
 }
