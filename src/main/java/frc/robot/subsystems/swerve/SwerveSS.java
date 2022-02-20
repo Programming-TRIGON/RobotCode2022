@@ -134,7 +134,7 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
     }
 
     /**
-     * Returns the current angle of the robot
+     * Returns the current angle of the robot, CCW+
      *
      * @return the current angle of the robot
      */

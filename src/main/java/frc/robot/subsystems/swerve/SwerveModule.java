@@ -55,7 +55,7 @@ public class SwerveModule implements Sendable {
         double targetSpeed = desiredState.speedMetersPerSecond;
         double delta = targetAngle - currentAngle.getDegrees();
         if(Math.abs(delta) > 90) {
-            targetSpeed = -targetSpeed;
+            targetSpeed *= -1;
             targetAngle -= delta > 90 ? 180 : -180;
         }
         return new SwerveModuleState(targetSpeed, Rotation2d.fromDegrees(targetAngle));

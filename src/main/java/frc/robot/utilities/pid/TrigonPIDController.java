@@ -14,6 +14,7 @@ public class TrigonPIDController extends PIDController implements PIDConfigurabl
         isTuning = false;
     }
 
+    @Override
     public void setSetpoint(double setpoint, boolean isTuning) {
         // If the controller is tuning, and whatever called the function
         // has nothing to do with tuning, we ignore the calling.
