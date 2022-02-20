@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.components.TrigonXboxController;
@@ -27,11 +29,15 @@ public class RobotContainer {
      */
     public RobotContainer() {
         dashboardController = new DashboardController();
-        driverXbox = new TrigonXboxController(DriverConstants.XBOX_PORT);
+        driverXbox = new TrigonXboxController(
+                DriverConstants.XBOX_PORT,
+                DriverConstants.CONTROLLER_DEADBAND,
+                DriverConstants.SQUARED_CONTROLLER_DRIVING);
 
         initializeSubsystems();
         initializeCommands();
         bindCommands();
+        putData();
     }
 
     /**
@@ -47,12 +53,11 @@ public class RobotContainer {
      * initializes all commands
      */
     private void initializeCommands() {
-        boolean squared = DriverConstants.SQUARED_CONTROLLER_DRIVING;
         driveWithXboxCMD = new SupplierDriveCMD(
                 swerveSS,
-                squared ? () -> Math.pow(driverXbox.getLeftX(), 2) : driverXbox::getLeftX,
-                squared ? () -> Math.pow(driverXbox.getLeftY(), 2) : driverXbox::getLeftY,
-                squared ? () -> Math.pow(driverXbox.getRightX(), 2) : driverXbox::getRightX,
+                driverXbox::getLeftX,
+                driverXbox::getLeftY,
+                driverXbox::getRightX,
                 true);
     }
 
@@ -61,7 +66,15 @@ public class RobotContainer {
         driverXbox.getYBtn().whenPressed(new InstantCommand(() -> swerveSS.resetGyro()));
     }
 
+    /**
+     * Puts the subsystems and commands in the dashboard
+     */
+    private void putData() {
+        SmartDashboard.putData("Swerve", swerveSS);
+    }
+
     public void periodic() {
+        CommandScheduler.getInstance().run();
         dashboardController.update();
     }
 }
