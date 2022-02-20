@@ -8,7 +8,7 @@ import frc.robot.utilities.pid.PIDFTalonFX;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 
 public class LoaderSS extends SubsystemBase implements TestableSubsystem {
-    // TODO: Set an ENABLE method, and make a motor instance.
+
     private final PIDFTalonSRX motor;
 
     public LoaderSS() {
@@ -20,11 +20,11 @@ public class LoaderSS extends SubsystemBase implements TestableSubsystem {
         motor.set(power);
     }
 
-    public void setVelocity(double velocity){
-        motor.setSetpoint();
+    public void setVelocity(double velocity) {
+        motor.setSetpoint(velocity);
     }
 
-    public double getVelocity(){
+    public double getVelocity() {
         return motor.getSelectedSensorVelocity();
     }
 
