@@ -141,4 +141,13 @@ public class RobotComponents {
                 INTAKE_OPENER_MOTOR_CONFIG,
                 ControlMode.Position);
     }
+
+    protected static class LoaderComponents {
+        private static final MotorConfig MOTOR_CONFIG = new MotorConfig().
+                brake().
+                withOpenLoopRampRate(0.5).
+                withClosedLoopRampRate(0.5);
+        public static final PIDFTalonSRX MOTOR = new PIDFTalonSRX(
+                CAN.Loader.MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
+    }
 }
