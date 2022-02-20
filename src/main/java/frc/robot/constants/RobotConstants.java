@@ -1,14 +1,17 @@
 package frc.robot.constants;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
-import frc.robot.constants.RobotComponents.LEDComponents;
-import frc.robot.constants.RobotComponents.SwerveComponents;
+import frc.robot.components.TrigonTalonSRX;
+import frc.robot.constants.RobotComponents.*;
 import frc.robot.utilities.JsonHandler;
 import frc.robot.utilities.Module;
 import frc.robot.utilities.pid.PIDCoefs;
+import frc.robot.utilities.pid.PIDFTalonSRX;
 
 /**
  * All the constants to be uses for the robot
@@ -105,4 +108,23 @@ public class RobotConstants {
         public static final double RUMBLE_INTERMISSION_TIME = 0.15;
         public static final double CONTROLLER_DEADBAND = 0.1;
     }
+
+    public static class TransporterConstants {
+        public static final TrigonTalonSRX MOTOR = TransporterComponents.MOTOR;
+        public static final int STALL_CURRENT_LIMIT = 20;
+    }
+
+    public static class IntakeConstants {
+        public static final TrigonTalonSRX MOTOR = IntakeComponents.MOTOR;
+        public static double STALL_CURRENT_LIMIT = 20;
+    }
+
+    public static class IntakeOpenerConstants {
+        public static final PIDFTalonSRX MOTOR = IntakeOpenerComponents.MOTOR;
+        public static final double GEAR_RATIO = 81;
+        public static double OPENED_ANGLE = 97;
+        public static double CLOSED_ANGLE = 0;
+        public static double STALL_CURRENT_LIMIT = 20;
+    }
 }
+

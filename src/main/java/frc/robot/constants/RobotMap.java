@@ -29,6 +29,10 @@ public class RobotMap {
             public static final int REAR_RIGHT_ANGLE_MOTOR_ID = 5;
             public static final int REAR_RIGHT_ANGLE_ENCODER_ID = 10;
         }
+
+        public static class MOTOR_ID {
+            public static final int INTAKE_OPENER_MOTOR_ID = 3;
+        }
     }
 
     protected static class PCM {
