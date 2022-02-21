@@ -39,7 +39,7 @@ public class PitcherSS implements TestableSubsystem {
      */
     public void setAngle(double degree) {
         degree = EncoderConversions.degreesToMag(
-                MathUtil.clamp(degree, PitcherConstants.CLOSED_ANGLE, PitcherConstants.OPEN_ANGLE),
+                MathUtil.clamp(degree, PitcherConstants.OPEN_ANGLE, PitcherConstants.CLOSED_ANGLE),
                 PitcherConstants.GEAR_RATIO);
         motor.set(ControlMode.Position, degree);
     }

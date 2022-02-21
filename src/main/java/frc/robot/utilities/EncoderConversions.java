@@ -78,6 +78,10 @@ public class EncoderConversions {
         return magToDegrees(magTick, 1);
     }
 
+    /**
+     * @param degrees the angle wanted to convert to ticks
+     * @return the angle as ticks
+     */
     public static double degreesToMag(double degrees, double gearRatio) {
         return degrees * 4096f / 360 * gearRatio;
     }

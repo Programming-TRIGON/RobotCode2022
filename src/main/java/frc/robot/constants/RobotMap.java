@@ -31,11 +31,11 @@ public class RobotMap {
         }
 
         public static class IntakeOpener {
-            public static final int INTAKE_OPENER_MOTOR_ID = 3;
+            public static final int MOTOR_ID = 3;
         }
 
         public static class Pitcher {
-            public static final int PITCHER_MOTOR_ID = 12;
+            public static final int MOTOR_ID = 12;
         }
     }
 
