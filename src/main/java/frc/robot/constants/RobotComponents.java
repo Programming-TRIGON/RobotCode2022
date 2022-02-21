@@ -118,7 +118,7 @@ public class RobotComponents {
     protected static class PitcherComponents {
         private static final MotorConfig MOTOR_CONFIG = new MotorConfig().
                 brake().
-                inverted(true).
+                inverted(false).
                 withOpenLoopRampRate(0.4).
                 withClosedLoopRampRate(0.4).
                 withPID(RobotConstants.LOCAL_CONSTANTS.localPitcherConstants.pidfCoefs);

@@ -1,5 +1,7 @@
 package frc.robot.utilities;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
+
 public class EncoderConversions {
 
     /**
@@ -68,6 +70,7 @@ public class EncoderConversions {
 
     /**
      * @param magTicks the ticks from the mag sensor
+     * @param gearRatio the gear ratio between mag and Mechanism (set 1 as default)
      * @return the angle in degrees
      */
     public static double magToDegrees(double magTicks, double gearRatio) {
@@ -79,8 +82,9 @@ public class EncoderConversions {
     }
 
     /**
-     * @param degrees the angle wanted to convert to ticks
-     * @return the angle as ticks
+     * @param degrees angle of the wheel or gear in degrees
+     * @param gearRatio Gear Ratio between Mag and Mechanism (set to 1 for Mag RPM)
+     * @return the angle of the Mag in ticks
      */
     public static double degreesToMag(double degrees, double gearRatio) {
         return degrees * 4096f / 360 * gearRatio;
