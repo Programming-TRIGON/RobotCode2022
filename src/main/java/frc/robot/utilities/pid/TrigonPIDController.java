@@ -1,6 +1,7 @@
 package frc.robot.utilities.pid;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.util.sendable.SendableBuilder;
 
 public class TrigonPIDController extends PIDController implements PIDConfigurable {
     private final PIDCoefs pidCoefs;
@@ -11,6 +12,19 @@ public class TrigonPIDController extends PIDController implements PIDConfigurabl
         super.setTolerance(pidCoefs.getTolerance(), pidCoefs.getDeltaTolerance());
         this.pidCoefs = pidCoefs;
         isTuning = false;
+    }
+
+    @Override
+    public void setSetpoint(double setpoint, boolean isTuning) {
+        // If the controller is tuning, and whatever called the function
+        // has nothing to do with tuning, we ignore the calling.
+        if(isTuning() && !isTuning)
+            return;
+        super.setSetpoint(setpoint);
+    }
+
+    public void setSetpoint(double setpoint) {
+        setSetpoint(setpoint, false);
     }
 
     @Override
@@ -56,5 +70,10 @@ public class TrigonPIDController extends PIDController implements PIDConfigurabl
     public void setDeltaTolerance(double deltaTolerance) {
         pidCoefs.setDeltaTolerance(deltaTolerance);
         super.setTolerance(pidCoefs.getTolerance(), deltaTolerance);
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        PIDConfigurable.super.initSendable(builder);
     }
 }

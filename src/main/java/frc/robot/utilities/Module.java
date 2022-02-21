@@ -1,6 +1,6 @@
 package frc.robot.utilities;
 
-public enum Modules {
+public enum Module {
     FRONT_LEFT(0, "Front Left"),
     FRONT_RIGHT(1, "Front Right"),
     REAR_LEFT(2, "Rear Left"),
@@ -9,7 +9,7 @@ public enum Modules {
     private final int id;
     private final String name;
 
-    Modules(int id, String name) {
+    Module(int id, String name) {
         this.id = id;
         this.name = name;
     }

@@ -21,8 +21,9 @@ public interface PIDFConfigurable extends PIDConfigurable {
 
     @Override
     default void initSendable(SendableBuilder builder) {
+        PIDConfigurable.super.initSendable(builder);
+        builder.setSmartDashboardType("PIDFConfigurable");
         builder.addDoubleProperty("s", this::getKS, kS -> setKS(isTuning() ? kS : getKS()));
         builder.addDoubleProperty("v", this::getKV, kV -> setKV(isTuning() ? kV : getKV()));
-        PIDConfigurable.super.initSendable(builder);
     }
 }

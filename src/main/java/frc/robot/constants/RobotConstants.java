@@ -1,13 +1,17 @@
 package frc.robot.constants;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
-import frc.robot.constants.RobotComponents.LEDComponents;
-import frc.robot.constants.RobotComponents.SwerveComponents;
+import frc.robot.components.TrigonTalonSRX;
+import frc.robot.constants.RobotComponents.*;
 import frc.robot.utilities.JsonHandler;
+import frc.robot.utilities.Module;
 import frc.robot.utilities.pid.PIDCoefs;
+import frc.robot.utilities.pid.PIDFTalonSRX;
 
 /**
  * All the constants to be uses for the robot
@@ -61,31 +65,35 @@ public class RobotConstants {
         public static final double MAX_ANGULAR_VELOCITY = 11.5;
 
         public static final SwerveModuleConstants FRONT_LEFT_CONSTANTS = new SwerveModuleConstants(
-                SwerveComponents.FRONT_LEFT_ANGLE_MOTOR,
-                SwerveComponents.FRONT_LEFT_DRIVE_MOTOR,
-                SwerveComponents.FRONT_LEFT_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.frontLeftModuleConstants.encoderOffset
+                SwerveComponents.FrontLeft.ANGLE_MOTOR,
+                SwerveComponents.FrontLeft.DRIVE_MOTOR,
+                SwerveComponents.FrontLeft.ANGLE_ENCODER,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.frontLeftModuleConstants.encoderOffset,
+                Module.FRONT_LEFT
         );
 
         public static final SwerveModuleConstants FRONT_RIGHT_CONSTANTS = new SwerveModuleConstants(
-                SwerveComponents.FRONT_RIGHT_ANGLE_MOTOR,
-                SwerveComponents.FRONT_RIGHT_DRIVE_MOTOR,
-                SwerveComponents.FRONT_RIGHT_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.frontRightModuleConstants.encoderOffset
+                SwerveComponents.FrontRight.ANGLE_MOTOR,
+                SwerveComponents.FrontRight.DRIVE_MOTOR,
+                SwerveComponents.FrontRight.ANGLE_ENCODER,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.frontRightModuleConstants.encoderOffset,
+                Module.FRONT_RIGHT
         );
 
         public static final SwerveModuleConstants REAR_LEFT_CONSTANTS = new SwerveModuleConstants(
-                SwerveComponents.REAR_LEFT_ANGLE_MOTOR,
-                SwerveComponents.REAR_LEFT_DRIVE_MOTOR,
-                SwerveComponents.REAR_LEFT_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.rearLeftModuleConstants.encoderOffset
+                SwerveComponents.RearLeft.ANGLE_MOTOR,
+                SwerveComponents.RearLeft.DRIVE_MOTOR,
+                SwerveComponents.RearLeft.ANGLE_ENCODER,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.rearLeftModuleConstants.encoderOffset,
+                Module.REAR_LEFT
         );
 
         public static final SwerveModuleConstants REAR_RIGHT_CONSTANTS = new SwerveModuleConstants(
-                SwerveComponents.REAR_RIGHT_ANGLE_MOTOR,
-                SwerveComponents.REAR_RIGHT_DRIVE_MOTOR,
-                SwerveComponents.REAR_RIGHT_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.rearRightModuleConstants.encoderOffset
+                SwerveComponents.RearRight.ANGLE_MOTOR,
+                SwerveComponents.RearRight.DRIVE_MOTOR,
+                SwerveComponents.RearRight.ANGLE_ENCODER,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.rearRightModuleConstants.encoderOffset,
+                Module.REAR_RIGHT
         );
 
         public static class CharacterizationConstants {
@@ -106,5 +114,29 @@ public class RobotConstants {
         public static final double DRIVING_SPEED_DIVIDER = LOCAL_CONSTANTS.localDriverConstants.drivingSpeedDivider;
         public static final int XBOX_PORT = 0;
         public static final double RUMBLE_INTERMISSION_TIME = 0.15;
+        public static final double CONTROLLER_DEADBAND = 0.1;
+    }
+
+    public static class TransporterConstants {
+        public static final TrigonTalonSRX MOTOR = TransporterComponents.MOTOR;
+        public static final int STALL_CURRENT_LIMIT = 20;
+    }
+
+    public static class IntakeConstants {
+        public static final TrigonTalonSRX MOTOR = IntakeComponents.MOTOR;
+        public static double STALL_CURRENT_LIMIT = 20;
+    }
+
+    public static class IntakeOpenerConstants {
+        public static final PIDFTalonSRX MOTOR = IntakeOpenerComponents.MOTOR;
+        public static final double GEAR_RATIO = 81;
+        public static double OPENED_ANGLE = 97;
+        public static double CLOSED_ANGLE = 0;
+        public static double STALL_CURRENT_LIMIT = 20;
+    }
+
+    public static class LoaderConstants {
+        public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
     }
 }
+
