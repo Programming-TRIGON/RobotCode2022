@@ -67,7 +67,7 @@ public class EncoderConversions {
     }
 
     /**
-     * @param magTicks  the ticks from the mag sensor
+     * @param magTicks ticks from the mag sensor
      * @param gearRatio Gear Ratio between Mag and Mechanism (set to 1 for Mag RPM)
      * @return the angle in degrees
      */
