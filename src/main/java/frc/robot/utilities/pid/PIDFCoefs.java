@@ -3,10 +3,10 @@ package frc.robot.utilities.pid;
 import com.google.gson.annotations.SerializedName;
 
 public class PIDFCoefs extends PIDCoefs {
-    @SerializedName(value = "kS", alternate = {"s", "S", "KS"})
-    private double KS;
     @SerializedName(value = "kV", alternate = {"v", "V", "KV"})
     private double KV;
+    @SerializedName(value = "kS", alternate = {"s", "S", "KS"})
+    private double KS;
 
     /**
      * @param KP             The Proportional coefficient of the PID loop in this

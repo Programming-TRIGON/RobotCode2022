@@ -96,13 +96,8 @@ public class RobotConstants {
                 Module.REAR_RIGHT
         );
 
-        public static class CharacterizationConstants {
-            public static final double INITIAL_POWER = 0.2;
-            public static final double POWER_INCREMENT = 0.1;
-            public static final int TEST_COUNT = 4;
-            // the amount of length in meters that the robot shall move
-            public static final double TEST_LENGTH = 2;
-        }
+        public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
+                0.2, 0.1, 3, 2);
     }
 
     public static class LedConstants {

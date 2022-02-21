@@ -117,7 +117,7 @@ public class SwerveModule implements Sendable {
                     desiredState.speedMetersPerSecond / SwerveConstants.MAX_SPEED;
             driveMotor.set(
                     ControlMode.PercentOutput,
-                    percentOutput);
+                    percentOutput / RobotConstants.DriverConstants.DRIVING_SPEED_DIVIDER);
         } else {
             /* If we're in closed loop, we want to use the PID controller,
             and we set the drive speed in meters per second  */
@@ -206,6 +206,17 @@ public class SwerveModule implements Sendable {
      */
     public SwerveModuleState getLastDesiredState() {
         return lastDesiredState;
+    }
+
+    /**
+     * sets the feedforward values of the drive motor
+     *
+     * @param kV drive motor velocity gain
+     * @param kS drive motor static gain
+     */
+    public void setsDriveFeedforward(double kV, double kS) {
+        driveMotor.getCoefs().setKV(kV);
+        driveMotor.getCoefs().setKS(kS);
     }
 
     public boolean isTuning() {
