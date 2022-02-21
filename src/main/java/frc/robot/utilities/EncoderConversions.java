@@ -67,14 +67,28 @@ public class EncoderConversions {
     }
 
     /**
-     * @param magTicks the ticks from the mag sensor
+     * @param magTicks  angle of the Mag sensor in ticks
+     * @param gearRatio Gear Ratio between Mag and Mechanism (set to 1 for Mag RPM)
      * @return the angle in degrees
      */
-    public static double MagToDegrees(double magTicks, double gearRatio) {
-        return (magTicks) / 4096f * 360 / gearRatio;
+    public static double magToDegrees(double magTicks, double gearRatio) {
+        return magTicks / 4096f * 360 / gearRatio;
     }
 
-    public static double MagToDegrees(double magTick) {
-        return MagToDegrees(magTick, 1);
+    public static double magToDegrees(double magTick) {
+        return magToDegrees(magTick, 1);
+    }
+
+    /**
+     * @param degrees   angle of the wheel or gear in degrees
+     * @param gearRatio Gear Ratio between Mag and Mechanism (set to 1 for Mag RPM)
+     * @return the angle of the Mag in ticks
+     */
+    public static double degreesToMag(double degrees, double gearRatio) {
+        return degrees * 4096f / 360 * gearRatio;
+    }
+
+    public static double degreesToMag(double degrees) {
+        return degreesToMag(degrees, 1);
     }
 }

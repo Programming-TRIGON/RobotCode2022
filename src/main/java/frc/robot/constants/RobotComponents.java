@@ -130,16 +130,24 @@ public class RobotComponents {
     }
 
     protected static class IntakeOpenerComponents {
-        private static final MotorConfig INTAKE_OPENER_MOTOR_CONFIG = new MotorConfig().
+        private static final MotorConfig MOTOR_CONFIG = new MotorConfig().
                 coast().
                 inverted(true).
                 withOpenLoopRampRate(0.5).
                 withClosedLoopRampRate(0.5).
                 withPID(RobotConstants.LOCAL_CONSTANTS.localIntakeOpenerConstants.pidfCoefs);
         public static PIDFTalonSRX MOTOR = new PIDFTalonSRX(
-                CAN.MOTOR_ID.INTAKE_OPENER_MOTOR_ID,
-                INTAKE_OPENER_MOTOR_CONFIG,
-                ControlMode.Position);
+                CAN.IntakeOpener.MOTOR_ID, MOTOR_CONFIG, ControlMode.Position);
+    }
+
+    protected static class PitcherComponents {
+        private static final MotorConfig MOTOR_CONFIG = new MotorConfig().
+                brake().
+                inverted(false).
+                withOpenLoopRampRate(0.4).
+                withClosedLoopRampRate(0.4).
+                withPID(RobotConstants.LOCAL_CONSTANTS.localPitcherConstants.pidfCoefs);
+        public static PIDFTalonSRX MOTOR = new PIDFTalonSRX(CAN.Pitcher.MOTOR_ID, MOTOR_CONFIG, ControlMode.Position);
     }
 
     protected static class LoaderComponents {
