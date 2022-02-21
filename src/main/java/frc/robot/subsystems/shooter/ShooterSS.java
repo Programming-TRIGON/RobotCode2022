@@ -12,8 +12,8 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
 
     public ShooterSS() {
         masterMotor = ShooterConstants.LEFT_MOTOR;
-        ShooterConstants.RIGHT_MOTOR.follow(masterMotor);
         ShooterConstants.LEFT_MOTOR.follow(masterMotor);
+        ShooterConstants.RIGHT_MOTOR.follow(masterMotor);
     }
 
     /**
@@ -24,10 +24,11 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
     }
 
     /**
-     * @param voltage to be set to the motors
+     * @param power to be set to the motors
      */
-    public void move(double voltage) {
-        masterMotor.setVoltage(voltage);
+    @Override
+    public void move(double power) {
+        masterMotor.set(power);
     }
 
     /**

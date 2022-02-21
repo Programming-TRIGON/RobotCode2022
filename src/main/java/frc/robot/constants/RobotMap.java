@@ -31,7 +31,7 @@ public class RobotMap {
         }
 
         public static class Shooter {
-            public static final int LEFT_MOTOR_ID = 3;
+            public static final int LEFT_MOTOR_ID = 19;
             public static final int RIGHT_MOTOR_ID = 2;
         }
 
