@@ -1,7 +1,6 @@
 package frc.robot.subsystems.swerve;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.constants.RobotConstants.DriverConstants;
 import frc.robot.constants.RobotConstants.SwerveConstants;
 
 import java.util.function.Supplier;
