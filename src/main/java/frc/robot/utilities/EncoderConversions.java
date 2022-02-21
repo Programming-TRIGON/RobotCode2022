@@ -79,19 +79,19 @@ public class EncoderConversions {
     }
 
     /**
-     * @param degrees the degrees of the circle (wheel)
-     * @param radius  of the wheel that move the system or What that
-     * @return the number of rounds that the system has moved
+     * @param degrees angle of the wheel or gear in degrees
+     * @param radius  radius of the wheel or pitch radius of the gear
+     * @return amount of distance the system has traveled in meters
      */
-    public static double DegreesToMeters(double degrees, double radius) {
+    public static double degreesToMeters(double degrees, double radius) {
         double circumference = 2 * Math.PI * radius;
         return degrees * circumference / 360;
     }
 
     /**
-     * @param distance the distance that the object has passed (in meters)
-     * @param radius   the radius of the circle (wheel)
-     * @return the degrees of this distance
+     * @param distance amount of distance the system has traveled in meters
+     * @param radius   radius of the wheel or pitch radius of the gear
+     * @return the angle of the wheel or gear in degrees
      */
     public static double metersToDegrees(double distance, double radius) {
         double circumference = 2 * Math.PI * radius;

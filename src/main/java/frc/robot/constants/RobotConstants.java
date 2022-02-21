@@ -109,8 +109,8 @@ public class RobotConstants {
     }
 
     public static class ClimberConstants {
-        public static final PIDFTalonFX RIGHT_MOTOR = ClimberComponents.RIGHT_MOTOR;
         public static final PIDFTalonFX LEFT_MOTOR = ClimberComponents.LEFT_MOTOR;
+        public static final PIDFTalonFX RIGHT_MOTOR = ClimberComponents.RIGHT_MOTOR;
         public static final int MAX_POSITION = 7000;
     }
 

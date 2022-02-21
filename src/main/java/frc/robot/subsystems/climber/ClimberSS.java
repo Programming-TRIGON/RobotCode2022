@@ -16,7 +16,7 @@ public class ClimberSS extends OverridableSubsystem {
 
     public void resetEncoder() {
         leftMotor.setSelectedSensorPosition(0);
-        rightMotor.getSelectedSensorPosition(0);
+        rightMotor.setSelectedSensorPosition(0);
     }
 
     public double getDesiredPosition() {
@@ -30,7 +30,7 @@ public class ClimberSS extends OverridableSubsystem {
     public double getPositionLeft() {
         return leftMotor.getSelectedSensorPosition();
     }
-    
+
     public double getPositionRight() {
         return rightMotor.getSelectedSensorPosition();
     }
