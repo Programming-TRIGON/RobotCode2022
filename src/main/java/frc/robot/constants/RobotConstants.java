@@ -103,8 +103,8 @@ public class RobotConstants {
     }
 
     public static class ShooterConstants {
-        public static final TrigonTalonFX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
         public static final TrigonTalonFX LEFT_MOTOR = ShooterComponents.LEFT_MOTOR;
+        public static final TrigonTalonFX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
     }
 
     public static class TransporterConstants {

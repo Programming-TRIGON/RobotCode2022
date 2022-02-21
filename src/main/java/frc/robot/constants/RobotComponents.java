@@ -98,14 +98,15 @@ public class RobotComponents {
 
     protected static class ShooterComponents {
         // TODO: Set correct MotorConfig
-        public static final PIDFTalonFX RIGHT_MOTOR = new PIDFTalonFX(
-                CAN.Shooter.RIGHT_MOTOR_ID, new MotorConfig()
-                .withPID(RobotConstants.LOCAL_CONSTANTS.localShooterConstants.pidfCoefs)
-                .withOpenLoopRampRate(3).withClosedLoopRampRate(3));
+
         public static final PIDFTalonFX LEFT_MOTOR = new PIDFTalonFX(
                 CAN.Shooter.LEFT_MOTOR_ID, new MotorConfig()
                 .withPID(RobotConstants.LOCAL_CONSTANTS.localShooterConstants.pidfCoefs)
-                .withOpenLoopRampRate(3).withClosedLoopRampRate(3).inverted(true));
+                .withOpenLoopRampRate(2).withClosedLoopRampRate(2));
+        public static final PIDFTalonFX RIGHT_MOTOR = new PIDFTalonFX(
+                CAN.Shooter.RIGHT_MOTOR_ID, new MotorConfig()
+                .withPID(RobotConstants.LOCAL_CONSTANTS.localShooterConstants.pidfCoefs)
+                .withOpenLoopRampRate(2).withClosedLoopRampRate(2));
     }
 
     protected static class TransporterComponents {

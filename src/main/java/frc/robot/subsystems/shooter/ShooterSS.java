@@ -11,9 +11,16 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
     private final TrigonTalonFX masterMotor;
 
     public ShooterSS() {
-        masterMotor = ShooterConstants.RIGHT_MOTOR;
+        masterMotor = ShooterConstants.LEFT_MOTOR;
         ShooterConstants.RIGHT_MOTOR.follow(masterMotor);
         ShooterConstants.LEFT_MOTOR.follow(masterMotor);
+    }
+
+    /**
+     * @param velocityRPM to be set to the motors
+     */
+    public void setVelocityRPM(double velocityRPM) {
+        masterMotor.set(ControlMode.Velocity, EncoderConversions.RPMToFalcon(velocityRPM));
     }
 
     /**
@@ -28,13 +35,6 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
      */
     public double getVelocityRPM() {
         return EncoderConversions.falconToRPM(masterMotor.getSelectedSensorVelocity());
-    }
-
-    /**
-     * @param velocityRPM to be set to the motors
-     */
-    public void setVelocityRPM(double velocityRPM) {
-        masterMotor.set(ControlMode.Velocity, EncoderConversions.RPMToFalcon(velocityRPM));
     }
 
     /**
