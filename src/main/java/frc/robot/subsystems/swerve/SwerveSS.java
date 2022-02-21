@@ -7,11 +7,12 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
 import frc.robot.constants.RobotConstants.SwerveConstants;
 import frc.robot.subsystems.TestableSubsystem;
-import frc.robot.utilities.Modules;
+import frc.robot.utilities.Module;
 
 /**
  * The Swerve subsystem.
@@ -29,22 +30,25 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
         swerveOdometry = new SwerveDriveOdometry(SwerveConstants.SWERVE_KINEMATICS, getAngle());
 
         swerveModules = new SwerveModule[4];
-        swerveModules[Modules.FRONT_LEFT.getId()] = new SwerveModule(SwerveConstants.FRONT_LEFT_CONSTANTS);
-        swerveModules[Modules.FRONT_RIGHT.getId()] = new SwerveModule(SwerveConstants.FRONT_RIGHT_CONSTANTS);
-        swerveModules[Modules.REAR_LEFT.getId()] = new SwerveModule(SwerveConstants.REAR_LEFT_CONSTANTS);
-        swerveModules[Modules.REAR_RIGHT.getId()] = new SwerveModule(SwerveConstants.REAR_RIGHT_CONSTANTS);
+        swerveModules[Module.FRONT_LEFT.getId()] = new SwerveModule(SwerveConstants.FRONT_LEFT_CONSTANTS);
+        swerveModules[Module.FRONT_RIGHT.getId()] = new SwerveModule(SwerveConstants.FRONT_RIGHT_CONSTANTS);
+        swerveModules[Module.REAR_LEFT.getId()] = new SwerveModule(SwerveConstants.REAR_LEFT_CONSTANTS);
+        swerveModules[Module.REAR_RIGHT.getId()] = new SwerveModule(SwerveConstants.REAR_RIGHT_CONSTANTS);
     }
 
     /**
      * Drives the swerve by the given values
      *
-     * @param translation   The translation to apply, where x is forward and y is to the left
+     * @param x             sideways power, in MPS
+     * @param y             forward power, in MPS
      * @param rotation      The rotation to apply, in radians per second
      * @param fieldRelative Whether the translation and rotation are field-relative
      * @param isOpenLoop    Whether we should drive the modules in open loop, or in closed loop, with a PID loop for
      *                      each module's speed
      */
-    public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
+    public void drive(double x, double y, double rotation, boolean fieldRelative, boolean isOpenLoop) {
+        Translation2d translation = new Translation2d(y, -x); // Converting to X front positive and Y left positive
+        rotation *= -1; // Converting to CCW+
         // set the desired states based on the given
         // translation and rotation
         SwerveModuleState[] swerveModuleStates = SwerveConstants.SWERVE_KINEMATICS.toSwerveModuleStates(
@@ -61,19 +65,19 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
                         rotation
                 )
         );
+
         // making sure the speeds are within the max speed
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveConstants.MAX_SPEED);
-
         // if we are not moving or rotating at all, set the desired angle to the current angle
         if(translation.getNorm() == 0 && rotation == 0) {
             for(int i = 0; i < swerveModules.length; i++) {
-                swerveModuleStates[i].angle = swerveModules[i].getAngle();
+                swerveModuleStates[i].angle = swerveModules[i].getState().angle;
             }
         }
 
         // set the desired state for each module
         for(int i = 0; i < swerveModules.length; i++) {
-            swerveModules[i].setDesiredState(swerveModuleStates[i], isOpenLoop);
+            swerveModules[i].setDesiredState(swerveModuleStates[i], isOpenLoop, false);
         }
     }
 
@@ -86,7 +90,7 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.MAX_SPEED);
 
         for(int i = 0; i < swerveModules.length; i++) {
-            swerveModules[i].setDesiredState(desiredStates[i], true);
+            swerveModules[i].setDesiredState(desiredStates[i], true, false);
         }
     }
 
@@ -126,20 +130,24 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
      */
     public void resetGyro() {
         gyro.calibrate();
+        gyro.reset();
     }
 
     /**
-     * Returns the current yaw (angle) of the robot
+     * Returns the current angle of the robot, CCW+
      *
-     * @return the current yaw of the robot
+     * @return the current angle of the robot
      */
     public Rotation2d getAngle() {
-        return Rotation2d.fromDegrees(gyro.getAngle());
+        double angle = gyro.getAngle();
+        return (SwerveConstants.INVERT_GYRO) ?
+               Rotation2d.fromDegrees(360 - angle) :
+               Rotation2d.fromDegrees(angle);
     }
 
     @Override
     public void move(double power) {
-        drive(new Translation2d(0, 0), power, false, true);
+        drive(0, 0, power, false, true);
     }
 
     @Override
@@ -156,5 +164,11 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
             System.arraycopy(moduleValues, 0, values, i * 3, moduleValues.length);
         }
         return values;
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addDoubleProperty("Angle", () -> getAngle().getDegrees(), null);
     }
 }

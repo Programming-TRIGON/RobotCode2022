@@ -13,10 +13,15 @@ public class LocalConstants {
     public LocalIntakeOpenerConstants localIntakeOpenerConstants;
     @SerializedName("Pitcher")
     public LocalPitcherConstants localPitcherConstants;
+    @SerializedName("Loader")
+    public LocalLoaderConstants localLoaderConstants;
 
     public LocalConstants() {
         localDriverConstants = new LocalDriverConstants();
         localSwerveConstants = new LocalSwerveConstants();
+        localIntakeOpenerConstants = new LocalIntakeOpenerConstants();
+        localPitcherConstants = new LocalPitcherConstants();
+        localLoaderConstants = new LocalLoaderConstants();
     }
 
     public void write() {
@@ -39,6 +44,14 @@ public class LocalConstants {
         PIDFCoefs pidfCoefs;
 
         public LocalIntakeOpenerConstants() {
+            pidfCoefs = new PIDFCoefs();
+        }
+    }
+
+    public static class LocalLoaderConstants {
+        PIDFCoefs pidfCoefs;
+
+        public LocalLoaderConstants() {
             pidfCoefs = new PIDFCoefs();
         }
     }

@@ -37,6 +37,10 @@ public class RobotMap {
         public static class Pitcher {
             public static final int MOTOR_ID = 12;
         }
+
+        public static class Loader {
+            public static final int MOTOR_ID = 17;
+        }
     }
 
     protected static class PCM {
