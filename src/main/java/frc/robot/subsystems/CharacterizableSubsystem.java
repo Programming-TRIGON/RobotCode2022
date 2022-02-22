@@ -12,6 +12,9 @@ public interface CharacterizableSubsystem extends TestableSubsystem {
 
     /**
      * sets the feedforward for all the different components of the subsystem
+     *
+     * @param kV velocity gains
+     * @param kS static gains
      */
     void updateFeedforward(double[] kV, double[] kS);
 
