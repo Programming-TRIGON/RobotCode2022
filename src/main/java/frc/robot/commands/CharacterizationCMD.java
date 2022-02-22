@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.CharacterizationConstants;
 import frc.robot.subsystems.CharacterizableSubsystem;
+import frc.robot.utilities.LinearRegression;
 ;
 
 public class CharacterizationCMD extends CommandBase {
@@ -10,11 +11,13 @@ public class CharacterizationCMD extends CommandBase {
     private final CharacterizationConstants characterizationConstants;
     private double[][] averageVelocities;
     private double[] lastVelocity;
-    private double sampleCount;
+    private double[] sampleCount;
     private double[] powers;
     private int cycle;
+    private double initialCharacterizationCyclePosition;
     private CharacterizationState state;
     private boolean invertDirectionEveryCycle;
+    private final int valueCount;
 
     /**
      * This command moves the swerve forward in backwards in order to calculate the
@@ -32,8 +35,10 @@ public class CharacterizationCMD extends CommandBase {
         this.characterizationConstants = characterizableSS.getCharacterizationConstants();
         this.invertDirectionEveryCycle = invertDirectionEveryCycle;
 
-        averageVelocities = new double[characterizableSS.getValues().length][];
-        lastVelocity = new double[characterizableSS.getValues().length];
+        valueCount = characterizableSS.getValues().length;
+        averageVelocities = new double[valueCount][];
+        lastVelocity = new double[valueCount];
+        sampleCount = new double[valueCount];
         powers = new double[characterizationConstants.cycleCount];
 
         for(int i = 0; i < characterizationConstants.cycleCount; i++)
@@ -47,53 +52,95 @@ public class CharacterizationCMD extends CommandBase {
     @Override
     public void initialize() {
         cycle = 0;
-        sampleCount = 0;
-        powers[cycle] = characterizationConstants.initialPower + characterizationConstants.powerIncrement * cycle;
-        state = CharacterizationState.RunningCycle;
-        for(int i = 0; i < characterizationConstants.cycleCount; i++) {
+        state = CharacterizationState.Resetting;
+        for(int i = 0; i < valueCount; i++) {
             lastVelocity[i] = 0;
-            for(int j = 0; j < characterizationConstants.cycleCount; i++) {
+            sampleCount[i] = 0;
+            for(int j = 0; j < characterizationConstants.cycleCount; j++) {
                 averageVelocities[i][j] = 0;
             }
         }
-        calculatePower();
     }
 
     @Override
     public void execute() {
-        if(state == CharacterizationState.FinishedCycle) {
-            if(sampleCount > 0) {
-                for(double[] velocities : averageVelocities) {
-                    for(int i = 0; i < characterizationConstants.cycleCount; i++) {
-                        // We save the sum of the velocities and then divide it by the sample count to
-                        // get the average velocity
-                        velocities[i] /= sampleCount;
-                    }
+        if(state == CharacterizationState.RunningCycle) {
+            characterizableSS.move(powers[cycle]);
+            for(int i = 0; i < valueCount; i++) {
+                double velocity = Math.abs(characterizableSS.getValues()[i]);
+                //Check if the velocity is acceleration is within the tolerance.
+                if(Math.abs(velocity - Math.abs(
+                        lastVelocity[i])) < velocity * characterizationConstants.tolerancePercentage / 100) {
+                    averageVelocities[i][cycle] += velocity;
+                    sampleCount[i]++;
+                } else {
+                    averageVelocities[i][cycle] = 0;
+                    sampleCount[i] = 0;
                 }
             }
-            sampleCount = 0;
+            //Checks if the cycle has finished.
+            if(Math.abs(initialCharacterizationCyclePosition - characterizableSS.getCharacterizationCyclePosition())
+                    >= characterizationConstants.cycleLength) {
+                characterizableSS.stopMoving();
+                state = CharacterizationState.FinishedCycle;
+            }
+        } else if(state == CharacterizationState.FinishedCycle) {
+            //Calculates the average velocities.
+            for(int i = 0; i < valueCount; i++) {
+                if(sampleCount[i] > 0)
+                    averageVelocities[i][cycle] /= sampleCount[i];
+            }
+            for(int i = 0; i < valueCount; i++)
+                sampleCount[i] = 0;
             cycle++;
             state = CharacterizationState.Resetting;
         } else {
+            //Checks if all the components have stopped moving.
+            boolean hasStopped = true;
+            for(double velocity : characterizableSS.getValues()) {
+                if(velocity != 0)
+                    hasStopped = false;
+            }
+            if(hasStopped) {
+                //Prepares the values for the next cycle.
+                calculatePower();
+                initialCharacterizationCyclePosition = characterizableSS.getCharacterizationCyclePosition();
+                for(int i = 0; i < valueCount; i++) {
+                    sampleCount[i] = 0;
+                }
+                state = CharacterizationState.RunningCycle;
+            }
         }
-        characterizableSS.move(powers[cycle]);
+        lastVelocity = characterizableSS.getValues();
     }
 
     private void calculatePower() {
         powers[cycle] =
                 characterizationConstants.initialPower + characterizationConstants.powerIncrement * cycle;
-        if(invertDirectionEveryCycle && cycle % 2 == 0)
+        if(invertDirectionEveryCycle && cycle % 2 == 1)
             powers[cycle] = -powers[cycle];
     }
 
     @Override
     public void end(boolean interrupted) {
         characterizableSS.stopMoving();
+        for(int i = 0; i < characterizationConstants.cycleCount; i++) {
+            powers[i] = Math.abs(powers[i]);
+        }
+        double[] kV = new double[valueCount];
+        double[] kS = new double[valueCount];
+        for(int i = 0; i < valueCount; i++){
+            LinearRegression linearRegression = new LinearRegression(averageVelocities[i],powers);
+            kV[i] = linearRegression.slope();
+            kS[i] = linearRegression.intercept();
+        }
+        characterizableSS.updateFeedforward(kV,kS);
+        //TODO: decide whether it will automatically write to the Json file
     }
 
     @Override
     public boolean isFinished() {
-        return sampleCount <= 0 && cycle > characterizationConstants.cycleCount;
+        return cycle >= characterizationConstants.cycleCount;
     }
 
     private enum CharacterizationState {
@@ -106,7 +153,7 @@ public class CharacterizationCMD extends CommandBase {
          */
         FinishedCycle,
         /**
-         * In this state the command waits for the subsystem to stop moving
+         * In this state the command waits for the subsystem to stop moving and once it does calculates the new power
          */
         Resetting;
     }
