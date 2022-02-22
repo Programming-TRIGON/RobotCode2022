@@ -18,9 +18,13 @@ public class TrigonXboxController extends XboxController {
     private final JoystickButton startBtn;
     private final Notifier notifier;
     private int rumbleAmount;
+    private final boolean squared;
+    private final double deadband;
 
-    public TrigonXboxController(int port) {
+    public TrigonXboxController(int port, double deadband, boolean squared) {
         super(port);
+        this.deadband = deadband;
+        this.squared = squared;
         aBtn = new JoystickButton(this, Button.kA.value);
         bBtn = new JoystickButton(this, Button.kB.value);
         xBtn = new JoystickButton(this, Button.kX.value);
@@ -106,13 +110,23 @@ public class TrigonXboxController extends XboxController {
     }
 
     @Override
-    public double getRightY() {
-        return -super.getRightY();
+    public double getLeftX() {
+        return processValue(super.getLeftX());
     }
 
     @Override
     public double getLeftY() {
-        return -super.getLeftY();
+        return processValue(super.getLeftY());
+    }
+
+    @Override
+    public double getRightX() {
+        return processValue(super.getRightX());
+    }
+
+    @Override
+    public double getRightY() {
+        return processValue(super.getRightY());
     }
 
     public void notifierPeriodic() {
@@ -126,5 +140,22 @@ public class TrigonXboxController extends XboxController {
                 setRumble(0);
             rumbleAmount--;
         }
+    }
+
+    private static double signedSquare(double value) {
+        return Math.signum(value) * Math.pow(Math.abs(value), 2);
+    }
+
+    /**
+     * If the value is within the deadband, return 0.
+     * If squared is true, the value is squared, while keeping the sign.
+     *
+     * @param value the value from a stick
+     * @return the value after processing
+     */
+    private double processValue(double value) {
+        if(value < deadband && value > -deadband)
+            return 0;
+        return squared ? signedSquare(value) : value;
     }
 }
