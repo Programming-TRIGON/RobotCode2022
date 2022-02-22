@@ -5,7 +5,7 @@ import edu.wpi.first.math.MathUtil;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants.PitcherConstants;
 import frc.robot.subsystems.TestableSubsystem;
-import frc.robot.utilities.EncoderConversions;
+import frc.robot.utilities.Conversions;
 
 public class PitcherSS implements TestableSubsystem {
     private final TrigonTalonSRX motor;
@@ -27,7 +27,7 @@ public class PitcherSS implements TestableSubsystem {
      * @return the current angle of the intake
      */
     public double getAngle() {
-        return EncoderConversions.magToDegrees(
+        return Conversions.magToDegrees(
                 motor.getSelectedSensorPosition(),
                 PitcherConstants.GEAR_RATIO);
     }
@@ -38,7 +38,7 @@ public class PitcherSS implements TestableSubsystem {
      * @param degree desired angle in degrees
      */
     public void setAngle(double degree) {
-        degree = EncoderConversions.degreesToMag(
+        degree = Conversions.degreesToMag(
                 MathUtil.clamp(degree, PitcherConstants.OPEN_ANGLE, PitcherConstants.CLOSED_ANGLE),
                 PitcherConstants.GEAR_RATIO);
         motor.set(ControlMode.Position, degree);
