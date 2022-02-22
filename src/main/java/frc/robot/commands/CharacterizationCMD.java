@@ -41,7 +41,7 @@ public class CharacterizationCMD extends CommandBase {
         sampleCount = new double[valueCount];
         powers = new double[characterizationConstants.cycleCount];
 
-        for(int i = 0; i < characterizationConstants.cycleCount; i++)
+        for(int i = 0; i < valueCount; i++)
             averageVelocities[i] = new double[characterizationConstants.cycleCount];
     }
 
