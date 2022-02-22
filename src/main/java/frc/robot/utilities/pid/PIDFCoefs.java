@@ -28,6 +28,16 @@ public class PIDFCoefs extends PIDCoefs {
         this.KS = KS;
     }
 
+    public PIDFCoefs(PIDFCoefs coefs) {
+        super(coefs);
+        this.KV = coefs.getKV();
+        this.KS = coefs.getKS();
+    }
+
+    public PIDFCoefs(PIDCoefs coefs) {
+        super(coefs);
+    }
+
     /**
      * Default constructor
      */
@@ -48,5 +58,11 @@ public class PIDFCoefs extends PIDCoefs {
 
     public void setKS(double KS) {
         this.KS = KS;
+    }
+
+    public void set(PIDFCoefs coefs) {
+        super.set(coefs);
+        this.KV = coefs.getKV();
+        this.KS = coefs.getKS();
     }
 }

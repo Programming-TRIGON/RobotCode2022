@@ -7,6 +7,21 @@ public interface PIDFConfigurable extends PIDConfigurable {
     @Override
     PIDFCoefs getCoefs();
 
+    default void setCoefs(PIDFCoefs coefs) {
+        getCoefs().set(coefs);
+    }
+
+    PIDFCoefs getRemoteCoefs();
+
+    default void setRemoteCoefs(PIDFCoefs coefs) {
+        getRemoteCoefs().set(coefs);
+    }
+
+    @Override
+    default PIDFCoefs getRemoteCoefsCopy() {
+        return new PIDFCoefs(getRemoteCoefs());
+    }
+
     default double getKV() {
         return getCoefs().getKV();
     }
@@ -18,6 +33,16 @@ public interface PIDFConfigurable extends PIDConfigurable {
     }
 
     void setKS(double s);
+
+    @Override
+    default void save() {
+        setRemoteCoefs(getCoefs());
+    }
+
+    @Override
+    default void load() {
+        setCoefs(getRemoteCoefsCopy());
+    }
 
     @Override
     default void initSendable(SendableBuilder builder) {

@@ -4,10 +4,13 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 
 public class TrigonPIDFController extends TrigonPIDController implements PIDFConfigurable {
     private final PIDFCoefs pidfCoefs;
+    private final PIDFCoefs remotePidfCoefs;
 
-    public TrigonPIDFController(PIDFCoefs pidfCoefs) {
-        super(pidfCoefs);
-        this.pidfCoefs = pidfCoefs;
+    public TrigonPIDFController(PIDFCoefs coefs) {
+        super(coefs);
+
+        remotePidfCoefs = coefs;
+        pidfCoefs = getRemoteCoefsCopy();
     }
 
     /**
@@ -43,6 +46,11 @@ public class TrigonPIDFController extends TrigonPIDController implements PIDFCon
     @Override
     public PIDFCoefs getCoefs() {
         return pidfCoefs;
+    }
+
+    @Override
+    public PIDFCoefs getRemoteCoefs() {
+        return remotePidfCoefs;
     }
 
     @Override

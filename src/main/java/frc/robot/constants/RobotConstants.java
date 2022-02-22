@@ -1,9 +1,7 @@
 package frc.robot.constants;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
 import frc.robot.components.TrigonTalonSRX;
@@ -68,7 +66,7 @@ public class RobotConstants {
                 SwerveComponents.FrontLeft.ANGLE_MOTOR,
                 SwerveComponents.FrontLeft.DRIVE_MOTOR,
                 SwerveComponents.FrontLeft.ANGLE_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.frontLeftModuleConstants.encoderOffset,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.frontLeftModuleConstants,
                 Module.FRONT_LEFT
         );
 
@@ -76,7 +74,7 @@ public class RobotConstants {
                 SwerveComponents.FrontRight.ANGLE_MOTOR,
                 SwerveComponents.FrontRight.DRIVE_MOTOR,
                 SwerveComponents.FrontRight.ANGLE_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.frontRightModuleConstants.encoderOffset,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.frontRightModuleConstants,
                 Module.FRONT_RIGHT
         );
 
@@ -84,7 +82,7 @@ public class RobotConstants {
                 SwerveComponents.RearLeft.ANGLE_MOTOR,
                 SwerveComponents.RearLeft.DRIVE_MOTOR,
                 SwerveComponents.RearLeft.ANGLE_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.rearLeftModuleConstants.encoderOffset,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.rearLeftModuleConstants,
                 Module.REAR_LEFT
         );
 
@@ -92,7 +90,7 @@ public class RobotConstants {
                 SwerveComponents.RearRight.ANGLE_MOTOR,
                 SwerveComponents.RearRight.DRIVE_MOTOR,
                 SwerveComponents.RearRight.ANGLE_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.rearRightModuleConstants.encoderOffset,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.rearRightModuleConstants,
                 Module.REAR_RIGHT
         );
     }
@@ -132,8 +130,14 @@ public class RobotConstants {
         public static double OPEN_ANGLE = 50; // in degrees
         public static double CLOSED_ANGLE = 70; // in degrees
     }
+
     public static class LoaderConstants {
         public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
     }
+
+    public static void write() {
+        JsonHandler.write(LOCAL_CONSTANTS);
+    }
 }
+
 
