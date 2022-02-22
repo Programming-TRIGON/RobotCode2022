@@ -80,7 +80,14 @@ public class Conversions {
         return degrees * 4096f / 360 * gearRatio;
     }
 
-    public static double kfToTalon(double kF) {
-        return kF * 1023;
+    /**
+     * Converts a kV value that should give an output between -1 and 1
+     * to a value that should give an output between -1023 and 1023, for it to be used in a talon controller.
+     *
+     * @param kV the original kV value
+     * @return the value in talon range
+     */
+    public static double kVToTalon(double kV) {
+        return kV * 1023;
     }
 }
