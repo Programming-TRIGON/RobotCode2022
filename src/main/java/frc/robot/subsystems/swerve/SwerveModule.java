@@ -159,7 +159,7 @@ public class SwerveModule implements Sendable {
      */
     public Rotation2d getAngle() {
         return Rotation2d.fromDegrees(
-                EncoderConversions.MagToDegrees(angleEncoder.getSelectedSensorPosition()));
+                EncoderConversions.magToDegrees(angleEncoder.getSelectedSensorPosition()));
     }
 
     /**
