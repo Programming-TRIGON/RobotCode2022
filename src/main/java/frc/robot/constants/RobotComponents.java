@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
 import frc.robot.components.TrigonTalonSRX;
-import frc.robot.constants.RobotMap.*;
+import frc.robot.constants.RobotMap.CAN;
+import frc.robot.constants.RobotMap.PWM;
 import frc.robot.utilities.MotorConfig;
 import frc.robot.utilities.pid.PIDFTalonFX;
 import frc.robot.utilities.pid.PIDFTalonSRX;
@@ -127,21 +128,40 @@ public class RobotComponents {
     }
 
     protected static class TransporterComponents {
-        public static final TrigonTalonSRX MOTOR = SwerveComponents.FRONT_RIGHT_ENCODER;
+        public static final TrigonTalonSRX MOTOR = SwerveComponents.FrontRight.ANGLE_ENCODER;
     }
 
     protected static class IntakeComponents {
-        public static TrigonTalonSRX MOTOR = SwerveComponents.FRONT_LEFT_ENCODER;
+        public static TrigonTalonSRX MOTOR = SwerveComponents.FrontLeft.ANGLE_ENCODER;
     }
 
     protected static class IntakeOpenerComponents {
-        private static final MotorConfig INTAKE_OPENER_MOTOR_CONFIG = new MotorConfig().
+        private static final MotorConfig MOTOR_CONFIG = new MotorConfig().
                 coast().
                 inverted(true).
                 withOpenLoopRampRate(0.5).
                 withClosedLoopRampRate(0.5).
                 withPID(RobotConstants.LOCAL_CONSTANTS.localIntakeOpenerConstants.pidfCoefs);
         public static PIDFTalonSRX MOTOR = new PIDFTalonSRX(
-                CAN.MOTOR_ID.INTAKE_OPENER_MOTOR_ID, INTAKE_OPENER_MOTOR_CONFIG);
+                CAN.IntakeOpener.MOTOR_ID, MOTOR_CONFIG, ControlMode.Position);
+    }
+
+    protected static class PitcherComponents {
+        private static final MotorConfig MOTOR_CONFIG = new MotorConfig().
+                brake().
+                inverted(false).
+                withOpenLoopRampRate(0.4).
+                withClosedLoopRampRate(0.4).
+                withPID(RobotConstants.LOCAL_CONSTANTS.localPitcherConstants.pidfCoefs);
+        public static PIDFTalonSRX MOTOR = new PIDFTalonSRX(CAN.Pitcher.MOTOR_ID, MOTOR_CONFIG, ControlMode.Position);
+    }
+
+    protected static class LoaderComponents {
+        private static final MotorConfig MOTOR_CONFIG = new MotorConfig().
+                brake().
+                withOpenLoopRampRate(0.5).
+                withClosedLoopRampRate(0.5);
+        public static final PIDFTalonSRX MOTOR = new PIDFTalonSRX(
+                CAN.Loader.MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
     }
 }

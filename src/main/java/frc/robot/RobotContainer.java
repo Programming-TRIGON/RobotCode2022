@@ -3,9 +3,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.components.TrigonTalonSRX;
 import frc.robot.components.TrigonXboxController;
 import frc.robot.constants.RobotConstants.DriverConstants;
+import frc.robot.subsystems.Pitcher.PitcherSS;
 import frc.robot.subsystems.climber.ClimberSS;
 import frc.robot.subsystems.intake.IntakeOpenerSS;
 import frc.robot.subsystems.intake.IntakeSS;
@@ -22,6 +22,7 @@ public class RobotContainer {
     private IntakeSS intake;
     private IntakeOpenerSS intakeOpener;
     private ClimberSS climberSS;
+    private PitcherSS pitcherSS;
 
     // Commands
     private SupplierDriveCMD driveWithXboxCMD;
@@ -50,6 +51,7 @@ public class RobotContainer {
         intake = new IntakeSS();
         intakeOpener = new IntakeOpenerSS();
         climberSS = new ClimberSS();
+        pitcherSS = new PitcherSS();
     }
 
     /**

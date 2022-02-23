@@ -1,11 +1,11 @@
 package frc.robot.subsystems.intake;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import frc.robot.components.TrigonTalonSRX;
+import edu.wpi.first.math.MathUtil;
 import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.IntakeOpenerConstants;
 import frc.robot.subsystems.OverridableSubsystem;
-import frc.robot.utilities.EncoderConversions;
+import frc.robot.utilities.Conversions;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 
 public class IntakeOpenerSS extends OverridableSubsystem {
@@ -28,7 +28,7 @@ public class IntakeOpenerSS extends OverridableSubsystem {
      * @return the current angle of the intake
      */
     public double getAngle() {
-        return EncoderConversions.MagToDegrees(motor.getSelectedSensorPosition(), IntakeOpenerConstants.GEAR_RATIO);
+        return Conversions.magToDegrees(motor.getSelectedSensorPosition(), IntakeOpenerConstants.GEAR_RATIO);
     }
 
     /**
@@ -37,6 +37,9 @@ public class IntakeOpenerSS extends OverridableSubsystem {
      * @param degree desired angle in degrees
      */
     public void moveToAngle(double degree) {
+        degree = Conversions.degreesToMag(
+                MathUtil.clamp(degree, 0, RobotConstants.IntakeOpenerConstants.OPENED_ANGLE),
+                RobotConstants.IntakeOpenerConstants.GEAR_RATIO);
         motor.set(ControlMode.Position, degree);
     }
 
@@ -51,7 +54,7 @@ public class IntakeOpenerSS extends OverridableSubsystem {
      * @return if the intake is currently in the closed position
      */
     public boolean isClosed() {
-        return getAngle() <= IntakeOpenerConstants.CLOSED_ANGLE;
+        return getAngle() <= 0;
     }
 
     /**
