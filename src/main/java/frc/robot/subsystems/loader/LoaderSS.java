@@ -1,13 +1,12 @@
 package frc.robot.subsystems.loader;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants.LoaderConstants;
+import frc.robot.subsystems.PIDSS;
 import frc.robot.subsystems.TestableSubsystem;
-import frc.robot.utilities.pid.PIDFTalonFX;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 
-public class LoaderSS extends SubsystemBase implements TestableSubsystem {
+public class LoaderSS extends SubsystemBase implements TestableSubsystem, PIDSS {
     private final PIDFTalonSRX motor;
 
     public LoaderSS() {
@@ -19,8 +18,12 @@ public class LoaderSS extends SubsystemBase implements TestableSubsystem {
         motor.set(power);
     }
 
-    public void setVelocity(double velocity) {
-        motor.setSetpoint(velocity);
+    /**
+     * @param velocityRPM to be set to the motors in RPM
+     */
+    @Override
+    public void setSetpoint(double velocityRPM) {
+        motor.setSetpoint(velocityRPM);
     }
 
     public double getVelocity() {

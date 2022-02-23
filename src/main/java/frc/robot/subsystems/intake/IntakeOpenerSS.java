@@ -5,10 +5,11 @@ import edu.wpi.first.math.MathUtil;
 import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.IntakeOpenerConstants;
 import frc.robot.subsystems.OverridableSubsystem;
+import frc.robot.subsystems.PIDSS;
 import frc.robot.utilities.Conversions;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 
-public class IntakeOpenerSS extends OverridableSubsystem {
+public class IntakeOpenerSS extends OverridableSubsystem implements PIDSS {
     private final PIDFTalonSRX motor;
 
     public IntakeOpenerSS() {
@@ -36,7 +37,8 @@ public class IntakeOpenerSS extends OverridableSubsystem {
      *
      * @param degree desired angle in degrees
      */
-    public void moveToAngle(double degree) {
+    @Override
+    public void setSetpoint(double degree) {
         degree = Conversions.degreesToMag(
                 MathUtil.clamp(degree, 0, RobotConstants.IntakeOpenerConstants.OPENED_ANGLE),
                 RobotConstants.IntakeOpenerConstants.GEAR_RATIO);
