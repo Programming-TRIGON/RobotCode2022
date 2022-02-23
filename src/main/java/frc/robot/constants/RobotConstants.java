@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
+import frc.robot.components.TrigonTalonFX;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotComponents.*;
 import frc.robot.utilities.JsonHandler;
@@ -108,6 +109,11 @@ public class RobotConstants {
         public static final double CONTROLLER_DEADBAND = 0.1;
     }
 
+    public static class ShooterConstants {
+        public static final PIDFTalonSRX LEFT_MOTOR = ShooterComponents.LEFT_MOTOR;
+        public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
+    }
+
     public static class ClimberConstants {
         public static final PIDFTalonFX LEFT_MOTOR = ClimberComponents.LEFT_MOTOR;
         public static final PIDFTalonFX RIGHT_MOTOR = ClimberComponents.RIGHT_MOTOR;
@@ -137,7 +143,9 @@ public class RobotConstants {
         public static double OPEN_ANGLE = 50; // in degrees
         public static double CLOSED_ANGLE = 70; // in degrees
     }
+
     public static class LoaderConstants {
         public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
     }
 }
+

@@ -30,6 +30,11 @@ public class RobotMap {
             public static final int REAR_RIGHT_ANGLE_ENCODER_ID = 10;
         }
 
+        public static class Shooter {
+            public static final int LEFT_MOTOR_ID = 19;
+            public static final int RIGHT_MOTOR_ID = 2;
+        }
+
         public static class IntakeOpener {
             public static final int MOTOR_ID = 3;
         }
