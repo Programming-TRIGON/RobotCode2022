@@ -1,6 +1,7 @@
 package frc.robot.constants;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -111,6 +112,7 @@ public class RobotConstants {
 
     public static class TransporterConstants {
         public static final TrigonTalonSRX MOTOR = TransporterComponents.MOTOR;
+        public static final ColorSensorV3 COLOR_SENSOR = TransporterComponents.COLOR_SENSOR;
         public static final int STALL_CURRENT_LIMIT = 20;
     }
 
