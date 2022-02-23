@@ -127,10 +127,10 @@ public class RobotComponents {
                 .withOpenLoopRampRate(0.5)
                 .withClosedLoopRampRate(0.5);
 
-        public static final PIDFTalonFX LEFT_MOTOR = new PIDFTalonFX(
+        public static final PIDFTalonSRX LEFT_MOTOR = new PIDFTalonSRX(
                 CAN.Shooter.LEFT_MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
 
-        public static final PIDFTalonFX RIGHT_MOTOR = new PIDFTalonFX(
+        public static final PIDFTalonSRX RIGHT_MOTOR = new PIDFTalonSRX(
                 CAN.Shooter.RIGHT_MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
     }
 

@@ -109,8 +109,8 @@ public class RobotConstants {
     }
 
     public static class ShooterConstants {
-        public static final TrigonTalonFX LEFT_MOTOR = ShooterComponents.LEFT_MOTOR;
-        public static final TrigonTalonFX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
+        public static final PIDFTalonSRX LEFT_MOTOR = ShooterComponents.LEFT_MOTOR;
+        public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
     }
 
     public static class TransporterConstants {
@@ -136,9 +136,9 @@ public class RobotConstants {
         public static double OPEN_ANGLE = 50; // in degrees
         public static double CLOSED_ANGLE = 70; // in degrees
     }
+
     public static class LoaderConstants {
         public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
     }
 }
-
 
