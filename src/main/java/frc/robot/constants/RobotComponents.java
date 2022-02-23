@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
 import frc.robot.components.TrigonTalonSRX;
@@ -123,8 +122,16 @@ public class RobotComponents {
     }
 
     protected static class ClimberComponents {
-        public static final PIDFTalonFX LEFT_MOTOR = SwerveComponents.FRONT_LEFT_ANGLE_MOTOR;
-        public static final PIDFTalonFX RIGHT_MOTOR = SwerveComponents.FRONT_RIGHT_ANGLE_MOTOR;
+        private static final MotorConfig MOTOR_CONFIG = new MotorConfig().
+                brake().
+                inverted(false).
+                withOpenLoopRampRate(0.4).
+                withClosedLoopRampRate(0.4).
+                withPID(RobotConstants.LOCAL_CONSTANTS.localPitcherConstants.pidfCoefs);
+        public static final PIDFTalonFX LEFT_MOTOR = new PIDFTalonFX(
+                CAN.Climber.LEFT_MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
+        public static final PIDFTalonFX RIGHT_MOTOR = new PIDFTalonFX(
+                CAN.Climber.RIGHT_MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
     }
 
     protected static class TransporterComponents {
