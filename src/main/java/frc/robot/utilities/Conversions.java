@@ -72,6 +72,17 @@ public class Conversions {
     }
 
     /**
+     * @param velocity      Velocity MPS
+     * @param circumference Circumference of Wheel
+     * @param gearRatio     Gear Ratio between Falcon and Mechanism (set to 1 for Falcon RPM)
+     * @return Falcon Velocity Counts
+     */
+    public static double MPSToFalcon(double velocity, double circumference, double gearRatio) {
+        double wheelRPM = ((velocity * 60) / circumference);
+        return RPMToFalcon(wheelRPM, gearRatio);
+    }
+
+    /**
      * @param magTicks  angle of the Mag sensor in ticks
      * @param gearRatio Gear Ratio between Mag and Mechanism (set to 1 for Mag RPM)
      * @return the angle in degrees
