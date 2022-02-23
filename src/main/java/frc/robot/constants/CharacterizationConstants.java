@@ -9,7 +9,7 @@ public class CharacterizationConstants {
 
     /**
      * @param initialPower        Starting power between -1 and 1 used in the initial state.
-     * @param powerIncrement      Amount of power to change in every test
+     * @param powerIncrement      Amount of power to change in every cycle
      * @param cycleCount          Amount of times to increment the power and repeat the test. The higher the value the
      *                            more accurate the result.
      * @param cycleLength         Length of every cycle. Units should match the units used in the

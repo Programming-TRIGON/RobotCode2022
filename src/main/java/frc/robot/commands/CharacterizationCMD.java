@@ -4,27 +4,27 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.CharacterizationConstants;
 import frc.robot.subsystems.CharacterizableSubsystem;
 import frc.robot.utilities.LinearRegression;
-;
 
 public class CharacterizationCMD extends CommandBase {
     private final CharacterizableSubsystem characterizableSS;
     private final CharacterizationConstants characterizationConstants;
-    private double[][] averageVelocities;
-    private double[] lastVelocity;
-    private double[] sampleCount;
-    private double[] powers;
+    private final boolean invertDirectionEveryCycle;
+    private final int valueCount;
+    private final double[][] averageVelocities;
+    private final double[] sampleCount;
+    private final double[] powers;
+    private double[] lastVelocities;
     private int cycle;
     private double initialCharacterizationCyclePosition;
+
     private CharacterizationState state;
-    private boolean invertDirectionEveryCycle;
-    private final int valueCount;
 
     /**
      * This command moves the swerve forward in backwards in order to calculate the
      * kA and kS values of every module and edits the Json file to match it.
      * In order to finalize this you must
      *
-     * @param characterizableSS
+     * @param characterizableSS         a characterizable subsystem.
      * @param invertDirectionEveryCycle If set to true the direction will flip after every cycle, this is useful is
      *                                  subsystems that have a limited amount of motion.
      */
@@ -37,7 +37,7 @@ public class CharacterizationCMD extends CommandBase {
 
         valueCount = characterizableSS.getValues().length;
         averageVelocities = new double[valueCount][];
-        lastVelocity = new double[valueCount];
+        lastVelocities = new double[valueCount];
         sampleCount = new double[valueCount];
         powers = new double[characterizationConstants.cycleCount];
 
@@ -54,7 +54,7 @@ public class CharacterizationCMD extends CommandBase {
         cycle = 0;
         state = CharacterizationState.Resetting;
         for(int i = 0; i < valueCount; i++) {
-            lastVelocity[i] = 0;
+            lastVelocities[i] = 0;
             sampleCount[i] = 0;
             for(int j = 0; j < characterizationConstants.cycleCount; j++) {
                 averageVelocities[i][j] = 0;
@@ -70,7 +70,7 @@ public class CharacterizationCMD extends CommandBase {
                 double velocity = Math.abs(characterizableSS.getValues()[i]);
                 //Check if the velocity is acceleration is within the tolerance.
                 if(Math.abs(velocity - Math.abs(
-                        lastVelocity[i])) < velocity * characterizationConstants.tolerancePercentage / 100) {
+                        lastVelocities[i])) < velocity * characterizationConstants.tolerancePercentage / 100) {
                     averageVelocities[i][cycle] += velocity;
                     sampleCount[i]++;
                 } else {
@@ -98,8 +98,10 @@ public class CharacterizationCMD extends CommandBase {
             //Checks if all the components have stopped moving.
             boolean hasStopped = true;
             for(double velocity : characterizableSS.getValues()) {
-                if(velocity != 0)
+                if(velocity != 0) {
                     hasStopped = false;
+                    break;
+                }
             }
             if(hasStopped) {
                 //Prepares the values for the next cycle.
@@ -111,7 +113,7 @@ public class CharacterizationCMD extends CommandBase {
                 state = CharacterizationState.RunningCycle;
             }
         }
-        lastVelocity = characterizableSS.getValues();
+        lastVelocities = characterizableSS.getValues();
     }
 
     private void calculatePower() {
@@ -129,13 +131,12 @@ public class CharacterizationCMD extends CommandBase {
         }
         double[] kV = new double[valueCount];
         double[] kS = new double[valueCount];
-        for(int i = 0; i < valueCount; i++){
-            LinearRegression linearRegression = new LinearRegression(averageVelocities[i],powers);
+        for(int i = 0; i < valueCount; i++) {
+            LinearRegression linearRegression = new LinearRegression(averageVelocities[i], powers);
             kV[i] = linearRegression.slope();
             kS[i] = linearRegression.intercept();
         }
-        characterizableSS.updateFeedforward(kV,kS);
-        //TODO: decide whether it will automatically write to the Json file
+        characterizableSS.updateFeedforward(kV, kS);
     }
 
     @Override
@@ -153,8 +154,8 @@ public class CharacterizationCMD extends CommandBase {
          */
         FinishedCycle,
         /**
-         * In this state the command waits for the subsystem to stop moving and once it does calculates the new power
+         * In this state the command waits for the subsystem to stop moving, once it does, it calculates the new power.
          */
-        Resetting;
+        Resetting
     }
 }

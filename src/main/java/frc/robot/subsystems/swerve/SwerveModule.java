@@ -214,9 +214,9 @@ public class SwerveModule implements Sendable {
      * @param kV drive motor velocity gain
      * @param kS drive motor static gain
      */
-    public void setsDriveFeedforward(double kV, double kS) {
-        driveMotor.getCoefs().setKV(kV);
-        driveMotor.getCoefs().setKS(kS);
+    public void setDriveFeedforward(double kV, double kS) {
+        driveMotor.setKV(kV);
+        driveMotor.setKS(kS);
     }
 
     public boolean isTuning() {

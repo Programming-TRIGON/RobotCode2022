@@ -13,7 +13,6 @@ import frc.robot.components.Pigeon;
 import frc.robot.constants.CharacterizationConstants;
 import frc.robot.constants.RobotConstants.SwerveConstants;
 import frc.robot.subsystems.CharacterizableSubsystem;
-import frc.robot.subsystems.TestableSubsystem;
 import frc.robot.utilities.Module;
 
 /**
@@ -165,7 +164,7 @@ public class SwerveSS extends SubsystemBase implements CharacterizableSubsystem 
     @Override
     public void updateFeedforward(double[] kV, double[] kS) {
         for(int i = 0; i < swerveModules.length; i++) {
-            swerveModules[i].setsDriveFeedforward(kV[i], kS[i]);
+            swerveModules[i].setDriveFeedforward(kV[i], kS[i]);
         }
     }
 
