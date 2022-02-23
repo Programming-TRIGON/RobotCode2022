@@ -1,6 +1,6 @@
 package frc.robot.utilities;
 
-public class EncoderConversions {
+public class Conversions {
 
     /**
      * @param counts    Falcon Counts
@@ -27,8 +27,7 @@ public class EncoderConversions {
      */
     public static double falconToRPM(double velocityCounts, double gearRatio) {
         double motorRPM = velocityCounts * (600.0 / 2048.0);
-        double mechRPM = motorRPM / gearRatio;
-        return mechRPM;
+        return motorRPM / gearRatio;
     }
 
     /**
@@ -48,8 +47,7 @@ public class EncoderConversions {
      */
     public static double RPMToFalcon(double RPM, double gearRatio) {
         double motorRPM = RPM * gearRatio;
-        double sensorCounts = motorRPM * (2048.0 / 600.0);
-        return sensorCounts;
+        return motorRPM * (2048.0 / 600.0);
     }
 
     /**
@@ -70,8 +68,7 @@ public class EncoderConversions {
      */
     public static double falconToMPS(double velocitycounts, double circumference, double gearRatio) {
         double wheelRPM = falconToRPM(velocitycounts, gearRatio);
-        double wheelMPS = (wheelRPM * circumference) / 60;
-        return wheelMPS;
+        return (wheelRPM * circumference) / 60;
     }
 
     /**
@@ -82,8 +79,7 @@ public class EncoderConversions {
      */
     public static double MPSToFalcon(double velocity, double circumference, double gearRatio) {
         double wheelRPM = ((velocity * 60) / circumference);
-        double wheelVelocity = RPMToFalcon(wheelRPM, gearRatio);
-        return wheelVelocity;
+        return RPMToFalcon(wheelRPM, gearRatio);
     }
 
     /**
@@ -95,10 +91,6 @@ public class EncoderConversions {
         return magTicks / 4096f * 360 / gearRatio;
     }
 
-    public static double magToDegrees(double magTick) {
-        return magToDegrees(magTick, 1);
-    }
-
     /**
      * @param degrees   angle of the wheel or gear in degrees
      * @param gearRatio Gear Ratio between Mag and Mechanism (set to 1 for Mag RPM)
@@ -108,7 +100,14 @@ public class EncoderConversions {
         return degrees * 4096f / 360 * gearRatio;
     }
 
-    public static double degreesToMag(double degrees) {
-        return degreesToMag(degrees, 1);
+    /**
+     * Converts a kV value that should give an output between -1 and 1
+     * to a value that should give an output between -1023 and 1023, for it to be used in a talon controller.
+     *
+     * @param kV the original kV value
+     * @return the value in talon range
+     */
+    public static double kVToTalon(double kV) {
+        return kV * 1023;
     }
 }
