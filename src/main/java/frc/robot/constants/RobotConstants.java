@@ -1,10 +1,8 @@
 package frc.robot.constants;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
 import frc.robot.components.TrigonTalonSRX;
@@ -110,6 +108,11 @@ public class RobotConstants {
         public static final double CONTROLLER_DEADBAND = 0.1;
     }
 
+    public static class ShooterConstants {
+        public static final PIDFTalonSRX LEFT_MOTOR = ShooterComponents.LEFT_MOTOR;
+        public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
+    }
+
     public static class TransporterConstants {
         public static final TrigonTalonSRX MOTOR = TransporterComponents.MOTOR;
         public static final ColorSensorV3 COLOR_SENSOR = TransporterComponents.COLOR_SENSOR;
@@ -134,6 +137,7 @@ public class RobotConstants {
         public static double OPEN_ANGLE = 50; // in degrees
         public static double CLOSED_ANGLE = 70; // in degrees
     }
+
     public static class LoaderConstants {
         public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
     }
