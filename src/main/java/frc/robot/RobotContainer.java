@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.components.TrigonXboxController;
 import frc.robot.constants.RobotConstants.DriverConstants;
+import frc.robot.subsystems.led.LED;
 import frc.robot.subsystems.pitcher.PitcherSS;
 import frc.robot.subsystems.intake.IntakeOpenerSS;
 import frc.robot.subsystems.intake.IntakeSS;
@@ -21,6 +22,7 @@ public class RobotContainer {
     private IntakeSS intake;
     private IntakeOpenerSS intakeOpener;
     private PitcherSS pitcherSS;
+    private LED ledSS;
 
     // Commands
     private SupplierDriveCMD driveWithXboxCMD;
@@ -49,6 +51,7 @@ public class RobotContainer {
         intake = new IntakeSS();
         intakeOpener = new IntakeOpenerSS();
         pitcherSS = new PitcherSS();
+        ledSS = new LED();
     }
 
     /**
