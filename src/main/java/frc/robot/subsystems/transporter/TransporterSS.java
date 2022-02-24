@@ -10,6 +10,7 @@ import frc.robot.subsystems.OverridableSubsystem;
 public class TransporterSS extends OverridableSubsystem {
     private final TrigonTalonSRX motor;
     private final ColorSensorV3 colorSensor;
+
     public TransporterSS() {
         motor = TransporterConstants.MOTOR;
         colorSensor = TransporterConstants.COLOR_SENSOR;
@@ -34,14 +35,32 @@ public class TransporterSS extends OverridableSubsystem {
         return motor.getStatorCurrent() > TransporterConstants.STALL_CURRENT_LIMIT;
     }
 
+    /**
+     * Get the raw color values from their respective ADCs (20-bit).
+     *
+     * @return ColorValues struct containing red, green, blue and IR values
+     */
     public RawColor getRawColor() {
         return colorSensor.getRawColor();
     }
 
+    /**
+     * Get the most likely color. Works best when within 2 inches and perpendicular to surface of
+     * interest.
+     *
+     * @return Color enum of the most likely color, including unknown if the minimum threshold is not
+     * met
+     */
     public Color getColor() {
         return colorSensor.getColor();
     }
 
+    /**
+     * Get the raw proximity value from the sensor ADC (11 bit). This value is largest when an object
+     * is close to the sensor and smallest when far away.
+     *
+     * @return Proximity measurement value, ranging from 0 to 2047
+     */
     public int getProximity() {
         return colorSensor.getProximity();
     }
