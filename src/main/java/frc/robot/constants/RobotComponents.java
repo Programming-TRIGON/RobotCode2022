@@ -126,16 +126,14 @@ public class RobotComponents {
                 .withPID(RobotConstants.LOCAL_CONSTANTS.localShooterConstants.pidfCoefs)
                 .withOpenLoopRampRate(0.5)
                 .withClosedLoopRampRate(0.5);
-
         public static final PIDFTalonSRX LEFT_MOTOR = new PIDFTalonSRX(
                 CAN.Shooter.LEFT_MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
-
         public static final PIDFTalonSRX RIGHT_MOTOR = new PIDFTalonSRX(
                 CAN.Shooter.RIGHT_MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
     }
 
     protected static class TransporterComponents {
-        public static final TrigonTalonSRX MOTOR = SwerveComponents.FrontRight.ANGLE_ENCODER;
+        public static final TrigonTalonSRX MOTOR = SwerveComponents.PIGEON_SRX;
     }
 
     protected static class IntakeComponents {
