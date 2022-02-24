@@ -110,65 +110,105 @@ public class CharacterizationCMD extends CommandBase {
 
     @Override
     public void execute() {
-        if(state == CharacterizationState.RunningCycle) {
-            characterizableSS.move(powers[cycle]);
-            for(int i = 0; i < componentCount; i++) {
-                double velocity = Math.abs(characterizableSS.getValues()[i]);
-                //Check if the velocity is acceleration is within the acceleration tolerance.
-                double acceleration = Math.abs(
-                        lastVelocities[i] - velocity) / (Timer.getFPGATimestamp() - LastVelocitiesMeasurementTime);
-                if(acceleration < velocity * characterizationConstants.tolerancePercentage / 100) {
-                    averageVelocities[i][cycle] += velocity;
-                    sampleCount[i]++;
-                } else {
-                    averageVelocities[i][cycle] = 0;
-                    sampleCount[i] = 0;
-                }
-            }
-            //Checks if the cycle has finished.
-            if(Math.abs(initialCharacterizationCyclePosition - characterizableSS.getCharacterizationCyclePosition())
-                    >= characterizationConstants.cycleLength) {
-                characterizableSS.stopMoving();
-                state = CharacterizationState.FinishedCycle;
-            }
-        } else if(state == CharacterizationState.FinishedCycle) {
-            //Calculates the average velocities.
-            for(int i = 0; i < componentCount; i++) {
-                if(sampleCount[i] > 0)
-                    averageVelocities[i][cycle] /= sampleCount[i];
-            }
-            for(int i = 0; i < componentCount; i++)
-                sampleCount[i] = 0;
-            cycle++;
-            state = CharacterizationState.Resetting;
-        } else {
-            //Checks if all the components have stopped moving.
-            boolean hasStopped = true;
-            for(double velocity : characterizableSS.getValues()) {
-                if(velocity != 0) {
-                    hasStopped = false;
-                    break;
-                }
-            }
-            if(hasStopped) {
-                //Prepares the values for the next cycle.
-                calculatePower();
-                initialCharacterizationCyclePosition = characterizableSS.getCharacterizationCyclePosition();
-                for(int i = 0; i < componentCount; i++) {
-                    sampleCount[i] = 0;
-                }
-                state = CharacterizationState.RunningCycle;
-            }
-        }
+        if(state == CharacterizationState.Running)
+            runningCycle();
+        else if(state == CharacterizationState.Finished)
+            finishingCycle();
+        else
+            resettingCycle();
+
         lastVelocities = characterizableSS.getValues();
         LastVelocitiesMeasurementTime = Timer.getFPGATimestamp();
     }
 
-    private void calculatePower() {
+    private void runningCycle() {
+        sumVelocities();
+        if(hasFinishedCycle()) {
+            characterizableSS.stopMoving();
+            state = CharacterizationState.Finished;
+        }
+    }
+
+    /**
+     * Sums the velocities if the acceleration is within the acceleration tolerance
+     */
+    private void sumVelocities() {
+        for(int i = 0; i < componentCount; i++) {
+            double velocity = Math.abs(characterizableSS.getValues()[i]);
+            if(isAcceptableAcceleration(i)) {
+                averageVelocities[i][cycle] += velocity;
+                sampleCount[i]++;
+            } else {
+                averageVelocities[i][cycle] = 0;
+                sampleCount[i] = 0;
+            }
+        }
+    }
+
+    /**
+     * @return If the velocity is acceleration is within the acceleration tolerance.
+     */
+    private boolean isAcceptableAcceleration(int componentIndex) {
+        double velocity = Math.abs(characterizableSS.getValues()[componentIndex]);
+        double acceleration = Math.abs(
+                lastVelocities[componentIndex] - velocity) / (Timer.getFPGATimestamp() - LastVelocitiesMeasurementTime);
+        return acceleration < velocity * characterizationConstants.tolerancePercentage / 100;
+    }
+
+    /**
+     * @return If the cycle has finished.
+     */
+    private boolean hasFinishedCycle() {
+        return Math.abs(initialCharacterizationCyclePosition - characterizableSS.getCharacterizationCyclePosition())
+                >= characterizationConstants.cycleLength;
+    }
+
+    private void finishingCycle() {
+        calculateAverageVelocities();
+        cycle++;
+        state = CharacterizationState.Resetting;
+    }
+
+    /**
+     * Calculates the average velocities based on their summed value and sample count.
+     */
+    private void calculateAverageVelocities() {
+        for(int i = 0; i < componentCount; i++) {
+            if(sampleCount[i] > 0)
+                averageVelocities[i][cycle] /= sampleCount[i];
+        }
+    }
+
+    private void resettingCycle() {
+        if(hasSystemStopped())
+            setupNextCycle();
+    }
+
+    /**
+     * Checks if all the components have stopped moving.
+     */
+    private boolean hasSystemStopped() {
+        for(double velocity : characterizableSS.getValues()) {
+            if(velocity != 0)
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * Prepares the values for the next cycle.
+     */
+    private void setupNextCycle() {
         powers[cycle] =
                 characterizationConstants.initialPower + characterizationConstants.powerIncrement * cycle;
         if(invertDirectionEveryCycle && cycle % 2 == 1)
             powers[cycle] = -powers[cycle];
+        characterizableSS.move(powers[cycle]);
+        initialCharacterizationCyclePosition = characterizableSS.getCharacterizationCyclePosition();
+        for(int i = 0; i < componentCount; i++) {
+            sampleCount[i] = 0;
+        }
+        state = CharacterizationState.Running;
     }
 
     @Override
@@ -196,11 +236,11 @@ public class CharacterizationCMD extends CommandBase {
         /**
          * In this state the command moves the motor and sums up the velocity
          */
-        RunningCycle,
+        Running,
         /**
          * In this state the command calculates the average velocities and calculates the new power
          */
-        FinishedCycle,
+        Finished,
         /**
          * In this state the command waits for the subsystem to stop moving, once it does, it calculates the new power.
          */
