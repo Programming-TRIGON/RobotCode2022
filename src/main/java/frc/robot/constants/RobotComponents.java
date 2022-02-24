@@ -140,7 +140,7 @@ public class RobotComponents {
                 inverted(false).
                 withOpenLoopRampRate(0.4).
                 withClosedLoopRampRate(0.4).
-                withPID(RobotConstants.LOCAL_CONSTANTS.localPitcherConstants.pidfCoefs);
+                withPID(RobotConstants.LOCAL_CONSTANTS.localClimberConstants.pidfCoefs);
         public static final PIDFTalonFX LEFT_MOTOR = new PIDFTalonFX(
                 CAN.Climber.LEFT_MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
         public static final PIDFTalonFX RIGHT_MOTOR = new PIDFTalonFX(

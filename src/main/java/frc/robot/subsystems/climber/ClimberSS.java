@@ -15,24 +15,23 @@ public class ClimberSS extends OverridableSubsystem {
         resetEncoder();
     }
 
-    public double getDesiredPosition() {
-        return leftMotor.getSetpoint();
+    /**
+     * @param Position in ticks
+     */
+    public void setSetpoint(double Position) {
+        leftMotor.setSetpoint(MathUtil.clamp(Position, 0, ClimberConstants.MAX_POSITION));
     }
 
-    public void setDesiredPosition(double desiredPosition) {
-        leftMotor.setSetpoint(MathUtil.clamp(desiredPosition, 0, ClimberConstants.MAX_POSITION));
-    }
-
-    public double getPositionLeft() {
+    public double getLeftPosition() {
         return leftMotor.getSelectedSensorPosition();
     }
 
-    public double getPositionRight() {
+    public double getRightPosition() {
         return rightMotor.getSelectedSensorPosition();
     }
 
     public double getAveragePosition() {
-        return (getPositionLeft() + getPositionRight()) / 2;
+        return (getLeftPosition() + getRightPosition()) / 2;
     }
 
     public void resetEncoder() {
