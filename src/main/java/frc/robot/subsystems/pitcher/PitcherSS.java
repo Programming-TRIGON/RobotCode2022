@@ -4,11 +4,11 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.math.MathUtil;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants.PitcherConstants;
-import frc.robot.subsystems.PIDSS;
+import frc.robot.subsystems.PIDSubsystem;
 import frc.robot.subsystems.TestableSubsystem;
 import frc.robot.utilities.Conversions;
 
-public class PitcherSS implements TestableSubsystem, PIDSS {
+public class PitcherSS implements TestableSubsystem, PIDSubsystem {
     private final TrigonTalonSRX motor;
 
     public PitcherSS() {

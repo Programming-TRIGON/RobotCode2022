@@ -5,11 +5,11 @@ import edu.wpi.first.math.MathUtil;
 import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.IntakeOpenerConstants;
 import frc.robot.subsystems.OverridableSubsystem;
-import frc.robot.subsystems.PIDSS;
+import frc.robot.subsystems.PIDSubsystem;
 import frc.robot.utilities.Conversions;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 
-public class IntakeOpenerSS extends OverridableSubsystem implements PIDSS {
+public class IntakeOpenerSS extends OverridableSubsystem implements PIDSubsystem {
     private final PIDFTalonSRX motor;
 
     public IntakeOpenerSS() {

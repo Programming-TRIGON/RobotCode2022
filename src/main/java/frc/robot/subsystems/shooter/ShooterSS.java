@@ -2,12 +2,12 @@ package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.RobotConstants.ShooterConstants;
-import frc.robot.subsystems.PIDSS;
+import frc.robot.subsystems.PIDSubsystem;
 import frc.robot.subsystems.TestableSubsystem;
 import frc.robot.utilities.Conversions;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 
-public class ShooterSS extends SubsystemBase implements TestableSubsystem , PIDSS {
+public class ShooterSS extends SubsystemBase implements TestableSubsystem, PIDSubsystem {
     private final PIDFTalonSRX masterMotor;
 
     public ShooterSS() {
@@ -18,11 +18,11 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem , PIDS
     }
 
     /**
-     * @param velocityRPM to be set to the motors in RPM
+     * @param velocity to be set to the motors in RPM
      */
     @Override
-    public void setSetpoint(double velocityRPM) {
-        masterMotor.setSetpoint(Conversions.RPMToFalcon(velocityRPM));
+    public void setSetpoint(double velocity) {
+        masterMotor.setSetpoint(Conversions.RPMToFalcon(velocity));
     }
 
     /**
@@ -46,6 +46,4 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem , PIDS
     public double[] getValues() {
         return new double[] {masterMotor.getSelectedSensorPosition()};
     }
-
 }
-
