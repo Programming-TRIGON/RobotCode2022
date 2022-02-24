@@ -2,6 +2,7 @@ package frc.robot.subsystems.transporter;
 
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorSensorV3.RawColor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants.TransporterConstants;
@@ -53,6 +54,33 @@ public class TransporterSS extends OverridableSubsystem {
      */
     public Color getColor() {
         return colorSensor.getColor();
+    }
+
+    /**
+     * @return If the color sensor sees a ball belonging to the alliance.
+     */
+    public boolean seesAllianceBall() {
+        Color allianceColor = DriverStation.getAlliance() == DriverStation.Alliance.Blue ?
+                              Color.kFirstBlue :
+                              Color.kFirstRed;
+        return getColor().equals(allianceColor);
+    }
+
+    /**
+     * @return If the color sensor sees a ball belonging to the rival alliance.
+     */
+    public boolean seesRivalBall() {
+        Color allianceColor = DriverStation.getAlliance() == DriverStation.Alliance.Blue ?
+                              Color.kFirstRed :
+                              Color.kFirstBlue;
+        return getColor().equals(allianceColor);
+    }
+
+    /**
+     * @return If the color sensor sees any ball.
+     */
+    public boolean seesBall() {
+        return getColor().equals(Color.kFirstBlue) || getColor().equals(Color.kFirstRed);
     }
 
     /**
