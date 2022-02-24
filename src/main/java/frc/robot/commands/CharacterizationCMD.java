@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.CharacterizationConstants;
 import frc.robot.subsystems.CharacterizableSubsystem;
@@ -34,9 +35,13 @@ public class CharacterizationCMD extends CommandBase {
      */
     private final double[] powers;
     /**
-     * Previous executions velocity for every component.
+     * Previous execution's velocity for every component.
      */
     private double[] lastVelocities;
+    /**
+     * Time when the lastVelocities were measured. Used in order to calculate the acceleration.
+     */
+    private double LastVelocitiesMeasurementTime;
     /**
      * Amount of cycles that have past
      */
@@ -100,6 +105,7 @@ public class CharacterizationCMD extends CommandBase {
                 averageVelocities[i][j] = 0;
             }
         }
+        LastVelocitiesMeasurementTime = Timer.getFPGATimestamp();
     }
 
     @Override
@@ -109,8 +115,9 @@ public class CharacterizationCMD extends CommandBase {
             for(int i = 0; i < componentCount; i++) {
                 double velocity = Math.abs(characterizableSS.getValues()[i]);
                 //Check if the velocity is acceleration is within the acceleration tolerance.
-                if(Math.abs(velocity - Math.abs(
-                        lastVelocities[i])) < velocity * characterizationConstants.tolerancePercentage / 100) {
+                double acceleration = Math.abs(
+                        lastVelocities[i] - velocity) / (Timer.getFPGATimestamp() - LastVelocitiesMeasurementTime);
+                if(acceleration < velocity * characterizationConstants.tolerancePercentage / 100) {
                     averageVelocities[i][cycle] += velocity;
                     sampleCount[i]++;
                 } else {
@@ -154,6 +161,7 @@ public class CharacterizationCMD extends CommandBase {
             }
         }
         lastVelocities = characterizableSS.getValues();
+        LastVelocitiesMeasurementTime = Timer.getFPGATimestamp();
     }
 
     private void calculatePower() {
