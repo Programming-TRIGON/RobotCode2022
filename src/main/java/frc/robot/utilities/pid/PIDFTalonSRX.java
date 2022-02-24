@@ -22,7 +22,7 @@ public class PIDFTalonSRX extends TrigonTalonSRX implements PIDFTalon {
         super(id, motorConfig);
 
         remotePidfCoefs = motorConfig.getCoefs();
-        pidfCoefs = new PIDFCoefs(remotePidfCoefs);
+        pidfCoefs = getRemoteCoefsCopy();
         this.isTuning = false;
         this.closedLoopControlMode = closedLoopControlMode;
 

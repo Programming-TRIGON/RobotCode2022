@@ -276,7 +276,10 @@ public class SwerveModule implements Saveable {
         builder.addDoubleProperty(
                 "Encoder Offset",
                 this::getEncoderOffset,
-                this::setEncoderOffset);
+                (offset) -> {
+                    if(isTuning())
+                        setEncoderOffset(offset);
+                });
         builder.addBooleanProperty(
                 "Is Tuning",
                 this::isTuning

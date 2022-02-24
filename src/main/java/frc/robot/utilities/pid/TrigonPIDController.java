@@ -4,7 +4,8 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.util.sendable.SendableBuilder;
 
 public class TrigonPIDController extends PIDController implements PIDConfigurable {
-    private final PIDCoefs pidCoefs, remotePidCoefs;
+    private final PIDCoefs pidCoefs;
+    private final PIDCoefs remotePidCoefs;
     private boolean isTuning;
 
     public TrigonPIDController(PIDFCoefs coefs) {

@@ -139,5 +139,3 @@ public class RobotConstants {
         JsonHandler.write(LOCAL_CONSTANTS);
     }
 }
-
-
