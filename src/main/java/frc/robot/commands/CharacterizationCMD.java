@@ -11,7 +11,7 @@ public class CharacterizationCMD extends CommandBase {
     private final CharacterizationConstants characterizationConstants;
     /**
      * If set to true the direction will flip after every cycle, this is
-     * useful issubsystems that have a limited amount of motion.
+     * useful for subsystems that have a limited amount of motion.
      */
     private final boolean invertDirectionEveryCycle;
     /**
@@ -43,7 +43,7 @@ public class CharacterizationCMD extends CommandBase {
      */
     private double LastVelocitiesMeasurementTime;
     /**
-     * Amount of cycles that have past
+     * Amount of cycles that have been completed.
      */
     private int cycle;
     /**
