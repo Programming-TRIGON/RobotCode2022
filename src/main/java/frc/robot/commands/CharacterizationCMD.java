@@ -47,7 +47,7 @@ public class CharacterizationCMD extends CommandBase {
      */
     private int cycle;
     /**
-     * The position of the subsystem at the beginning of the cycle. Used to tell how much the position has change to
+     * The position of the subsystem at the beginning of the cycle. Used to tell how much the position has changed to
      * know when to end the current cycle.
      */
     private double initialCharacterizationCyclePosition;
@@ -63,7 +63,7 @@ public class CharacterizationCMD extends CommandBase {
      * In order to finalize this you must save and write to the Json file.
      *
      * @param characterizableSS         a characterizable subsystem.
-     * @param invertDirectionEveryCycle If set to true the direction will flip after every cycle, this is useful is
+     * @param invertDirectionEveryCycle If set to true the direction will flip after every cycle, this is useful in
      *                                  subsystems that have a limited amount of motion.
      */
     public CharacterizationCMD(
@@ -83,21 +83,6 @@ public class CharacterizationCMD extends CommandBase {
             averageVelocities[i] = new double[characterizationConstants.cycleCount];
     }
 
-    private enum CharacterizationState {
-        /**
-         * In this state the command moves the motor and sums up the velocity
-         */
-        Running,
-        /**
-         * In this state the command calculates the average velocities and calculates the new power
-         */
-        Finished,
-        /**
-         * In this state the command waits for the subsystem to stop moving, once it does, it calculates the new power.
-         */
-        Resetting
-    }
-
     /**
      * This command moves a characterizable subsystem at different velocities in order to calculate the
      * kA and kS values of every module and edits the feedforward constants of the subsystem to match it.
@@ -107,6 +92,22 @@ public class CharacterizationCMD extends CommandBase {
      */
     public CharacterizationCMD(CharacterizableSubsystem characterizableSS) {
         this(characterizableSS, false);
+    }
+
+    private enum CharacterizationState {
+        /**
+         * In this state the command moves the motor and sums up the velocities for every component.
+         */
+        Running,
+        /**
+         * In this state the command calculates the average velocities of every component.
+         */
+        Finished,
+        /**
+         * In this state the command waits for the subsystem to stop moving, once it does, it calculates the new
+         * power, moves the motor at that power, and sets up the next cycle.
+         */
+        Resetting
     }
 
     @Override
@@ -136,6 +137,9 @@ public class CharacterizationCMD extends CommandBase {
         LastVelocitiesMeasurementTime = Timer.getFPGATimestamp();
     }
 
+    /**
+     * Moves the motor and sums up the velocities for every component.
+     */
     private void runningCycle() {
         sumVelocities();
         if(hasFinishedCycle()) {
@@ -145,7 +149,7 @@ public class CharacterizationCMD extends CommandBase {
     }
 
     /**
-     * Sums the velocities if the acceleration is within the acceleration tolerance
+     * Sums the velocities if the acceleration is within the acceleration tolerance.
      */
     private void sumVelocities() {
         for(int i = 0; i < componentCount; i++) {
@@ -161,7 +165,7 @@ public class CharacterizationCMD extends CommandBase {
     }
 
     /**
-     * @return If the velocity is acceleration is within the acceleration tolerance.
+     * @return If the acceleration is within the acceleration tolerance.
      */
     private boolean isAcceptableAcceleration(int componentIndex) {
         double velocity = Math.abs(characterizableSS.getValues()[componentIndex]);
@@ -178,6 +182,9 @@ public class CharacterizationCMD extends CommandBase {
                 >= characterizationConstants.cycleLength;
     }
 
+    /**
+     * Calculates the average velocities of every component.
+     */
     private void finishingCycle() {
         calculateAverageVelocities();
         cycle++;
@@ -194,6 +201,10 @@ public class CharacterizationCMD extends CommandBase {
         }
     }
 
+    /**
+     * Waits for the subsystem to stop moving, once it does, it calculates the new
+     * power, moves the motor at that power, and sets up the next cycle.
+     */
     private void resettingCycle() {
         if(hasSystemStopped())
             setupNextCycle();
