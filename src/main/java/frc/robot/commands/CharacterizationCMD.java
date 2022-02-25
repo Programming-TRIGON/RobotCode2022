@@ -83,6 +83,21 @@ public class CharacterizationCMD extends CommandBase {
             averageVelocities[i] = new double[characterizationConstants.cycleCount];
     }
 
+    private enum CharacterizationState {
+        /**
+         * In this state the command moves the motor and sums up the velocity
+         */
+        Running,
+        /**
+         * In this state the command calculates the average velocities and calculates the new power
+         */
+        Finished,
+        /**
+         * In this state the command waits for the subsystem to stop moving, once it does, it calculates the new power.
+         */
+        Resetting
+    }
+
     /**
      * This command moves a characterizable subsystem at different velocities in order to calculate the
      * kA and kS values of every module and edits the feedforward constants of the subsystem to match it.
@@ -230,20 +245,5 @@ public class CharacterizationCMD extends CommandBase {
     @Override
     public boolean isFinished() {
         return cycle >= characterizationConstants.cycleCount;
-    }
-
-    private enum CharacterizationState {
-        /**
-         * In this state the command moves the motor and sums up the velocity
-         */
-        Running,
-        /**
-         * In this state the command calculates the average velocities and calculates the new power
-         */
-        Finished,
-        /**
-         * In this state the command waits for the subsystem to stop moving, once it does, it calculates the new power.
-         */
-        Resetting
     }
 }
