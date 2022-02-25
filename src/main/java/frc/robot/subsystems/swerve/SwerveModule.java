@@ -10,7 +10,7 @@ import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.SwerveConstants;
 import frc.robot.constants.SwerveModuleConstants;
-import frc.robot.utilities.EncoderConversions;
+import frc.robot.utilities.Conversions;
 import frc.robot.utilities.pid.PIDFTalonFX;
 
 /**
@@ -121,7 +121,7 @@ public class SwerveModule implements Sendable {
         } else {
             /* If we're in closed loop, we want to use the PID controller,
             and we set the drive speed in meters per second  */
-            double velocity = EncoderConversions.MPSToFalcon(
+            double velocity = Conversions.MPSToFalcon(
                     desiredState.speedMetersPerSecond,
                     SwerveConstants.WHEEL_CIRCUMFERENCE,
                     SwerveConstants.DRIVE_GEAR_RATIO);
@@ -132,7 +132,7 @@ public class SwerveModule implements Sendable {
         double desiredAngle = desiredState.angle.getDegrees();
         // Set the angle motor's position to the desired angle.
         angleMotor.setSetpoint(
-                EncoderConversions.degreesToFalcon(
+                Conversions.degreesToFalcon(
                         desiredAngle,
                         SwerveConstants.ANGLE_GEAR_RATIO));
         lastDesiredState = desiredState;
@@ -145,7 +145,7 @@ public class SwerveModule implements Sendable {
      */
     private void resetToAbsolute() {
         // calculate absolute position and convert to Falcon units
-        double absolutePosition = EncoderConversions.degreesToFalcon(
+        double absolutePosition = Conversions.degreesToFalcon(
                 getAngle().getDegrees() - constants.encoderOffset,
                 SwerveConstants.ANGLE_GEAR_RATIO);
         // Set the integrated angle encoder to the absolute position.
@@ -159,7 +159,7 @@ public class SwerveModule implements Sendable {
      */
     public Rotation2d getAngle() {
         return Rotation2d.fromDegrees(
-                EncoderConversions.magToDegrees(angleEncoder.getSelectedSensorPosition()));
+                Conversions.magToDegrees(angleEncoder.getSelectedSensorPosition(), 1));
     }
 
     /**
@@ -170,12 +170,12 @@ public class SwerveModule implements Sendable {
      * @return the state of the module
      */
     public SwerveModuleState getState() {
-        double velocity = EncoderConversions.falconToMPS(
+        double velocity = Conversions.falconToMPS(
                 driveMotor.getSelectedSensorVelocity(),
                 SwerveConstants.WHEEL_CIRCUMFERENCE,
                 SwerveConstants.DRIVE_GEAR_RATIO);
         Rotation2d angle = Rotation2d.fromDegrees(
-                EncoderConversions.falconToDegrees(
+                Conversions.falconToDegrees(
                         angleMotor.getSelectedSensorPosition(),
                         SwerveConstants.ANGLE_GEAR_RATIO));
         return new SwerveModuleState(velocity, angle);
@@ -259,7 +259,7 @@ public class SwerveModule implements Sendable {
                 , null);
         builder.addDoubleProperty(
                 "Angle Error",
-                () -> EncoderConversions.falconToDegrees(
+                () -> Conversions.falconToDegrees(
                         angleMotor.getClosedLoopError(), SwerveConstants.ANGLE_GEAR_RATIO)
                 , null);
         builder.addBooleanProperty(

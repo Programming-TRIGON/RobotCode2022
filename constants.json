@@ -1,93 +1,137 @@
 {
-    "Driver": {
-        "drivingSpeedDivider": 6
-    },
-    "Swerve": {
-        "modules": {
-            "frontRight": {
-                "encoderOffset": 329.5,
-                "angleCoefs": {
-                    "kS": 0.0,
-                    "kV": 0.0,
-                    "kP": 0.1,
-                    "kI": 0.0,
-                    "kD": 0.0,
-                    "tolerance": 0.0,
-                    "deltaTolerance": 0.0
-                },
-                "driveCoefs": {
-                    "kS": 0.0,
-                    "kV": 0.05,
-                    "kP": 0.01,
-                    "kI": 0.001,
-                    "kD": 0.0,
-                    "tolerance": 0.0,
-                    "deltaTolerance": 0.0
-                }
-            },
-            "frontLeft": {
-                "encoderOffset": 207.6,
-                "angleCoefs": {
-                    "kS": 0.0,
-                    "kV": 0.0,
-                    "kP": 0.1,
-                    "kI": 0.0,
-                    "kD": 0.0,
-                    "tolerance": 0.0,
-                    "deltaTolerance": 0.0
-                },
-                "driveCoefs": {
-                    "kS": 0.0,
-                    "kV": 0.05,
-                    "kP": 0.01,
-                    "kI": 0.001,
-                    "kD": 0.0,
-                    "tolerance": 0.0,
-                    "deltaTolerance": 0.0
-                }
-            },
-            "rearRight": {
-                "encoderOffset": 320.3,
-                "angleCoefs": {
-                    "kS": 0.0,
-                    "kV": 0.0,
-                    "kP": 0.1,
-                    "kI": 0.0,
-                    "kD": 0.0,
-                    "tolerance": 0.0,
-                    "deltaTolerance": 0.0
-                },
-                "driveCoefs": {
-                    "kS": 0.0,
-                    "kV": 0.05,
-                    "kP": 0.01,
-                    "kI": 0.001,
-                    "kD": 0.0,
-                    "tolerance": 0.0,
-                    "deltaTolerance": 0.0
-                }
-            },
-            "rearLeft": {
-                "encoderOffset": 222.5,
-                "angleCoefs": {
-                    "kS": 0.0,
-                    "kV": 0.0,
-                    "kP": 0.1,
-                    "kI": 0.0,
-                    "kD": 0.0,
-                    "tolerance": 0.0,
-                    "deltaTolerance": 0.0
-                },
-                "driveCoefs": {
-                    "kS": 0.0,
-                    "kV": 0.05,
-                    "kP": 0.01,
-                    "kI": 0.001,
-                    "kD": 0.0,
-                    "tolerance": 0.0,
-                    "deltaTolerance": 0.0
-                }
-            }
-        }
-    }
+	"Driver": {
+		"drivingSpeedDivider": 6
+	},
+	"Swerve": {
+		"modules": {
+			"frontRight": {
+				"encoderOffset": 329.5,
+				"angleCoefs": {
+					"kS": 0.0,
+					"kV": 0.0,
+					"kP": 0.1,
+					"kI": 0.0,
+					"kD": 0.0,
+					"tolerance": 0.0,
+					"deltaTolerance": 0.0
+				},
+				"driveCoefs": {
+					"kS": 0.0,
+					"kV": 0.05,
+					"kP": 0.01,
+					"kI": 0.001,
+					"kD": 0.0,
+					"tolerance": 0.0,
+					"deltaTolerance": 0.0
+				}
+			},
+			"frontLeft": {
+				"encoderOffset": 207.6,
+				"angleCoefs": {
+					"kS": 0.0,
+					"kV": 0.0,
+					"kP": 0.1,
+					"kI": 0.0,
+					"kD": 0.0,
+					"tolerance": 0.0,
+					"deltaTolerance": 0.0
+				},
+				"driveCoefs": {
+					"kS": 0.0,
+					"kV": 0.05,
+					"kP": 0.01,
+					"kI": 0.001,
+					"kD": 0.0,
+					"tolerance": 0.0,
+					"deltaTolerance": 0.0
+				}
+			},
+			"rearRight": {
+				"encoderOffset": 320.3,
+				"angleCoefs": {
+					"kS": 0.0,
+					"kV": 0.0,
+					"kP": 0.1,
+					"kI": 0.0,
+					"kD": 0.0,
+					"tolerance": 0.0,
+					"deltaTolerance": 0.0
+				},
+				"driveCoefs": {
+					"kS": 0.0,
+					"kV": 0.05,
+					"kP": 0.01,
+					"kI": 0.001,
+					"kD": 0.0,
+					"tolerance": 0.0,
+					"deltaTolerance": 0.0
+				}
+			},
+			"rearLeft": {
+				"encoderOffset": 222.5,
+				"angleCoefs": {
+					"kS": 0.0,
+					"kV": 0.0,
+					"kP": 0.1,
+					"kI": 0.0,
+					"kD": 0.0,
+					"tolerance": 0.0,
+					"deltaTolerance": 0.0
+				},
+				"driveCoefs": {
+					"kS": 0.0,
+					"kV": 0.05,
+					"kP": 0.01,
+					"kI": 0.001,
+					"kD": 0.0,
+					"tolerance": 0.0,
+					"deltaTolerance": 0.0
+				}
+			}
+		}
+	},
+	"Shooter": {
+		"pidfCoefs": {
+			"kS": 0.0,
+			"kV": 0.0,
+			"kP": 0.0,
+			"kI": 0.0,
+			"kD": 0.0,
+			"tolerance": 0.0,
+			"deltaTolerance": 0.0
+		}
+	},
+	"IntakeOpener": {
+		"pidfCoefs": {
+			"kS": 0.0,
+			"kV": 0.0,
+			"kP": 0.0,
+			"kI": 0.0,
+			"kD": 0.0,
+			"tolerance": 0.0,
+			"deltaTolerance": 0.0
+		}
+	},
+	"Pitcher": {
+		"pidfCoefs": {
+			"kS": 0.0,
+			"kV": 0.0,
+			"kP": 0.0,
+			"kI": 0.0,
+			"kD": 0.0,
+			"tolerance": 0.0,
+			"deltaTolerance": 0.0
+		}
+	},
+	"Loader": {
+		"pidfCoefs": {
+			"kS": 0.0,
+			"kV": 0.0,
+			"kP": 0.0,
+			"kI": 0.0,
+			"kD": 0.0,
+			"tolerance": 0.0,
+			"deltaTolerance": 0.0
+		}
+	}
 }

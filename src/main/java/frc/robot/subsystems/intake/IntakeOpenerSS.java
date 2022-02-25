@@ -5,7 +5,7 @@ import edu.wpi.first.math.MathUtil;
 import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.IntakeOpenerConstants;
 import frc.robot.subsystems.OverridableSubsystem;
-import frc.robot.utilities.EncoderConversions;
+import frc.robot.utilities.Conversions;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 
 public class IntakeOpenerSS extends OverridableSubsystem {
@@ -28,7 +28,7 @@ public class IntakeOpenerSS extends OverridableSubsystem {
      * @return the current angle of the intake
      */
     public double getAngle() {
-        return EncoderConversions.magToDegrees(motor.getSelectedSensorPosition(), IntakeOpenerConstants.GEAR_RATIO);
+        return Conversions.magToDegrees(motor.getSelectedSensorPosition(), IntakeOpenerConstants.GEAR_RATIO);
     }
 
     /**
@@ -37,7 +37,7 @@ public class IntakeOpenerSS extends OverridableSubsystem {
      * @param degree desired angle in degrees
      */
     public void moveToAngle(double degree) {
-        degree = EncoderConversions.degreesToMag(
+        degree = Conversions.degreesToMag(
                 MathUtil.clamp(degree, 0, RobotConstants.IntakeOpenerConstants.OPENED_ANGLE),
                 RobotConstants.IntakeOpenerConstants.GEAR_RATIO);
         motor.set(ControlMode.Position, degree);
