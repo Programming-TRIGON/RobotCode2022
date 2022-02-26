@@ -17,7 +17,7 @@ public class LocalConstants {
     public LocalPitcherConstants localPitcherConstants;
     @SerializedName("Loader")
     public LocalLoaderConstants localLoaderConstants;
-    @SerializedName("Loader")
+    @SerializedName("Climber")
     public LocalClimberConstants localClimberConstants;
 
     public LocalConstants() {
@@ -27,6 +27,7 @@ public class LocalConstants {
         localIntakeOpenerConstants = new LocalIntakeOpenerConstants();
         localPitcherConstants = new LocalPitcherConstants();
         localLoaderConstants = new LocalLoaderConstants();
+        localClimberConstants=new LocalClimberConstants();
     }
 
     public void write() {
