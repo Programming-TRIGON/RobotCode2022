@@ -18,7 +18,7 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem, PIDSu
     }
 
     /**
-     * @param setpoint desired velocity in RPM
+     * @param setpoint the desired velocity in RPM
      */
     @Override
     public void setSetpoint(double setpoint) {

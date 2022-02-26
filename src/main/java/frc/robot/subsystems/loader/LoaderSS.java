@@ -20,7 +20,7 @@ public class LoaderSS extends SubsystemBase implements TestableSubsystem, PIDSub
     }
 
     /**
-     * @param setpoint desired velocity in RPM
+     * @param setpoint the desired velocity in RPM
      */
     @Override
     public void setSetpoint(double setpoint) {

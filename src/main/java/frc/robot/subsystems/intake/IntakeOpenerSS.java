@@ -35,7 +35,7 @@ public class IntakeOpenerSS extends OverridableSubsystem implements PIDSubsystem
     /**
      * Sets the intake to the given angle
      *
-     * @param setpoint desired angle in degrees
+     * @param setpoint the desired angle in degrees
      */
     @Override
     public void setSetpoint(double setpoint) {
