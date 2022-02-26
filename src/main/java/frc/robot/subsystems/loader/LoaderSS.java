@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.RobotConstants.LoaderConstants;
 import frc.robot.subsystems.PIDSubsystem;
 import frc.robot.subsystems.TestableSubsystem;
+import frc.robot.utilities.Conversions;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 
 public class LoaderSS extends SubsystemBase implements TestableSubsystem, PIDSubsystem {
@@ -19,15 +20,18 @@ public class LoaderSS extends SubsystemBase implements TestableSubsystem, PIDSub
     }
 
     /**
-     * @param velocity to be set to the motors in RPM
+     * @param velocity desired velocity in RPM
      */
     @Override
     public void setSetpoint(double velocity) {
-        motor.setSetpoint(velocity);
+        motor.setSetpoint(Conversions.RPMToFalcon(velocity));
     }
 
+    /**
+     * @return current velocity in RPM
+     */
     public double getVelocity() {
-        return motor.getSelectedSensorVelocity();
+        return Conversions.falconToRPM(motor.getSelectedSensorVelocity());
     }
 
     @Override
