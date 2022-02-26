@@ -68,7 +68,6 @@ public class CharacterizationCMD extends CommandBase {
      */
     public CharacterizationCMD(
             CharacterizableSubsystem characterizableSS, boolean invertDirectionEveryCycle) {
-        addRequirements(characterizableSS);
         this.characterizableSS = characterizableSS;
         this.characterizationConstants = characterizableSS.getCharacterizationConstants();
         this.invertDirectionEveryCycle = invertDirectionEveryCycle;
@@ -81,6 +80,7 @@ public class CharacterizationCMD extends CommandBase {
 
         for(int i = 0; i < componentCount; i++)
             averageVelocities[i] = new double[characterizationConstants.cycleCount];
+        addRequirements(characterizableSS);
     }
 
     /**

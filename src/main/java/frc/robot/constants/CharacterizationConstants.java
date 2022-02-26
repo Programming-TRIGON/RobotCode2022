@@ -8,7 +8,7 @@ public class CharacterizationConstants {
     public final double tolerancePercentage;
 
     /**
-     * @param initialPower        Starting power between -1 and 1 used in the initial state.
+     * @param initialPower        Starting power between 0 and 1 used in the initial state.
      * @param powerIncrement      Amount of power to change in every cycle
      * @param cycleCount          Amount of times to increment the power and repeat the test. The higher the value the
      *                            more accurate the result.
@@ -19,7 +19,7 @@ public class CharacterizationConstants {
     public CharacterizationConstants(
             double initialPower, double powerIncrement, int cycleCount, double cycleLength,
             double tolerancePercentage) {
-        this.initialPower = initialPower;
+        this.initialPower = Math.abs(initialPower);
         this.powerIncrement = powerIncrement;
         this.cycleCount = cycleCount;
         this.cycleLength = cycleLength;
