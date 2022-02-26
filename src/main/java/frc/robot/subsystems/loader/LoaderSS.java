@@ -20,15 +20,15 @@ public class LoaderSS extends SubsystemBase implements TestableSubsystem, PIDSub
     }
 
     /**
-     * @param velocity desired velocity in RPM
+     * @param setpoint desired velocity in RPM
      */
     @Override
-    public void setSetpoint(double velocity) {
-        motor.setSetpoint(Conversions.RPMToFalcon(velocity));
+    public void setSetpoint(double setpoint) {
+        motor.setSetpoint(Conversions.RPMToFalcon(setpoint));
     }
 
     /**
-     * @return current velocity in RPM
+     * @return the current velocity in RPM
      */
     public double getVelocity() {
         return Conversions.falconToRPM(motor.getSelectedSensorVelocity());

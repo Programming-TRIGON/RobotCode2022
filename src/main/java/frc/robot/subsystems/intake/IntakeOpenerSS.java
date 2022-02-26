@@ -35,14 +35,14 @@ public class IntakeOpenerSS extends OverridableSubsystem implements PIDSubsystem
     /**
      * Sets the intake to the given angle
      *
-     * @param degree desired angle in degrees
+     * @param setpoint desired angle in degrees
      */
     @Override
-    public void setSetpoint(double degree) {
-        degree = Conversions.degreesToMag(
-                MathUtil.clamp(degree, 0, RobotConstants.IntakeOpenerConstants.OPENED_ANGLE),
+    public void setSetpoint(double setpoint) {
+        setpoint = Conversions.degreesToMag(
+                MathUtil.clamp(setpoint, 0, RobotConstants.IntakeOpenerConstants.OPENED_ANGLE),
                 RobotConstants.IntakeOpenerConstants.GEAR_RATIO);
-        motor.set(ControlMode.Position, degree);
+        motor.set(ControlMode.Position, setpoint);
     }
 
     /**

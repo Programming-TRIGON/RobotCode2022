@@ -15,6 +15,7 @@ public class PIDCommand extends CommandBase {
         this.subsystem = subsystem;
         this.setpoint = setpoint;
         this.isFinished = isFinished;
+
         addRequirements(subsystem);
     }
 

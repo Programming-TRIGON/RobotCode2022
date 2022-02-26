@@ -36,14 +36,14 @@ public class PitcherSS implements TestableSubsystem, PIDSubsystem {
     /**
      * Sets the intake to the given angle
      *
-     * @param degree desired angle in degrees
+     * @param setpoint desired angle in degrees
      */
     @Override
-    public void setSetpoint(double degree) {
-        degree = Conversions.degreesToMag(
-                MathUtil.clamp(degree, PitcherConstants.OPEN_ANGLE, PitcherConstants.CLOSED_ANGLE),
+    public void setSetpoint(double setpoint) {
+        setpoint = Conversions.degreesToMag(
+                MathUtil.clamp(setpoint, PitcherConstants.OPEN_ANGLE, PitcherConstants.CLOSED_ANGLE),
                 PitcherConstants.GEAR_RATIO);
-        motor.set(ControlMode.Position, degree);
+        motor.set(ControlMode.Position, setpoint);
     }
 
     public void resetEncoder() {
