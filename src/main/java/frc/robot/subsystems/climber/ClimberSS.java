@@ -16,11 +16,12 @@ public class ClimberSS extends OverridableSubsystem {
     }
 
     /**
-     * @param setPoint desired position in ticks
+     * @param setpoint desired position in ticks
      */
-    public void setSetpoint(double setPoint) {
-        leftMotor.setSetpoint(MathUtil.clamp(setPoint, 0, ClimberConstants.MAX_POSITION));
-        rightMotor.setSetpoint(MathUtil.clamp(setPoint, 0, ClimberConstants.MAX_POSITION));
+    public void setSetpoint(double setpoint) {
+        setpoint = MathUtil.clamp(setpoint, 0, ClimberConstants.MAX_POSITION);
+        leftMotor.setSetpoint(setpoint);
+        rightMotor.setSetpoint(setpoint);
     }
 
     /**

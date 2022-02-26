@@ -27,7 +27,7 @@ public class LocalConstants {
         localIntakeOpenerConstants = new LocalIntakeOpenerConstants();
         localPitcherConstants = new LocalPitcherConstants();
         localLoaderConstants = new LocalLoaderConstants();
-        localClimberConstants=new LocalClimberConstants();
+        localClimberConstants = new LocalClimberConstants();
     }
 
     public void write() {
