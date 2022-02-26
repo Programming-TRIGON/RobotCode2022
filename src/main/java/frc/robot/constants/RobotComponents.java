@@ -122,14 +122,19 @@ public class RobotComponents {
     }
 
     protected static class ShooterComponents {
-        private static MotorConfig MOTOR_CONFIG = new MotorConfig()
+        private static final MotorConfig LEFT_MOTOR_CONFIG = new MotorConfig()
                 .withPID(RobotConstants.LOCAL_CONSTANTS.localShooterConstants.pidfCoefs)
                 .withOpenLoopRampRate(0.5)
-                .withClosedLoopRampRate(0.5);
+                .withClosedLoopRampRate(0.5)
+                .coast()
+                .inverted(false);
+        // Inverted because mechanically inverted
+        private static final MotorConfig RIGHT_MOTOR_CONFIG = new MotorConfig(LEFT_MOTOR_CONFIG)
+                .inverted(!LEFT_MOTOR_CONFIG.isInverted());
         public static final PIDFTalonSRX LEFT_MOTOR = new PIDFTalonSRX(
-                CAN.Shooter.LEFT_MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
+                CAN.Shooter.LEFT_MOTOR_ID, LEFT_MOTOR_CONFIG, ControlMode.Velocity);
         public static final PIDFTalonSRX RIGHT_MOTOR = new PIDFTalonSRX(
-                CAN.Shooter.RIGHT_MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
+                CAN.Shooter.RIGHT_MOTOR_ID, RIGHT_MOTOR_CONFIG, ControlMode.Velocity);
     }
 
     protected static class ClimberComponents {
