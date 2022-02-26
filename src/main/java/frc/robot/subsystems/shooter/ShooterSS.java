@@ -11,7 +11,6 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
 
     public ShooterSS() {
         masterMotor = ShooterConstants.LEFT_MOTOR;
-        ShooterConstants.RIGHT_MOTOR.setInverted(!masterMotor.getInverted());
 
         ShooterConstants.LEFT_MOTOR.follow(masterMotor);
         ShooterConstants.RIGHT_MOTOR.follow(masterMotor);

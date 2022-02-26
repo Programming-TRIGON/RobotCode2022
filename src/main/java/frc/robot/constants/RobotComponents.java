@@ -130,7 +130,8 @@ public class RobotComponents {
         public static final PIDFTalonSRX LEFT_MOTOR = new PIDFTalonSRX(
                 CAN.Shooter.LEFT_MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
         public static final PIDFTalonSRX RIGHT_MOTOR = new PIDFTalonSRX(
-                CAN.Shooter.RIGHT_MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
+                CAN.Shooter.RIGHT_MOTOR_ID, new MotorConfig(MOTOR_CONFIG).inverted(!MOTOR_CONFIG.isInverted()),
+                ControlMode.Velocity);
     }
 
     protected static class TransporterComponents {
