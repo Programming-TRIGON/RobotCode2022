@@ -4,6 +4,9 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import frc.robot.constants.RobotConstants;
 
+/**
+ * A class that has values that can be saved and loaded from a file.
+ */
 public interface Saveable extends Sendable {
     void save();
 
@@ -17,6 +20,6 @@ public interface Saveable extends Sendable {
     @Override
     default void initSendable(SendableBuilder builder) {
         builder.addBooleanProperty("load", () -> false, (load) -> load());
-        builder.addBooleanProperty("save", () -> false, (save) -> save());
+        builder.addBooleanProperty("write", () -> false, (write) -> write());
     }
 }

@@ -135,6 +135,9 @@ public class RobotConstants {
         public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
     }
 
+    /**
+     * Writes the LOCAL_CONSTANTS values to the json file.
+     */
     public static void write() {
         JsonHandler.write(LOCAL_CONSTANTS);
     }

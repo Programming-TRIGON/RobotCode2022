@@ -8,10 +8,11 @@ public class TrigonPIDController extends PIDController implements PIDConfigurabl
     private final PIDCoefs remotePidCoefs;
     private boolean isTuning;
 
-    public TrigonPIDController(PIDFCoefs coefs) {
+    public TrigonPIDController(PIDCoefs coefs) {
         super(coefs.getKP(), coefs.getKI(), coefs.getKD());
+
         remotePidCoefs = coefs;
-        pidCoefs = getRemoteCoefsCopy();
+        pidCoefs = new PIDCoefs(getRemoteCoefs());
         isTuning = false;
     }
 

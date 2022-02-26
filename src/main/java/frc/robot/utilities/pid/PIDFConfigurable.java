@@ -2,24 +2,34 @@ package frc.robot.utilities.pid;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
 
+/**
+ * A class that can be configured with a PIDFConfig.
+ */
 public interface PIDFConfigurable extends PIDConfigurable {
 
     @Override
     PIDFCoefs getCoefs();
 
+    /**
+     * Sets the pidfCoefs values
+     */
     default void setCoefs(PIDFCoefs coefs) {
         getCoefs().set(coefs);
     }
 
+    /**
+     * @return the PIDFCoefs that is inside LOCAL_CONSTANTS
+     */
+
     PIDFCoefs getRemoteCoefs();
 
+    /**
+     * Sets the PIDF values inside LOCAL_CONSTANTS
+     *
+     * @param coefs the PIDFCoefs to set to
+     */
     default void setRemoteCoefs(PIDFCoefs coefs) {
         getRemoteCoefs().set(coefs);
-    }
-
-    @Override
-    default PIDFCoefs getRemoteCoefsCopy() {
-        return new PIDFCoefs(getRemoteCoefs());
     }
 
     default double getKV() {
@@ -41,7 +51,7 @@ public interface PIDFConfigurable extends PIDConfigurable {
 
     @Override
     default void load() {
-        setCoefs(getRemoteCoefsCopy());
+        setCoefs(getRemoteCoefs());
     }
 
     @Override

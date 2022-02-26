@@ -3,22 +3,32 @@ package frc.robot.utilities.pid;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import frc.robot.utilities.Saveable;
 
+/**
+ * A class that can be configured with a PIDConfig.
+ */
 public interface PIDConfigurable extends Saveable {
 
     PIDCoefs getCoefs();
 
+    /**
+     * Sets the pidCoefs values
+     */
     default void setCoefs(PIDCoefs coefs) {
         getCoefs().set(coefs);
     }
 
+    /**
+     * @return the PIDCoefs that is inside LOCAL_CONSTANTS
+     */
     PIDCoefs getRemoteCoefs();
 
+    /**
+     * Sets the PID values inside LOCAL_CONSTANTS
+     *
+     * @param coefs the PIDCoefs to set to
+     */
     default void setRemoteCoefs(PIDCoefs coefs) {
         getRemoteCoefs().set(coefs);
-    }
-
-    default PIDCoefs getRemoteCoefsCopy() {
-        return new PIDCoefs(getRemoteCoefs());
     }
 
     double getSetpoint();
@@ -70,7 +80,7 @@ public interface PIDConfigurable extends Saveable {
 
     @Override
     default void load() {
-        setCoefs(getRemoteCoefsCopy());
+        setCoefs(getRemoteCoefs());
     }
 
     @Override

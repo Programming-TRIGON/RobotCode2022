@@ -10,7 +10,7 @@ public class TrigonPIDFController extends TrigonPIDController implements PIDFCon
         super(coefs);
 
         remotePidfCoefs = coefs;
-        pidfCoefs = getRemoteCoefsCopy();
+        pidfCoefs = new PIDFCoefs(getRemoteCoefs());
     }
 
     /**
