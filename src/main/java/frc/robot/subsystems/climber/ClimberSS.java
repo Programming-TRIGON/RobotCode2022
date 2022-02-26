@@ -13,6 +13,7 @@ public class ClimberSS extends OverridableSubsystem implements PIDSubsystem {
     public ClimberSS() {
         leftMotor = ClimberConstants.LEFT_MOTOR;
         rightMotor = ClimberConstants.RIGHT_MOTOR;
+
         resetEncoders();
     }
 
@@ -22,6 +23,7 @@ public class ClimberSS extends OverridableSubsystem implements PIDSubsystem {
     @Override
     public void setSetpoint(double setpoint) {
         setpoint = MathUtil.clamp(setpoint, 0, ClimberConstants.MAX_POSITION);
+        
         leftMotor.setSetpoint(setpoint);
         rightMotor.setSetpoint(setpoint);
     }
