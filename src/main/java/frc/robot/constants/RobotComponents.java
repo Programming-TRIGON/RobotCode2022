@@ -122,7 +122,7 @@ public class RobotComponents {
     }
 
     protected static class ShooterComponents {
-        private static final MotorConfig MOTOR_CONFIG = new MotorConfig()
+        private static MotorConfig MOTOR_CONFIG = new MotorConfig()
                 .withPID(RobotConstants.LOCAL_CONSTANTS.localShooterConstants.pidfCoefs)
                 .withOpenLoopRampRate(0.5)
                 .withClosedLoopRampRate(0.5);
