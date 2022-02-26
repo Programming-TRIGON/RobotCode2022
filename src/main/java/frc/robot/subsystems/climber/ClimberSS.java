@@ -3,9 +3,10 @@ package frc.robot.subsystems.climber;
 import edu.wpi.first.math.MathUtil;
 import frc.robot.constants.RobotConstants.ClimberConstants;
 import frc.robot.subsystems.OverridableSubsystem;
+import frc.robot.subsystems.PIDSubsystem;
 import frc.robot.utilities.pid.PIDFTalonFX;
 
-public class ClimberSS extends OverridableSubsystem {
+public class ClimberSS extends OverridableSubsystem implements PIDSubsystem {
     private final PIDFTalonFX leftMotor;
     private final PIDFTalonFX rightMotor;
 
@@ -18,6 +19,7 @@ public class ClimberSS extends OverridableSubsystem {
     /**
      * @param setpoint desired position in ticks
      */
+    @Override
     public void setSetpoint(double setpoint) {
         setpoint = MathUtil.clamp(setpoint, 0, ClimberConstants.MAX_POSITION);
         leftMotor.setSetpoint(setpoint);
