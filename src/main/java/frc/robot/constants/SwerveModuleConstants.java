@@ -22,4 +22,3 @@ public class SwerveModuleConstants {
         this.module = module;
     }
 }
-

@@ -1,7 +1,6 @@
 package frc.robot.subsystems.intake;
 
 import frc.robot.components.TrigonTalonSRX;
-import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.IntakeConstants;
 import frc.robot.subsystems.OverridableSubsystem;
 

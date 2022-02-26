@@ -121,8 +121,37 @@ public class RobotComponents {
         }
     }
 
+    protected static class ShooterComponents {
+        private static final MotorConfig LEFT_MOTOR_CONFIG = new MotorConfig()
+                .withPID(RobotConstants.LOCAL_CONSTANTS.localShooterConstants.pidfCoefs)
+                .withOpenLoopRampRate(0.5)
+                .withClosedLoopRampRate(0.5)
+                .coast()
+                .inverted(false);
+        // Inverted because mechanically inverted
+        private static final MotorConfig RIGHT_MOTOR_CONFIG = new MotorConfig(LEFT_MOTOR_CONFIG)
+                .inverted(!LEFT_MOTOR_CONFIG.isInverted());
+        public static final PIDFTalonSRX LEFT_MOTOR = new PIDFTalonSRX(
+                CAN.Shooter.LEFT_MOTOR_ID, LEFT_MOTOR_CONFIG, ControlMode.Velocity);
+        public static final PIDFTalonSRX RIGHT_MOTOR = new PIDFTalonSRX(
+                CAN.Shooter.RIGHT_MOTOR_ID, RIGHT_MOTOR_CONFIG, ControlMode.Velocity);
+    }
+
+    protected static class ClimberComponents {
+        private static final MotorConfig MOTOR_CONFIG = new MotorConfig().
+                brake().
+                inverted(false).
+                withOpenLoopRampRate(0.4).
+                withClosedLoopRampRate(0.4).
+                withPID(RobotConstants.LOCAL_CONSTANTS.localClimberConstants.pidfCoefs);
+        public static final PIDFTalonFX LEFT_MOTOR = new PIDFTalonFX(
+                CAN.Climber.LEFT_MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
+        public static final PIDFTalonFX RIGHT_MOTOR = new PIDFTalonFX(
+                CAN.Climber.RIGHT_MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
+    }
+
     protected static class TransporterComponents {
-        public static final TrigonTalonSRX MOTOR = SwerveComponents.FrontRight.ANGLE_ENCODER;
+        public static final TrigonTalonSRX MOTOR = SwerveComponents.PIGEON_SRX;
     }
 
     protected static class IntakeComponents {

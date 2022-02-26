@@ -34,7 +34,7 @@ public class SupplierDriveCMD extends CommandBase {
                 yPower.get() * SwerveConstants.MAX_SPEED,
                 rotPower.get() * SwerveConstants.MAX_ANGULAR_VELOCITY,
                 fieldRelative,
-                false);
+                true);
     }
 
     @Override
