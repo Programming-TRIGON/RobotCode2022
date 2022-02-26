@@ -128,6 +128,7 @@ public class RobotComponents {
                 .withClosedLoopRampRate(0.5)
                 .coast()
                 .inverted(false);
+        // Inverted because mechanically inverted
         private static final MotorConfig RIGHT_MOTOR_CONFIG = new MotorConfig(LEFT_MOTOR_CONFIG)
                 .inverted(!LEFT_MOTOR_CONFIG.isInverted());
         public static final PIDFTalonSRX LEFT_MOTOR = new PIDFTalonSRX(
