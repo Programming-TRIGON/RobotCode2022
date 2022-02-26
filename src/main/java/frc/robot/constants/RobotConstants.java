@@ -10,6 +10,7 @@ import frc.robot.constants.RobotComponents.*;
 import frc.robot.utilities.JsonHandler;
 import frc.robot.utilities.Module;
 import frc.robot.utilities.pid.PIDCoefs;
+import frc.robot.utilities.pid.PIDFTalonFX;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 
 /**
@@ -111,6 +112,12 @@ public class RobotConstants {
     public static class ShooterConstants {
         public static final PIDFTalonSRX LEFT_MOTOR = ShooterComponents.LEFT_MOTOR;
         public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
+    }
+
+    public static class ClimberConstants {
+        public static final PIDFTalonFX LEFT_MOTOR = ClimberComponents.LEFT_MOTOR;
+        public static final PIDFTalonFX RIGHT_MOTOR = ClimberComponents.RIGHT_MOTOR;
+        public static final int MAX_POSITION = 7000; // in ticks
     }
 
     public static class TransporterConstants {
