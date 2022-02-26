@@ -1,8 +1,6 @@
 package frc.robot.subsystems.shooter;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.components.TrigonTalonFX;
 import frc.robot.constants.RobotConstants.ShooterConstants;
 import frc.robot.subsystems.TestableSubsystem;
 import frc.robot.utilities.Conversions;
@@ -13,6 +11,7 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem {
 
     public ShooterSS() {
         masterMotor = ShooterConstants.LEFT_MOTOR;
+        ShooterConstants.RIGHT_MOTOR.setInverted(!masterMotor.getInverted());
 
         ShooterConstants.LEFT_MOTOR.follow(masterMotor);
         ShooterConstants.RIGHT_MOTOR.follow(masterMotor);
