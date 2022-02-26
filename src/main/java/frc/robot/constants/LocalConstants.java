@@ -17,6 +17,8 @@ public class LocalConstants {
     public LocalPitcherConstants localPitcherConstants;
     @SerializedName("Loader")
     public LocalLoaderConstants localLoaderConstants;
+    @SerializedName("Climber")
+    public LocalClimberConstants localClimberConstants;
 
     public LocalConstants() {
         localDriverConstants = new LocalDriverConstants();
@@ -25,6 +27,7 @@ public class LocalConstants {
         localIntakeOpenerConstants = new LocalIntakeOpenerConstants();
         localPitcherConstants = new LocalPitcherConstants();
         localLoaderConstants = new LocalLoaderConstants();
+        localClimberConstants = new LocalClimberConstants();
     }
 
     public void write() {
@@ -55,6 +58,14 @@ public class LocalConstants {
         PIDFCoefs pidfCoefs;
 
         public LocalLoaderConstants() {
+            pidfCoefs = new PIDFCoefs();
+        }
+    }
+
+    public static class LocalClimberConstants {
+        PIDFCoefs pidfCoefs;
+
+        public LocalClimberConstants() {
             pidfCoefs = new PIDFCoefs();
         }
     }

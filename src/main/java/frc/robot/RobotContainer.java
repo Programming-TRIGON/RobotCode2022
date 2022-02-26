@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.components.TrigonXboxController;
 import frc.robot.constants.RobotConstants.DriverConstants;
+import frc.robot.subsystems.climber.ClimberSS;
 import frc.robot.subsystems.led.LED;
 import frc.robot.subsystems.pitcher.PitcherSS;
 import frc.robot.subsystems.intake.IntakeOpenerSS;
@@ -21,6 +22,7 @@ public class RobotContainer {
     private SwerveSS swerveSS;
     private IntakeSS intake;
     private IntakeOpenerSS intakeOpener;
+    private ClimberSS climberSS;
     private PitcherSS pitcherSS;
     private LED ledSS;
 
@@ -50,6 +52,7 @@ public class RobotContainer {
         swerveSS = new SwerveSS();
         intake = new IntakeSS();
         intakeOpener = new IntakeOpenerSS();
+        climberSS = new ClimberSS();
         pitcherSS = new PitcherSS();
         ledSS = new LED();
     }

@@ -132,6 +132,19 @@ public class RobotComponents {
                 CAN.Shooter.RIGHT_MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
     }
 
+    protected static class ClimberComponents {
+        private static final MotorConfig MOTOR_CONFIG = new MotorConfig().
+                brake().
+                inverted(false).
+                withOpenLoopRampRate(0.4).
+                withClosedLoopRampRate(0.4).
+                withPID(RobotConstants.LOCAL_CONSTANTS.localClimberConstants.pidfCoefs);
+        public static final PIDFTalonFX LEFT_MOTOR = new PIDFTalonFX(
+                CAN.Climber.LEFT_MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
+        public static final PIDFTalonFX RIGHT_MOTOR = new PIDFTalonFX(
+                CAN.Climber.RIGHT_MOTOR_ID, MOTOR_CONFIG, ControlMode.Velocity);
+    }
+
     protected static class TransporterComponents {
         public static final TrigonTalonSRX MOTOR = SwerveComponents.PIGEON_SRX;
     }
