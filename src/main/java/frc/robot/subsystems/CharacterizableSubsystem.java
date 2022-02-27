@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.CharacterizationCMD;
 import frc.robot.constants.CharacterizationConstants;
 
 /**
@@ -22,6 +24,16 @@ public interface CharacterizableSubsystem extends TestableSubsystem {
      * @return characterization constants of the subsystem to be used in the CharacterizationCMD.
      */
     CharacterizationConstants getCharacterizationConstants();
+
+    /**
+     * Creates and puts a characterize command in the dashboard under the "CharacterizeCMDs" table.
+     * This function should be called once in the constructor.
+     *
+     * @param name The name of the current subsystem.
+     */
+    default void putCharacterizeCMDInDashboard(String name) {
+        SmartDashboard.putData("CharacterizeCMDs/" + name, new CharacterizationCMD(this));
+    }
 
     /**
      * This function returns a value that the CharacterizationCMD tracks in order to know when to finish each test

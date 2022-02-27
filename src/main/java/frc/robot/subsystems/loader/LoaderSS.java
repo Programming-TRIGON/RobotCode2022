@@ -14,6 +14,8 @@ public class LoaderSS extends SubsystemBase implements PIDSubsystem, Characteriz
 
     public LoaderSS() {
         motor = LoaderConstants.MOTOR;
+
+        putCharacterizeCMDInDashboard("LoaderSS");
     }
 
     @Override

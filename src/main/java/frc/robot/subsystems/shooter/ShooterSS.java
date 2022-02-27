@@ -17,6 +17,8 @@ public class ShooterSS extends SubsystemBase implements PIDSubsystem, Characteri
 
         ShooterConstants.LEFT_MOTOR.follow(masterMotor);
         ShooterConstants.RIGHT_MOTOR.follow(masterMotor);
+
+        putCharacterizeCMDInDashboard("ShooterSS");
     }
 
     /**

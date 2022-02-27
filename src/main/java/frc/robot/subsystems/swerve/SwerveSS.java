@@ -35,6 +35,8 @@ public class SwerveSS extends SubsystemBase implements CharacterizableSubsystem 
         swerveModules[Module.FRONT_RIGHT.getId()] = new SwerveModule(SwerveConstants.FRONT_RIGHT_CONSTANTS);
         swerveModules[Module.REAR_LEFT.getId()] = new SwerveModule(SwerveConstants.REAR_LEFT_CONSTANTS);
         swerveModules[Module.REAR_RIGHT.getId()] = new SwerveModule(SwerveConstants.REAR_RIGHT_CONSTANTS);
+
+        putCharacterizeCMDInDashboard("SwerveSS");
     }
 
     /**
