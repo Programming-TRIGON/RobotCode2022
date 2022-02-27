@@ -115,6 +115,8 @@ public class RobotConstants {
     public static class ShooterConstants {
         public static final PIDFTalonSRX LEFT_MOTOR = ShooterComponents.LEFT_MOTOR;
         public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
+        public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
+                0.15, 0.15, 5, 6, 2.5);
     }
 
     public static class ClimberConstants {
