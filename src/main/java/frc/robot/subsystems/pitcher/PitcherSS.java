@@ -4,10 +4,11 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.math.MathUtil;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants.PitcherConstants;
+import frc.robot.subsystems.PIDSubsystem;
 import frc.robot.subsystems.TestableSubsystem;
 import frc.robot.utilities.Conversions;
 
-public class PitcherSS implements TestableSubsystem {
+public class PitcherSS implements TestableSubsystem, PIDSubsystem {
     private final TrigonTalonSRX motor;
 
     public PitcherSS() {
@@ -35,13 +36,14 @@ public class PitcherSS implements TestableSubsystem {
     /**
      * Sets the intake to the given angle
      *
-     * @param degree desired angle in degrees
+     * @param setpoint the desired angle in degrees
      */
-    public void setAngle(double degree) {
-        degree = Conversions.degreesToMag(
-                MathUtil.clamp(degree, PitcherConstants.OPEN_ANGLE, PitcherConstants.CLOSED_ANGLE),
+    @Override
+    public void setSetpoint(double setpoint) {
+        setpoint = Conversions.degreesToMag(
+                MathUtil.clamp(setpoint, PitcherConstants.OPEN_ANGLE, PitcherConstants.CLOSED_ANGLE),
                 PitcherConstants.GEAR_RATIO);
-        motor.set(ControlMode.Position, degree);
+        motor.set(ControlMode.Position, setpoint);
     }
 
     public void resetEncoder() {

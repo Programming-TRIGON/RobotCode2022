@@ -110,4 +110,24 @@ public class Conversions {
     public static double kVToTalon(double kV) {
         return kV * 1023;
     }
+
+    /**
+     * @param degrees angle of the wheel or gear in degrees
+     * @param radius  radius of the wheel or pitch radius of the gear
+     * @return amount of distance the system has traveled in meters
+     */
+    public static double degreesToMeters(double degrees, double radius) {
+        double circumference = 2 * Math.PI * radius;
+        return degrees * circumference / 360;
+    }
+
+    /**
+     * @param distance amount of distance the system has traveled in meters
+     * @param radius   radius of the wheel or pitch radius of the gear
+     * @return the angle of the wheel or gear in degrees
+     */
+    public static double metersToDegrees(double distance, double radius) {
+        double circumference = 2 * Math.PI * radius;
+        return distance / circumference * 360;
+    }
 }
