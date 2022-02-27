@@ -8,12 +8,7 @@ import frc.robot.utilities.LinearRegression;
 
 public class CharacterizationCMD extends CommandBase {
     private final CharacterizableSubsystem characterizableSS;
-    private final CharacterizationConstants characterizationConstants;
-    /**
-     * If set to true the direction will flip after every cycle, this is
-     * useful for subsystems that have a limited amount of motion.
-     */
-    private final boolean invertDirectionEveryCycle;
+    private final CharacterizationConstants constants;
     /**
      * The Amount of components that the code needs to generate kV and kS values for. This is set to the size of the
      * values array that the subsystem returns.
@@ -65,38 +60,24 @@ public class CharacterizationCMD extends CommandBase {
      * kV and kS values of every module and edits the feedforward constants of the subsystem to match it.
      * In order to finalize this you must save and write to the Json file.
      *
-     * @param characterizableSS         A characterizable subsystem.
-     * @param invertDirectionEveryCycle If set to true the direction will flip after every cycle, this is useful in
-     *                                  subsystems that have a limited range of motion.
+     * @param characterizableSS A characterizable subsystem.
      */
     public CharacterizationCMD(
-            CharacterizableSubsystem characterizableSS, boolean invertDirectionEveryCycle) {
+            CharacterizableSubsystem characterizableSS) {
         this.characterizableSS = characterizableSS;
-        this.characterizationConstants = characterizableSS.getCharacterizationConstants();
-        this.invertDirectionEveryCycle = invertDirectionEveryCycle;
+        this.constants = characterizableSS.getCharacterizationConstants();
 
         componentCount = characterizableSS.getValues().length;
         averageVelocities = new double[componentCount][];
         velocitySums = new double[componentCount];
         lastVelocities = new double[componentCount];
         sampleCount = new double[componentCount];
-        powers = new double[characterizationConstants.cycleCount];
+        powers = new double[constants.cycleCount];
 
         for(int i = 0; i < componentCount; i++)
-            averageVelocities[i] = new double[characterizationConstants.cycleCount];
+            averageVelocities[i] = new double[constants.cycleCount];
 
         addRequirements(characterizableSS);
-    }
-
-    /**
-     * This command moves a characterizable subsystem at different velocities in order to calculate the
-     * kV and kS values of every module and edits the feedforward constants of the subsystem to match it.
-     * In order to finalize this you must save and write to the Json file.
-     *
-     * @param characterizableSS A characterizable subsystem.
-     */
-    public CharacterizationCMD(CharacterizableSubsystem characterizableSS) {
-        this(characterizableSS, false);
     }
 
     @Override
@@ -106,7 +87,7 @@ public class CharacterizationCMD extends CommandBase {
         for(int i = 0; i < componentCount; i++) {
             lastVelocities[i] = 0;
             sampleCount[i] = 0;
-            for(int j = 0; j < characterizationConstants.cycleCount; j++) {
+            for(int j = 0; j < constants.cycleCount; j++) {
                 averageVelocities[i][j] = 0;
             }
         }
@@ -162,7 +143,7 @@ public class CharacterizationCMD extends CommandBase {
         double velocity = Math.abs(characterizableSS.getValues()[componentIndex]);
         double acceleration = Math.abs(
                 lastVelocities[componentIndex] - velocity) / (Timer.getFPGATimestamp() - lastVelocitiesMeasurementTime);
-        return acceleration < velocity * characterizationConstants.tolerancePercentage / 100;
+        return acceleration < velocity * constants.tolerancePercentage / 100;
     }
 
     /**
@@ -170,7 +151,7 @@ public class CharacterizationCMD extends CommandBase {
      */
     private boolean hasFinishedCycle() {
         return Math.abs(initialCyclePosition - characterizableSS.getCharacterizationCyclePosition())
-                >= characterizationConstants.cycleLength;
+                >= constants.cycleLength;
     }
 
     /**
@@ -217,8 +198,8 @@ public class CharacterizationCMD extends CommandBase {
      */
     private void setupNextCycle() {
         powers[completedCycles] =
-                characterizationConstants.initialPower + characterizationConstants.powerIncrement * completedCycles;
-        if(invertDirectionEveryCycle && completedCycles % 2 == 1)
+                constants.initialPower + constants.powerIncrement * completedCycles;
+        if(constants.invertDirectionEveryCycle && completedCycles % 2 == 1)
             powers[completedCycles] = -powers[completedCycles];
         characterizableSS.move(powers[completedCycles]);
         initialCyclePosition = characterizableSS.getCharacterizationCyclePosition();
@@ -232,7 +213,7 @@ public class CharacterizationCMD extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         characterizableSS.stopMoving();
-        for(int i = 0; i < characterizationConstants.cycleCount; i++) {
+        for(int i = 0; i < constants.cycleCount; i++) {
             powers[i] = Math.abs(powers[i]);
         }
         double[] kV = new double[componentCount];
@@ -247,7 +228,7 @@ public class CharacterizationCMD extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return completedCycles >= characterizationConstants.cycleCount;
+        return completedCycles >= constants.cycleCount;
     }
 
     private enum CharacterizationState {
