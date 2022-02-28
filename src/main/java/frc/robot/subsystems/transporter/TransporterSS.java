@@ -60,6 +60,7 @@ public class TransporterSS extends OverridableSubsystem {
      * @return If the color sensor sees a ball belonging to the alliance.
      */
     public boolean seesAllianceBall() {
+        //TODO: Check that the sensor senses the correct color.
         Color allianceColor = DriverStation.getAlliance() == DriverStation.Alliance.Blue ?
                               Color.kFirstBlue :
                               Color.kFirstRed;
