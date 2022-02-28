@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
 import frc.robot.components.TrigonTalonSRX;
@@ -151,7 +153,8 @@ public class RobotComponents {
     }
 
     protected static class TransporterComponents {
-        public static final TrigonTalonSRX MOTOR = SwerveComponents.PIGEON_SRX;
+        public static final TrigonTalonSRX MOTOR = SwerveComponents.FrontRight.ANGLE_ENCODER;
+        public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(I2C.Port.kOnboard);
     }
 
     protected static class IntakeComponents {
