@@ -40,6 +40,16 @@ public class PIDFTalonSRX extends TrigonTalonSRX implements PIDFTalon {
     }
 
     @Override
+    public double getError() {
+        return getClosedLoopError();
+    }
+
+    @Override
+    public double getDeltaError() {
+        return getErrorDerivative();
+    }
+
+    @Override
     public void setPIDFCoefs(PIDFCoefs coefs) {
         pidfCoefs = coefs;
     }
