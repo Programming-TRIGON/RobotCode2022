@@ -27,6 +27,11 @@ public class LoaderSS extends SubsystemBase implements TestableSubsystem, PIDSub
         motor.setSetpoint(Conversions.RPMToFalcon(setpoint));
     }
 
+    @Override
+    public boolean atSetpoint() {
+        return motor.atSetpoint();
+    }
+
     /**
      * @return the current velocity in RPM
      */

@@ -15,6 +15,15 @@ public interface PIDConfigurable extends Sendable {
         setSetpoint(setpoint, false);
     }
 
+    double getError();
+
+    double getDeltaError();
+
+    default boolean atSetpoint() {
+        return Math.abs(getError()) <= getTolerance() &&
+                Math.abs(getDeltaError()) <= getDeltaTolerance();
+    }
+
     boolean isTuning();
 
     void setIsTuning(boolean isTuning);

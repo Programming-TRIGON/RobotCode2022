@@ -7,6 +7,11 @@ public interface PIDFConfigurable extends PIDConfigurable {
     @Override
     PIDFCoefs getCoefs();
 
+    @Override
+    default boolean atSetpoint() {
+        return Math.abs(getError()) <= getTolerance();
+    }
+
     default double getKV() {
         return getCoefs().getKV();
     }

@@ -25,6 +25,11 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem, PIDSu
         masterMotor.setSetpoint(Conversions.RPMToFalcon(setpoint));
     }
 
+    @Override
+    public boolean atSetpoint() {
+        return masterMotor.atSetpoint();
+    }
+
     /**
      * @param power to be set to the motors
      */

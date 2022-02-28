@@ -23,6 +23,13 @@ public class PIDCommand extends CommandBase {
         this(subsystem, setpoint, () -> false);
     }
 
+    /**
+     * @return if the motors are within an acceptable tolerance of the setpoint
+     */
+    public boolean atSetpoint() {
+        return subsystem.atSetpoint();
+    }
+
     @Override
     public void execute() {
         subsystem.setSetpoint(setpoint.getAsDouble());

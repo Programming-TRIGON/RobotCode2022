@@ -112,6 +112,13 @@ public class RobotConstants {
     public static class ShooterConstants {
         public static final PIDFTalonSRX LEFT_MOTOR = ShooterComponents.LEFT_MOTOR;
         public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
+        //TODO: Set zone limits and coefs
+        public static final double[] ZONE_LIMITS = {};
+        public static final double[] ZONE_1_COEFS = {};
+        public static final double[] ZONE_2_COEFS = {};
+        public static final double[] ZONE_3_COEFS = {};
+        public static final double[] ZONE_4_COEFS = {};
+        public static final double[] ANGLES = {};
     }
 
     public static class ClimberConstants {
@@ -123,6 +130,8 @@ public class RobotConstants {
     public static class TransporterConstants {
         public static final TrigonTalonSRX MOTOR = TransporterComponents.MOTOR;
         public static final int STALL_CURRENT_LIMIT = 20;
+        //TODO: set reasonable power
+        public static final double POWER = 0.5;
     }
 
     public static class IntakeConstants {
@@ -138,7 +147,7 @@ public class RobotConstants {
     }
 
     public static class PitcherConstants {
-        public static final TrigonTalonSRX MOTOR = PitcherComponents.MOTOR;
+        public static final PIDFTalonSRX MOTOR = PitcherComponents.MOTOR;
         public static final double GEAR_RATIO = 10;
         public static double OPEN_ANGLE = 50; // in degrees
         public static double CLOSED_ANGLE = 70; // in degrees
@@ -146,6 +155,8 @@ public class RobotConstants {
 
     public static class LoaderConstants {
         public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
+        //TODO: set reasonable velocity
+        public static final double VELOCITY = 1500; // in RPM
     }
 }
 

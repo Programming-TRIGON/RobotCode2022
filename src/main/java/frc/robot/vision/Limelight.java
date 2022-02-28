@@ -160,13 +160,6 @@ public class Limelight {
     }
 
     /**
-     * @param target the target to be changed to.
-     */
-    public void setPipeline(Target target) {
-        setPipeline(target.getIndex());
-    }
-
-    /**
      * @param isTakingSnapshots If set to true, the limelight will start taking
      *                          snapshots. this is good for calibrating the
      *                          limelight when the target isn't available, for
@@ -177,8 +170,8 @@ public class Limelight {
         snapshot.setNumber(isTakingSnapshots ? 1 : 0);
     }
 
-    public void startVision(Target target) {
-        setPipeline(target);
+    public void startVision() {
+        setPipeline(0);
         setCamMode(CamMode.vision);
         setLedMode(LedMode.on);
     }

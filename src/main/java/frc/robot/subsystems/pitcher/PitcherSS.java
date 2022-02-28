@@ -2,14 +2,14 @@ package frc.robot.subsystems.pitcher;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.math.MathUtil;
-import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants.PitcherConstants;
 import frc.robot.subsystems.PIDSubsystem;
 import frc.robot.subsystems.TestableSubsystem;
 import frc.robot.utilities.Conversions;
+import frc.robot.utilities.pid.PIDFTalonSRX;
 
 public class PitcherSS implements TestableSubsystem, PIDSubsystem {
-    private final TrigonTalonSRX motor;
+    private final PIDFTalonSRX motor;
 
     public PitcherSS() {
         motor = PitcherConstants.MOTOR;
@@ -44,6 +44,11 @@ public class PitcherSS implements TestableSubsystem, PIDSubsystem {
                 MathUtil.clamp(setpoint, PitcherConstants.OPEN_ANGLE, PitcherConstants.CLOSED_ANGLE),
                 PitcherConstants.GEAR_RATIO);
         motor.set(ControlMode.Position, setpoint);
+    }
+
+    @Override
+    public boolean atSetpoint() {
+        return motor.atSetpoint();
     }
 
     public void resetEncoder() {

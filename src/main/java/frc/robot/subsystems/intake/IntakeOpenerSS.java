@@ -45,6 +45,11 @@ public class IntakeOpenerSS extends OverridableSubsystem implements PIDSubsystem
         motor.set(ControlMode.Position, setpoint);
     }
 
+    @Override
+    public boolean atSetpoint() {
+        return motor.atSetpoint();
+    }
+
     /**
      * @return if the intake is currently in the open position
      */
