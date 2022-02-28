@@ -1,13 +1,13 @@
 package frc.robot.motion_profiling;
 
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
-import edu.wpi.first.wpilibj.trajectory.constraint.CentripetalAccelerationConstraint;
-import frc.robot.constants.RobotConstants.MotionProfilingConstants;
-import frc.robot.subsystems.drivetrain.DrivetrainSS;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.constraint.CentripetalAccelerationConstraint;
+import frc.robot.constants.RobotConstants;
+import frc.robot.subsystems.swerve.SwerveSS;
 import frc.robot.utilities.DriverStationLogger;
 
 import java.io.IOException;
@@ -29,8 +29,8 @@ public class Path {
      *
      * @param waypoints the path waypoints
      */
-    public Path(DrivetrainSS drivetrainSS, MotionProfilingConstants motionProfilingConstants, Waypoint... waypoints) {
-        this(drivetrainSS, motionProfilingConstants, false, kDefaultStartPathVelocity, kDefaultEndPathVelocity,
+    public Path(SwerveSS swerveSS, Waypoint... waypoints) {
+        this(swerveSS, false, kDefaultStartPathVelocity, kDefaultEndPathVelocity,
                 waypoints);
     }
 
@@ -40,9 +40,10 @@ public class Path {
      * @param reversed  whether the path is reversed
      * @param waypoints the path waypoints
      */
-    public Path(DrivetrainSS drivetrainSS, MotionProfilingConstants motionProfilingConstants, boolean reversed,
-                Waypoint... waypoints) {
-        this(drivetrainSS, motionProfilingConstants, reversed, kDefaultStartPathVelocity, kDefaultEndPathVelocity,
+    public Path(
+            SwerveSS swerveSS, boolean reversed,
+            Waypoint... waypoints) {
+        this(swerveSS, reversed, kDefaultStartPathVelocity, kDefaultEndPathVelocity,
                 waypoints);
     }
 
@@ -54,9 +55,10 @@ public class Path {
      * @param endVelocity the velocity at the end of the path
      * @param waypoints   the path waypoints
      */
-    public Path(DrivetrainSS drivetrainSS, MotionProfilingConstants motionProfilingConstants, boolean reversed,
-                double endVelocity, Waypoint... waypoints) {
-        this(drivetrainSS, motionProfilingConstants, reversed, kDefaultStartPathVelocity, endVelocity, waypoints);
+    public Path(
+            SwerveSS swerveSS, boolean reversed,
+            double endVelocity, Waypoint... waypoints) {
+        this(swerveSS, reversed, kDefaultStartPathVelocity, endVelocity, waypoints);
     }
 
     /**
@@ -67,13 +69,17 @@ public class Path {
      * @param endVelocity   the velocity at the end of the path
      * @param waypoints     the path waypoints
      */
-    public Path(DrivetrainSS drivetrainSS, MotionProfilingConstants motionProfilingConstants, boolean reversed,
-                double startVelocity, double endVelocity, Waypoint... waypoints) {
+    public Path(
+            SwerveSS swerveSS, boolean reversed,
+            double startVelocity, double endVelocity, Waypoint... waypoints) {
         this.reversed = reversed;
-        TrajectoryConfig config = new TrajectoryConfig(motionProfilingConstants.MAX_VELOCITY,
-                motionProfilingConstants.MAX_ACCELERATION)
-                .addConstraint(new CentripetalAccelerationConstraint(motionProfilingConstants.MAX_CENTRIPETAL_ACCELERATION))
-                .setKinematics(drivetrainSS.getKinematics()).setReversed(reversed).setStartVelocity(startVelocity)
+        TrajectoryConfig config = new TrajectoryConfig(
+                RobotConstants.SwerveConstants.MAX_SPEED,
+                RobotConstants.SwerveConstants.MAX_ANGULAR_VELOCITY)
+                .addConstraint(
+                        new CentripetalAccelerationConstraint(RobotConstants.SwerveConstants.MAX_ANGULAR_VELOCITY))
+                .setKinematics(RobotConstants.SwerveConstants.SWERVE_KINEMATICS).setReversed(reversed)
+                .setStartVelocity(startVelocity)
                 .setEndVelocity(endVelocity);
 
         trajectory = TrajectoryGenerator.generateTrajectory(Arrays.asList(waypoints), config);
@@ -86,7 +92,7 @@ public class Path {
         var path = Paths.get(Filesystem.getDeployDirectory() + "/paths/output/" + pathName);
         try {
             trajectory = TrajectoryUtil.fromPathweaverJson(path);
-        } catch (IOException e) {
+        } catch(IOException e) {
             DriverStationLogger.logErrorToDS("Could not load " + pathName + " path from: " + path.toString()
                     + "\nInitializing with an empty path");
             trajectory = new Trajectory(List.of(new Trajectory.State()));

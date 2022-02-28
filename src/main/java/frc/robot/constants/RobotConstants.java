@@ -12,6 +12,7 @@ import frc.robot.utilities.Module;
 import frc.robot.utilities.pid.PIDCoefs;
 import frc.robot.utilities.pid.PIDFTalonFX;
 import frc.robot.utilities.pid.PIDFTalonSRX;
+import frc.robot.utilities.pid.TrigonPIDController;
 
 /**
  * All the constants to be uses for the robot
@@ -147,6 +148,15 @@ public class RobotConstants {
 
     public static class LoaderConstants {
         public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
+    }
+
+    public static class MotionProfilingConstants {
+        public static final TrigonPIDController X_PID_CONTROLLER = new TrigonPIDController(
+                LOCAL_CONSTANTS.localMotionProfilingConstants.X_PID_CONTROLLER);
+        public static final TrigonPIDController Y_PID_CONTROLLER = new TrigonPIDController(
+                LOCAL_CONSTANTS.localMotionProfilingConstants.Y_PID_CONTROLLER);
+        public static final TrigonPIDController THETA_PID_CONTROLLER = new TrigonPIDController(
+                LOCAL_CONSTANTS.localMotionProfilingConstants.THETA_PID_CONTROLLER);
     }
 }
 

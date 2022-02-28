@@ -1,15 +1,14 @@
 package frc.robot.motion_profiling;
 
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import frc.robot.constants.RobotConstants.SwerveConstants;
 import frc.robot.constants.RobotConstants.MotionProfilingConstants;
-import frc.robot.subsystems.drivetrain.DrivetrainSS;
+import frc.robot.subsystems.swerve.SwerveSS;
 
 public class TrigonSwerveControllerCMDGP extends SequentialCommandGroup {
     /**
@@ -26,35 +25,36 @@ public class TrigonSwerveControllerCMDGP extends SequentialCommandGroup {
      * The robot angle controller does not follow the angle given by the trajectory
      * but rather goes to the angle given in the final state of the trajectory.
      */
-    public TrigonSwerveControllerCMDGP(DrivetrainSS drivetrainSS, MotionProfilingConstants constants, AutoPath path) {
-        constants.THETA_PROFILED_PID_CONTROLLER.enableContinuousInput(-180, 180);
-        constants.THETA_PROFILED_PID_CONTROLLER.enableContinuousInput(-Math.PI, Math.PI);
-        SmartDashboard.putData("TrigonSwerveControllerCMDGP/PID X", constants.X_PID_CONTROLLER);
-        SmartDashboard.putData("TrigonSwerveControllerCMDGP/PID Y", constants.Y_PID_CONTROLLER);
-        SmartDashboard.putData("TrigonSwerveControllerCMDGP/PID Rotation", constants.THETA_PROFILED_PID_CONTROLLER);
+    public TrigonSwerveControllerCMDGP(SwerveSS swerveSS, AutoPath path) {
+        //constants.THETA_PID_CONTROLLER.enableContinuousInput(-180, 180);
+        MotionProfilingConstants.THETA_PID_CONTROLLER.enableContinuousInput(-Math.PI, Math.PI);
+        SmartDashboard.putData("TrigonSwerveControllerCMDGP/PID X", MotionProfilingConstants.X_PID_CONTROLLER);
+        SmartDashboard.putData("TrigonSwerveControllerCMDGP/PID Y", MotionProfilingConstants.Y_PID_CONTROLLER);
+        SmartDashboard.putData(
+                "TrigonSwerveControllerCMDGP/PID Rotation", MotionProfilingConstants.THETA_PID_CONTROLLER);
         addCommands(
                 new InstantCommand(() ->
                 {
-                    drivetrainSS.stopMoving();
-                    drivetrainSS.SetSpeedMotorRampRates(0);
-                    drivetrainSS.resetOdometry(
-                            path.getPath(drivetrainSS, constants).getTrajectory().getInitialPose()
+                    swerveSS.stopMoving();
+                    swerveSS.SetSpeedMotorRampRates(0);
+                    swerveSS.resetOdometry(
+                            path.getPath(swerveSS).getTrajectory().getInitialPose()
                     );
-                }, drivetrainSS),
+                }, swerveSS),
                 new SwerveControllerCommand(
-                        path.getPath(drivetrainSS, constants).getTrajectory(),
-                        drivetrainSS::getPose,
-                        drivetrainSS.getKinematics(),
-                        constants.X_PID_CONTROLLER,
-                        constants.Y_PID_CONTROLLER,
-                        constants.THETA_PROFILED_PID_CONTROLLER,
-                        drivetrainSS::setDesiredStates,
-                        drivetrainSS
+                        path.getPath(swerveSS).getTrajectory(),
+                        swerveSS::getPose,
+                        SwerveConstants.SWERVE_KINEMATICS,
+                        MotionProfilingConstants.X_PID_CONTROLLER,
+                        MotionProfilingConstants.Y_PID_CONTROLLER,
+                        MotionProfilingConstants.THETA_PID_CONTROLLER,
+                        swerveSS::setModuleStates,
+                        swerveSS
                 ),
                 new InstantCommand(() -> {
-                    drivetrainSS.SetSpeedMotorRampRates();
-                    drivetrainSS.stopMoving();
-                }, drivetrainSS)
+                    swerveSS.SetSpeedMotorRampRates();
+                    swerveSS.stopMoving();
+                }, swerveSS)
         );
     }
 }

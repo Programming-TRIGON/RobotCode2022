@@ -1,7 +1,7 @@
 package frc.robot.motion_profiling;
 
 import frc.robot.constants.RobotConstants.MotionProfilingConstants;
-import frc.robot.subsystems.drivetrain.DrivetrainSS;
+import frc.robot.subsystems.swerve.SwerveSS;
 
 /**
  * This enum represent and hold the instances of auto paths
@@ -67,9 +67,9 @@ public enum AutoPath {
         this.waypoints = null;
     }
 
-    public Path getPath(DrivetrainSS drivetrainSS, MotionProfilingConstants constants) {
-        if (path == null)
-            return new Path(drivetrainSS, constants, waypoints);
+    public Path getPath(SwerveSS swerveSS) {
+        if(path == null)
+            return new Path(swerveSS, waypoints);
         else
             return path;
     }
