@@ -49,7 +49,6 @@ public class CharacterizationCMD extends CommandBase {
      * position has changed to know when to end the current cycle.
      */
     private double initialCyclePosition;
-
     /**
      * Current state of the command.
      */
@@ -96,23 +95,25 @@ public class CharacterizationCMD extends CommandBase {
 
     @Override
     public void execute() {
-        if(state == CharacterizationState.Running)
-            runningCycle();
-        else if(state == CharacterizationState.Finished)
-            finishingCycle();
-        else
-            resettingCycle();
+        switch(state) {
+            case Running:
+                runCycle();
+            case Finished:
+                finishCycle();
+            case Resetting:
+                resetCycle();
+        }
 
         lastVelocities = characterizableSS.getValues();
         lastVelocitiesMeasurementTime = Timer.getFPGATimestamp();
     }
 
     /**
-     * Moves the motor and sums up the velocities for every component.
+     * Sums up the velocities for every component.
      */
-    private void runningCycle() {
+    private void runCycle() {
         sumVelocities();
-        if(hasFinishedCycle()) {
+        if(isCycleFinished()) {
             characterizableSS.stopMoving();
             state = CharacterizationState.Finished;
         }
@@ -137,19 +138,20 @@ public class CharacterizationCMD extends CommandBase {
 
     /**
      * @param componentIndex Index of the component to check the acceleration of.
-     * @return If the acceleration is within the acceleration tolerance.
+     * @return Whether the acceleration is within the acceleration tolerance.
      */
     private boolean isWithinAccelerationTolerance(int componentIndex) {
         double velocity = Math.abs(characterizableSS.getValues()[componentIndex]);
-        double acceleration = Math.abs(
-                lastVelocities[componentIndex] - velocity) / (Timer.getFPGATimestamp() - lastVelocitiesMeasurementTime);
+        double acceleration =
+                Math.abs(lastVelocities[componentIndex] - velocity)
+                        / (Timer.getFPGATimestamp() - lastVelocitiesMeasurementTime);
         return acceleration < velocity * constants.tolerancePercentage / 100;
     }
 
     /**
-     * @return If the cycle has finished.
+     * @return Whether the cycle has finished.
      */
-    private boolean hasFinishedCycle() {
+    private boolean isCycleFinished() {
         return Math.abs(initialCyclePosition - characterizableSS.getCharacterizationCyclePosition())
                 >= constants.cycleLength;
     }
@@ -157,7 +159,7 @@ public class CharacterizationCMD extends CommandBase {
     /**
      * Calculates the average velocities of every component.
      */
-    private void finishingCycle() {
+    private void finishCycle() {
         calculateAverageVelocities();
         completedCycles++;
         state = CharacterizationState.Resetting;
@@ -177,7 +179,7 @@ public class CharacterizationCMD extends CommandBase {
      * Waits for the subsystem to stop moving, once it does, it calculates the new
      * power, moves the motor at that power, and sets up the next cycle.
      */
-    private void resettingCycle() {
+    private void resetCycle() {
         if(hasSystemStopped())
             setupNextCycle();
     }
