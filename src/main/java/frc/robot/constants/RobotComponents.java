@@ -60,60 +60,68 @@ public class RobotComponents {
             public static final TrigonTalonSRX ANGLE_ENCODER = new TrigonTalonSRX(
                     CAN.Swerve.FRONT_LEFT_ANGLE_ENCODER_ID, ANGLE_ENCODER_CONFIG);
             public static final PIDFTalonFX ANGLE_MOTOR = new PIDFTalonFX(
-                    CAN.Swerve.FRONT_LEFT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG.withClosedLoop(
-                            LOCAL_SWERVE_MODULES_CONSTANTS.frontLeftModuleConstants.angleCoefs, ControlMode.Position).
-                    withRemoteSensorSource(
-                            CAN.Swerve.FRONT_LEFT_ANGLE_ENCODER_ID, RemoteSensorSource.TalonSRX_SelectedSensor, 0).
-                    withSecondaryFeedbackDevice(FeedbackDevice.RemoteSensor0));
+                    CAN.Swerve.FRONT_LEFT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG
+                    .withClosedLoop(
+                            LOCAL_SWERVE_MODULES_CONSTANTS.frontLeftModuleConstants.angleCoefs, ControlMode.Position)
+                    .withRemoteSensorSource(
+                            CAN.Swerve.FRONT_LEFT_ANGLE_ENCODER_ID, RemoteSensorSource.TalonSRX_SelectedSensor, 0)
+                    .withSecondaryFeedbackDevice(FeedbackDevice.RemoteSensor0));
             public static final PIDFTalonFX DRIVE_MOTOR = new PIDFTalonFX(
-                    CAN.Swerve.FRONT_LEFT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG.withClosedLoop(
-                    LOCAL_SWERVE_MODULES_CONSTANTS.frontLeftModuleConstants.driveCoefs,
-                    ControlMode.Velocity));
+                    CAN.Swerve.FRONT_LEFT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG
+                    .withClosedLoop(
+                            LOCAL_SWERVE_MODULES_CONSTANTS.frontLeftModuleConstants.driveCoefs,
+                            ControlMode.Velocity));
         }
 
         public static class FrontRight {
             public static final TrigonTalonSRX ANGLE_ENCODER = new TrigonTalonSRX(
                     CAN.Swerve.FRONT_RIGHT_ANGLE_ENCODER_ID, ANGLE_ENCODER_CONFIG);
             public static final PIDFTalonFX ANGLE_MOTOR = new PIDFTalonFX(
-                    CAN.Swerve.FRONT_RIGHT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG.withClosedLoop(
-                            LOCAL_SWERVE_MODULES_CONSTANTS.frontRightModuleConstants.angleCoefs, ControlMode.Position).
-                    withRemoteSensorSource(
-                            CAN.Swerve.FRONT_RIGHT_ANGLE_ENCODER_ID, RemoteSensorSource.TalonSRX_SelectedSensor, 0).
-                    withSecondaryFeedbackDevice(FeedbackDevice.RemoteSensor0));
+                    CAN.Swerve.FRONT_RIGHT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG
+                    .withClosedLoop(
+                            LOCAL_SWERVE_MODULES_CONSTANTS.frontRightModuleConstants.angleCoefs, ControlMode.Position)
+                    .withRemoteSensorSource(
+                            CAN.Swerve.FRONT_RIGHT_ANGLE_ENCODER_ID, RemoteSensorSource.TalonSRX_SelectedSensor, 0)
+                    .withSecondaryFeedbackDevice(FeedbackDevice.RemoteSensor0));
             public static final PIDFTalonFX DRIVE_MOTOR = new PIDFTalonFX(
-                    CAN.Swerve.FRONT_RIGHT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG.withClosedLoop(
-                    LOCAL_SWERVE_MODULES_CONSTANTS.frontRightModuleConstants.driveCoefs,
-                    ControlMode.Velocity));
+                    CAN.Swerve.FRONT_RIGHT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG
+                    .withClosedLoop(
+                            LOCAL_SWERVE_MODULES_CONSTANTS.frontRightModuleConstants.driveCoefs,
+                            ControlMode.Velocity));
         }
 
         public static class RearLeft {
             public static final TrigonTalonSRX ANGLE_ENCODER = new TrigonTalonSRX(
                     CAN.Swerve.REAR_LEFT_ANGLE_ENCODER_ID, ANGLE_ENCODER_CONFIG);
             public static final PIDFTalonFX ANGLE_MOTOR = new PIDFTalonFX(
-                    CAN.Swerve.REAR_LEFT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG.withClosedLoop(
-                            LOCAL_SWERVE_MODULES_CONSTANTS.rearLeftModuleConstants.angleCoefs, ControlMode.Position).
-                    withRemoteSensorSource(
-                            CAN.Swerve.REAR_LEFT_ANGLE_ENCODER_ID, RemoteSensorSource.TalonSRX_SelectedSensor, 0).
-                    withSecondaryFeedbackDevice(FeedbackDevice.RemoteSensor0));
+                    CAN.Swerve.REAR_LEFT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG
+                    .withClosedLoop(
+                            LOCAL_SWERVE_MODULES_CONSTANTS.rearLeftModuleConstants.angleCoefs, ControlMode.Position)
+                    .withRemoteSensorSource(
+                            CAN.Swerve.REAR_LEFT_ANGLE_ENCODER_ID, RemoteSensorSource.TalonSRX_SelectedSensor, 0)
+                    .withSecondaryFeedbackDevice(FeedbackDevice.RemoteSensor0));
             public static final PIDFTalonFX DRIVE_MOTOR = new PIDFTalonFX(
-                    CAN.Swerve.REAR_LEFT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG.withClosedLoop(
-                    LOCAL_SWERVE_MODULES_CONSTANTS.rearLeftModuleConstants.driveCoefs,
-                    ControlMode.Velocity));
+                    CAN.Swerve.REAR_LEFT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG
+                    .withClosedLoop(
+                            LOCAL_SWERVE_MODULES_CONSTANTS.rearLeftModuleConstants.driveCoefs,
+                            ControlMode.Velocity));
         }
 
         public static class RearRight {
             public static final TrigonTalonSRX ANGLE_ENCODER = new TrigonTalonSRX(
                     CAN.Swerve.REAR_RIGHT_ANGLE_ENCODER_ID, ANGLE_ENCODER_CONFIG);
             public static final PIDFTalonFX ANGLE_MOTOR = new PIDFTalonFX(
-                    CAN.Swerve.REAR_RIGHT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG.withClosedLoop(
-                            LOCAL_SWERVE_MODULES_CONSTANTS.rearRightModuleConstants.angleCoefs, ControlMode.Position).
-                    withRemoteSensorSource(
-                            CAN.Swerve.REAR_RIGHT_ANGLE_ENCODER_ID, RemoteSensorSource.TalonSRX_SelectedSensor, 0).
-                    withSecondaryFeedbackDevice(FeedbackDevice.RemoteSensor0));
+                    CAN.Swerve.REAR_RIGHT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG
+                    .withClosedLoop(
+                            LOCAL_SWERVE_MODULES_CONSTANTS.rearRightModuleConstants.angleCoefs, ControlMode.Position)
+                    .withRemoteSensorSource(
+                            CAN.Swerve.REAR_RIGHT_ANGLE_ENCODER_ID, RemoteSensorSource.TalonSRX_SelectedSensor, 0)
+                    .withSecondaryFeedbackDevice(FeedbackDevice.RemoteSensor0));
             public static final PIDFTalonFX DRIVE_MOTOR = new PIDFTalonFX(
-                    CAN.Swerve.REAR_RIGHT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG.withClosedLoop(
-                    LOCAL_SWERVE_MODULES_CONSTANTS.rearRightModuleConstants.driveCoefs,
-                    ControlMode.Velocity));
+                    CAN.Swerve.REAR_RIGHT_DRIVE_MOTOR_ID, DRIVE_MOTOR_CONFIG
+                    .withClosedLoop(
+                            LOCAL_SWERVE_MODULES_CONSTANTS.rearRightModuleConstants.driveCoefs,
+                            ControlMode.Velocity));
         }
     }
 

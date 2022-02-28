@@ -84,7 +84,7 @@ public class PIDCoefs {
     public void setDeltaTolerance(double deltaTolerance) {
         this.deltaTolerance = deltaTolerance;
     }
-    
+
     public void set(PIDCoefs coefs) {
         setKP(coefs.getKP());
         setKI(coefs.getKI());
