@@ -12,6 +12,7 @@ public interface PIDFMotor extends PIDFConfigurable {
 
     double get();
 
+
     @Override
     default void initSendable(SendableBuilder builder) {
         PIDFConfigurable.super.initSendable(builder);
@@ -19,4 +20,5 @@ public interface PIDFMotor extends PIDFConfigurable {
         builder.setSafeState(() -> set(0));
         builder.addDoubleProperty("output", this::get, isTuning() ? this::set : null);
     }
+
 }

@@ -3,8 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.MoveMovableSubsystem;
-import frc.robot.commands.PIDCommand;
 import frc.robot.components.TrigonXboxController;
 import frc.robot.constants.RobotConstants.DriverConstants;
 import frc.robot.subsystems.climber.ClimberSS;
@@ -37,7 +35,7 @@ public class RobotContainer {
     public LED ledSS;
 
     // Commands
-    public SupplierDriveCMD driveWithXboxCMD;
+    private SupplierDriveCMD driveWithXboxCMD;
 
     /**
      * Add classes here

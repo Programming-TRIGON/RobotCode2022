@@ -113,12 +113,12 @@ public class RobotConstants {
         public static final PIDFTalonSRX LEFT_MOTOR = ShooterComponents.LEFT_MOTOR;
         public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
         //TODO: Set zone limits and coefs
-        public static final double[] ZONE_LIMITS = {};
-        public static final double[] ZONE_1_COEFS = {};
-        public static final double[] ZONE_2_COEFS = {};
-        public static final double[] ZONE_3_COEFS = {};
-        public static final double[] ZONE_4_COEFS = {};
-        public static final double[] ANGLES = {};
+        public static final double[] ZONE_LIMITS = {10, 5, 7}; // has 3 values
+        public static final double[] ZONE_1_COEFS = {0, 0}; // has 2 values
+        public static final double[] ZONE_2_COEFS = {1, 1}; // has 2 values
+        public static final double[] ZONE_3_COEFS = {2, 2}; // has 2 values
+        public static final double[] ZONE_4_COEFS = {3, 3}; // has 2 values
+        public static final double[] ANGLES = {10, 20, 30, 40}; // has 4 values
     }
 
     public static class ClimberConstants {
@@ -132,7 +132,7 @@ public class RobotConstants {
         public static final ColorSensorV3 COLOR_SENSOR = TransporterComponents.COLOR_SENSOR;
         public static final int STALL_CURRENT_LIMIT = 20;
         //TODO: set reasonable power
-        public static final double POWER = 0.5;
+        public static final double DEFAULT_POWER = 0.5;
     }
 
     public static class IntakeConstants {
