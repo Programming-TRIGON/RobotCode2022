@@ -12,7 +12,6 @@ public interface PIDFMotor extends PIDFConfigurable {
 
     double get();
 
-
     @Override
     default void initSendable(SendableBuilder builder) {
         PIDFConfigurable.super.initSendable(builder);
