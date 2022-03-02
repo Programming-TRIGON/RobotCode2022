@@ -147,7 +147,9 @@ public class RobotComponents {
                 inverted(false).
                 withOpenLoopRampRate(0.4).
                 withClosedLoopRampRate(0.4).
-                withClosedLoop(RobotConstants.LOCAL_CONSTANTS.localClimberConstants.pidfCoefs, ControlMode.Velocity);
+                //TODO: change to position
+                        withClosedLoop(
+                        RobotConstants.LOCAL_CONSTANTS.localClimberConstants.pidfCoefs, ControlMode.Velocity);
         public static final PIDFTalonFX LEFT_MOTOR = new PIDFTalonFX(
                 CAN.Climber.LEFT_MOTOR_ID, MOTOR_CONFIG);
         public static final PIDFTalonFX RIGHT_MOTOR = new PIDFTalonFX(
@@ -189,6 +191,7 @@ public class RobotComponents {
                 brake().
                 withOpenLoopRampRate(0.5).
                 withClosedLoopRampRate(0.5);
+        //TODO: add closed loop
         public static final PIDFTalonSRX MOTOR = new PIDFTalonSRX(
                 CAN.Loader.MOTOR_ID, MOTOR_CONFIG);
     }

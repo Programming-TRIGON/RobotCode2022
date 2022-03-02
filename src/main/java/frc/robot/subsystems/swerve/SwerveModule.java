@@ -10,7 +10,7 @@ import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.SwerveConstants;
 import frc.robot.constants.SwerveModuleConstants;
 import frc.robot.utilities.Conversions;
-import frc.robot.utilities.Saveable;
+import frc.robot.utilities.Savable;
 import frc.robot.utilities.pid.PIDFTalonFX;
 
 /**
@@ -18,7 +18,7 @@ import frc.robot.utilities.pid.PIDFTalonFX;
  * The module has two motors, one for the drive and one for the angle.
  * There's a MAG encoder for the angle.
  */
-public class SwerveModule implements Saveable {
+public class SwerveModule implements Savable {
     private final PIDFTalonFX angleMotor;
     private final PIDFTalonFX driveMotor;
     private final TrigonTalonSRX angleEncoder;
