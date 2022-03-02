@@ -27,7 +27,7 @@ public class CharacterizationCMD extends CommandBase {
     /**
      * Amount of velocities summed in averageVelocities for every component.
      */
-    private final double[] sampleCount;
+    private final double[] sampleCounts;
     /**
      * Power used in every cycle.
      */
@@ -70,7 +70,7 @@ public class CharacterizationCMD extends CommandBase {
         averageVelocities = new double[componentCount][];
         velocitySums = new double[componentCount];
         lastVelocities = new double[componentCount];
-        sampleCount = new double[componentCount];
+        sampleCounts = new double[componentCount];
         powers = new double[constants.cycleCount];
 
         for(int i = 0; i < componentCount; i++)
@@ -85,7 +85,7 @@ public class CharacterizationCMD extends CommandBase {
         state = CharacterizationState.Resetting;
         for(int i = 0; i < componentCount; i++) {
             lastVelocities[i] = 0;
-            sampleCount[i] = 0;
+            sampleCounts[i] = 0;
             for(int j = 0; j < constants.cycleCount; j++) {
                 averageVelocities[i][j] = 0;
             }
@@ -128,10 +128,10 @@ public class CharacterizationCMD extends CommandBase {
             double velocity = Math.abs(characterizableSS.getValues()[i]);
             if(isWithinAccelerationTolerance(i)) {
                 velocitySums[i] += velocity;
-                sampleCount[i]++;
+                sampleCounts[i]++;
             } else {
                 velocitySums[i] = 0;
-                sampleCount[i] = 0;
+                sampleCounts[i] = 0;
             }
         }
     }
@@ -170,8 +170,8 @@ public class CharacterizationCMD extends CommandBase {
      */
     private void calculateAverageVelocities() {
         for(int i = 0; i < componentCount; i++) {
-            if(sampleCount[i] > 0)
-                averageVelocities[i][completedCycles] = velocitySums[i] / sampleCount[i];
+            if(sampleCounts[i] > 0)
+                averageVelocities[i][completedCycles] = velocitySums[i] / sampleCounts[i];
         }
     }
 
@@ -207,7 +207,7 @@ public class CharacterizationCMD extends CommandBase {
         initialCyclePosition = characterizableSS.getCharacterizationCyclePosition();
         for(int i = 0; i < componentCount; i++) {
             velocitySums[i] = 0;
-            sampleCount[i] = 0;
+            sampleCounts[i] = 0;
         }
         state = CharacterizationState.Running;
     }
