@@ -123,6 +123,7 @@ public class RobotConstants {
     public static class TransporterConstants {
         public static final TrigonTalonSRX MOTOR = TransporterComponents.MOTOR;
         public static final ColorSensorV3 COLOR_SENSOR = TransporterComponents.COLOR_SENSOR;
+        //TODO: set to real value
         public static final int STALL_CURRENT_LIMIT = 20;
     }
 

@@ -23,17 +23,30 @@ public class TransporterSS extends OverridableSubsystem {
     }
 
     /**
-     * @return the current being given to the motor
+     * Moves the motor if the subsystem is not overridden and the motor is not stalled. If the motor is stalled it
+     * will only set the motor to only values equal or lower to 0
+     *
+     * @param power The power to set the motor to.
+     */
+    @Override
+    public void move(double power) {
+        if(!isStalled() && power >= 0)
+            power = 0;
+        super.move(power);
+    }
+
+    /**
+     * @return The current being given to the motor.
      */
     public double getStatorCurrent() {
         return motor.getStatorCurrent();
     }
 
     /**
-     * @return if the motor is currently stalled
+     * @return If the motor is currently stalled.
      */
     public boolean isStalled() {
-        return motor.getStatorCurrent() > TransporterConstants.STALL_CURRENT_LIMIT;
+        return getStatorCurrent() > TransporterConstants.STALL_CURRENT_LIMIT;
     }
 
     /**
