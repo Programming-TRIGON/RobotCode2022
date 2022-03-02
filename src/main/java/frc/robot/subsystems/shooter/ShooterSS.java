@@ -18,7 +18,7 @@ public class ShooterSS extends SubsystemBase implements PIDSubsystem, Characteri
         ShooterConstants.LEFT_MOTOR.follow(masterMotor);
         ShooterConstants.RIGHT_MOTOR.follow(masterMotor);
 
-        putCharacterizeCMDInDashboard("ShooterSS");
+        putCharacterizeCMDInDashboard();
     }
 
     /**
@@ -64,7 +64,13 @@ public class ShooterSS extends SubsystemBase implements PIDSubsystem, Characteri
     /**
      * @return an array of the current encoder position
      */
+    @Override
     public double[] getValues() {
         return new double[] {masterMotor.getSelectedSensorVelocity()};
+    }
+
+    @Override
+    public String getName() {
+        return "Shooter";
     }
 }

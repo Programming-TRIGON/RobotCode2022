@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.CharacterizationCMD;
@@ -26,6 +27,13 @@ public interface CharacterizableSubsystem extends TestableSubsystem {
     CharacterizationConstants getCharacterizationConstants();
 
     /**
+     * Gets the name of this Subsystem.
+     *
+     * @return Name
+     */
+    String getName();
+
+    /**
      * Creates and puts a characterize command in the dashboard under the "CharacterizeCMDs" table.
      * This function should be called once in the constructor.
      *
@@ -33,6 +41,15 @@ public interface CharacterizableSubsystem extends TestableSubsystem {
      */
     default void putCharacterizeCMDInDashboard(String name) {
         SmartDashboard.putData("CharacterizeCMDs/" + name, new CharacterizationCMD(this));
+    }
+
+    /**
+     * Creates and puts a characterize command in the dashboard under the "CharacterizeCMDs" table.
+     * This function should be called once in the constructor. This function gives a key equal to the getName()
+     * function.
+     */
+    default void putCharacterizeCMDInDashboard() {
+        putCharacterizeCMDInDashboard(getName());
     }
 
     /**

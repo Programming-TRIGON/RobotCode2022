@@ -36,7 +36,7 @@ public class SwerveSS extends SubsystemBase implements CharacterizableSubsystem 
         swerveModules[Module.REAR_LEFT.getId()] = new SwerveModule(SwerveConstants.REAR_LEFT_CONSTANTS);
         swerveModules[Module.REAR_RIGHT.getId()] = new SwerveModule(SwerveConstants.REAR_RIGHT_CONSTANTS);
 
-        putCharacterizeCMDInDashboard("SwerveSS");
+        putCharacterizeCMDInDashboard();
     }
 
     /**
@@ -179,6 +179,11 @@ public class SwerveSS extends SubsystemBase implements CharacterizableSubsystem 
     public void periodic() {
         // update the odometry with the angle and the current state of each module
         swerveOdometry.update(getAngle(), getStates());
+    }
+
+    @Override
+    public String getName() {
+        return "Swerve";
     }
 
     @Override

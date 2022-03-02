@@ -15,7 +15,7 @@ public class LoaderSS extends SubsystemBase implements PIDSubsystem, Characteriz
     public LoaderSS() {
         motor = LoaderConstants.MOTOR;
 
-        putCharacterizeCMDInDashboard("LoaderSS");
+        putCharacterizeCMDInDashboard();
     }
 
     @Override
@@ -58,6 +58,11 @@ public class LoaderSS extends SubsystemBase implements PIDSubsystem, Characteriz
     @Override
     public double[] getValues() {
         return new double[] {motor.getSelectedSensorVelocity()};
+    }
+
+    @Override
+    public String getName() {
+        return "Loader";
     }
 }
 
