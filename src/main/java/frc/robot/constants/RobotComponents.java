@@ -179,7 +179,8 @@ public class RobotComponents {
                 withOpenLoopRampRate(0.4).
                 withClosedLoopRampRate(0.4).
                 withPID(RobotConstants.LOCAL_CONSTANTS.localPitcherConstants.pidfCoefs);
-        public static PIDFTalonSRX MOTOR = new PIDFTalonSRX(CAN.Pitcher.MOTOR_ID, MOTOR_CONFIG, ControlMode.Position);
+        //TODO: add motor when we will use a pitcher.
+        public static PIDFTalonSRX MOTOR = null;
     }
 
     protected static class LoaderComponents {

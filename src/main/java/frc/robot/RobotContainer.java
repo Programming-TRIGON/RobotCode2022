@@ -26,7 +26,7 @@ public class RobotContainer {
     // Subsystems
     public SwerveSS swerveSS;
     public ShooterSS shooterSS;
-    public PitcherSS pitcherSS;
+//    public PitcherSS pitcherSS;
     public LoaderSS loaderSS;
     public TransporterSS transporterSS;
     public ClimberSS climberSS;
@@ -60,7 +60,7 @@ public class RobotContainer {
     private void initializeSubsystems() {
         swerveSS = new SwerveSS();
         shooterSS = new ShooterSS();
-        pitcherSS = new PitcherSS();
+//        pitcherSS = new PitcherSS();
         loaderSS = new LoaderSS();
         transporterSS = new TransporterSS();
         climberSS = new ClimberSS();
