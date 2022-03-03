@@ -43,7 +43,7 @@ public class TransporterSS extends OverridableSubsystem {
     }
 
     /**
-     * @return If the motor is currently stalled.
+     * @return Whether the motor is currently stalled.
      */
     public boolean isStalled() {
         return getStatorCurrent() > TransporterConstants.STALL_CURRENT_LIMIT;
@@ -70,7 +70,7 @@ public class TransporterSS extends OverridableSubsystem {
     }
 
     /**
-     * @return If the color sensor sees a ball belonging to the alliance.
+     * @return Whether the color sensor sees a ball belonging to the alliance.
      */
     public boolean seesAllianceBall() {
         //TODO: Check that the sensor senses the correct color.
@@ -81,7 +81,7 @@ public class TransporterSS extends OverridableSubsystem {
     }
 
     /**
-     * @return If the color sensor sees a ball belonging to the rival alliance.
+     * @return Whether the color sensor sees a ball belonging to the rival alliance.
      */
     public boolean seesRivalBall() {
         Color allianceColor = DriverStation.getAlliance() == DriverStation.Alliance.Blue ?
@@ -91,7 +91,7 @@ public class TransporterSS extends OverridableSubsystem {
     }
 
     /**
-     * @return If the color sensor sees any ball.
+     * @return Whether the color sensor sees any ball.
      */
     public boolean seesBall() {
         return getColor().equals(Color.kFirstBlue) || getColor().equals(Color.kFirstRed);
