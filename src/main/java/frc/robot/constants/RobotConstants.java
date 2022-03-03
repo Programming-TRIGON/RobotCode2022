@@ -95,6 +95,9 @@ public class RobotConstants {
                 LOCAL_CONSTANTS.localSwerveConstants.modules.rearRightModuleConstants,
                 Module.REAR_RIGHT
         );
+
+        public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
+                0.2, 0.1, 3, 2, 5, false);
     }
 
     public static class LedConstants {
@@ -112,6 +115,8 @@ public class RobotConstants {
     public static class ShooterConstants {
         public static final PIDFTalonSRX LEFT_MOTOR = ShooterComponents.LEFT_MOTOR;
         public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
+        public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
+                0.15, 0.15, 5, 6, 2.5, false);
     }
 
     public static class ClimberConstants {
@@ -148,6 +153,8 @@ public class RobotConstants {
 
     public static class LoaderConstants {
         public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
+        public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
+                0.15, 0.2, 3, 4, 5, false);
     }
 
     /**

@@ -220,6 +220,17 @@ public class SwerveModule implements Savable {
         return lastDesiredState;
     }
 
+    /**
+     * sets the feedforward values of the drive motor
+     *
+     * @param kV drive motor velocity gain
+     * @param kS drive motor static gain
+     */
+    public void setDriveFeedforward(double kV, double kS) {
+        driveMotor.setKV(kV);
+        driveMotor.setKS(kS);
+    }
+
     public boolean isTuning() {
         return isTuning;
     }
