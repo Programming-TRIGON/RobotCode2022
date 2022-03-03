@@ -1,5 +1,6 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.RobotConstants.ShooterConstants;
 import frc.robot.subsystems.PIDSubsystem;
@@ -15,6 +16,8 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem, PIDSu
 
         ShooterConstants.LEFT_MOTOR.follow(masterMotor);
         ShooterConstants.RIGHT_MOTOR.follow(masterMotor);
+
+        SmartDashboard.putData("Shooter/left motor", masterMotor);
     }
 
     /**

@@ -2,6 +2,7 @@ package frc.robot.subsystems.pitcher;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants.PitcherConstants;
 import frc.robot.subsystems.PIDSubsystem;
@@ -14,7 +15,10 @@ public class PitcherSS implements TestableSubsystem, PIDSubsystem {
 
     public PitcherSS() {
         motor = PitcherConstants.MOTOR;
+
         resetEncoder();
+
+        SmartDashboard.putData("Pitcher/motor", motor);
     }
 
     /**

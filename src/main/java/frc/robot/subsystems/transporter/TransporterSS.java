@@ -3,6 +3,7 @@ package frc.robot.subsystems.transporter;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorSensorV3.RawColor;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants.TransporterConstants;
@@ -15,6 +16,8 @@ public class TransporterSS extends OverridableSubsystem {
     public TransporterSS() {
         motor = TransporterConstants.MOTOR;
         colorSensor = TransporterConstants.COLOR_SENSOR;
+
+        SmartDashboard.putData("Transporter/motor", motor);
     }
 
     @Override

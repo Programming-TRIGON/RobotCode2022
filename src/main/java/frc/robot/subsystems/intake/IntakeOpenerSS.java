@@ -2,6 +2,7 @@ package frc.robot.subsystems.intake;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.IntakeOpenerConstants;
 import frc.robot.subsystems.OverridableSubsystem;
@@ -14,7 +15,10 @@ public class IntakeOpenerSS extends OverridableSubsystem implements PIDSubsystem
 
     public IntakeOpenerSS() {
         motor = IntakeOpenerConstants.MOTOR;
+
         resetEncoder();
+
+        SmartDashboard.putData("IntakeOpener/motor", motor);
     }
 
     /**
