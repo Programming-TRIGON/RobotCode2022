@@ -140,7 +140,7 @@ public class RobotConstants {
     }
 
     public static class PitcherConstants {
-        public static final TrigonTalonSRX MOTOR = PitcherComponents.MOTOR;
+        public static final PIDFTalonSRX MOTOR = PitcherComponents.MOTOR;
         public static final double GEAR_RATIO = 10;
         public static double OPEN_ANGLE = 50; // in degrees
         public static double CLOSED_ANGLE = 70; // in degrees

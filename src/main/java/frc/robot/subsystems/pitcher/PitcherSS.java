@@ -7,9 +7,10 @@ import frc.robot.constants.RobotConstants.PitcherConstants;
 import frc.robot.subsystems.PIDSubsystem;
 import frc.robot.subsystems.TestableSubsystem;
 import frc.robot.utilities.Conversions;
+import frc.robot.utilities.pid.PIDFTalonSRX;
 
 public class PitcherSS implements TestableSubsystem, PIDSubsystem {
-    private final TrigonTalonSRX motor;
+    private final PIDFTalonSRX motor;
 
     public PitcherSS() {
         motor = PitcherConstants.MOTOR;
