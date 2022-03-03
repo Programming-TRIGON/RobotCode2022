@@ -16,11 +16,9 @@ public class ShootCG extends ParallelCommandGroup {
                 robotContainer.shooterSS,
                 //TODO: Make sure this updates dynamically
                 () -> ShooterCalculations.calculateVelocity(robotContainer.limelight.getTy()));
-        // Pitcher is currently static therefore commented out for the mean time
-        //        PIDCommand pitcherCMD = new PIDCommand(
-        //                //TODO: Make sure this updates dynamically
-        //                robotContainer.pitcherSS, () -> ShooterCalculations.calculateAngle(robotContainer.limelight
-        //                .getTy()));
+                PIDCommand pitcherCMD = new PIDCommand(
+                        robotContainer.pitcherSS, () -> ShooterCalculations.calculateAngle(robotContainer.limelight
+                        .getTy()));
 
         addCommands(
                 shooterCMD,
