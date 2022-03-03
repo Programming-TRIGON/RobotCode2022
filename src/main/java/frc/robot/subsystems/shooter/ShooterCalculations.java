@@ -2,52 +2,19 @@ package frc.robot.subsystems.shooter;
 
 import frc.robot.constants.RobotConstants.ShooterConstants;
 
+import java.util.ArrayList;
+
 public class ShooterCalculations {
-
     /**
-     * @return zone the robot is in based on the distance from the hub
+     * @param distance The distance of the front of the robot from the hub
+     * @return The zone the robot is in based on the distance from the hub.
      */
-    private static int calculateZone(double heightSeen) {
-        if(heightSeen >= ShooterConstants.ZONE_LIMITS[0])
-            return 1;
-        else if(heightSeen >= ShooterConstants.ZONE_LIMITS[1])
-            return 2;
-        else if(heightSeen >= ShooterConstants.ZONE_LIMITS[3])
-            return 3;
-        else
-            return 4;
-    }
-
-    /**
-     * Calculates the optimal velocity of the shooter
-     * based on the zone the robot is in using a trend-line.
-     *
-     * @return target velocity of the shooter
-     */
-    public static double calculateVelocity(double heightSeen) {
-        double mCoef = 0;
-        double bCoef = 0;
-
-        switch(calculateZone(heightSeen)) {
-            case 1:
-                mCoef = ShooterConstants.ZONE_1_COEFS[0];
-                bCoef = ShooterConstants.ZONE_1_COEFS[1];
-                break;
-            case 2:
-                mCoef = ShooterConstants.ZONE_2_COEFS[0];
-                bCoef = ShooterConstants.ZONE_2_COEFS[1];
-                break;
-            case 3:
-                mCoef = ShooterConstants.ZONE_3_COEFS[0];
-                bCoef = ShooterConstants.ZONE_3_COEFS[1];
-                break;
-            default:
-                mCoef = ShooterConstants.ZONE_4_COEFS[0];
-                bCoef = ShooterConstants.ZONE_4_COEFS[1];
-                break;
+    private static int calculateZone(double distance) {
+        for(int i = 0; i < ShooterConstants.ZONE_LIMITS.length; i++) {
+            if(distance <= ShooterConstants.ZONE_LIMITS[i])
+                return i;
         }
-
-        return mCoef * heightSeen + bCoef;
+        return ShooterConstants.ZONE_LIMITS.length;
     }
 
     /**
@@ -56,16 +23,44 @@ public class ShooterCalculations {
      *
      * @return target angle of the pitcher
      */
-    public static double calculateAngle(double heightSeen) {
-        switch(calculateZone(heightSeen)) {
-            case 1:
-                return ShooterConstants.ANGLES[0];
-            case 2:
-                return ShooterConstants.ANGLES[1];
-            case 3:
-                return ShooterConstants.ANGLES[2];
-            default:
-                return ShooterConstants.ANGLES[3];
+    public static double calculateAngle(double distance) {
+        return ShooterConstants.SHOOTER_ZONES[calculateZone(distance)].getPitcherAngle();
+    }
+
+    /**
+     * Calculates the optimal velocity of the shooter
+     * based on the zone the robot is in using a slope between two points.
+     *
+     * @return target velocity of the shooter
+     */
+    public static double calculateVelocity(double distance) {
+        ShooterZone zone = ShooterConstants.SHOOTER_ZONES[calculateZone(distance)];
+        ArrayList<ShooterWaypoint> waypoints = zone.getWaypoints();
+
+        ShooterWaypoint waypoint0 = waypoints.get(0);
+        ShooterWaypoint waypoint1 = waypoints.get(0);
+
+        // In ShooterZone we sort the shooter waypoints,
+        // so we can use it as a sorted array from closest to farthest.
+        for(int i = 0; i < waypoints.size(); i++) {
+            if(distance >= waypoints.get(i).getDistance()) {
+                waypoint0 = waypoints.get(i);
+                // If the distance in bigger than only the max point act as if it is the max point.
+                if(i + 1 >= waypoints.size())
+                    return waypoint0.getVelocity();
+                waypoint1 = waypoints.get(i + 1);
+                break;
+            }
         }
+        // If the distance in smaller than all the points act as if it is the max point.
+        if(waypoint1 == waypoint0)
+            return waypoint0.getVelocity();
+
+        double deltaV = waypoint1.getVelocity() - waypoint0.getVelocity();
+        double deltaD = waypoint1.getDistance() - waypoint0.getDistance();
+        double slope = deltaV / deltaD;
+        double intercept = waypoint0.getVelocity() - slope * waypoint0.getDistance();
+
+        return slope * distance + intercept;
     }
 }

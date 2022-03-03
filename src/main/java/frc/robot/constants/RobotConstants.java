@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotComponents.*;
+import frc.robot.subsystems.shooter.ShooterZone;
 import frc.robot.utilities.JsonHandler;
 import frc.robot.utilities.Module;
 import frc.robot.utilities.pid.PIDCoefs;
@@ -112,13 +113,8 @@ public class RobotConstants {
     public static class ShooterConstants {
         public static final PIDFTalonSRX LEFT_MOTOR = ShooterComponents.LEFT_MOTOR;
         public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
-        //TODO: Set zone limits and coefs
-        public static final double[] ZONE_LIMITS = {10, 5, 7}; // has 3 values
-        public static final double[] ZONE_1_COEFS = {0, 0}; // has 2 values
-        public static final double[] ZONE_2_COEFS = {1, 1}; // has 2 values
-        public static final double[] ZONE_3_COEFS = {2, 2}; // has 2 values
-        public static final double[] ZONE_4_COEFS = {3, 3}; // has 2 values
-        public static final double[] ANGLES = {10, 20, 30, 40}; // has 4 values
+        public static final double[] ZONE_LIMITS = LOCAL_CONSTANTS.localShooterConstants.zoneLimits;
+        public static final ShooterZone[] SHOOTER_ZONES = LOCAL_CONSTANTS.localShooterConstants.shooterZones;
     }
 
     public static class ClimberConstants {
