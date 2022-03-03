@@ -7,11 +7,14 @@ import frc.robot.components.TrigonXboxController;
 import frc.robot.constants.RobotConstants.DriverConstants;
 import frc.robot.subsystems.climber.ClimberSS;
 import frc.robot.subsystems.led.LED;
+import frc.robot.subsystems.loader.LoaderSS;
 import frc.robot.subsystems.pitcher.PitcherSS;
 import frc.robot.subsystems.intake.IntakeOpenerSS;
 import frc.robot.subsystems.intake.IntakeSS;
 import frc.robot.subsystems.swerve.SupplierDriveCMD;
 import frc.robot.subsystems.swerve.SwerveSS;
+import frc.robot.subsystems.shooter.ShooterSS;
+import frc.robot.subsystems.transporter.TransporterSS;
 import frc.robot.utilities.DashboardController;
 
 public class RobotContainer {
@@ -20,10 +23,13 @@ public class RobotContainer {
 
     // Subsystems
     private SwerveSS swerveSS;
+    private ShooterSS shooterSS;
     private IntakeSS intake;
     private IntakeOpenerSS intakeOpener;
     private ClimberSS climberSS;
+    private LoaderSS loaderSS;
     private PitcherSS pitcherSS;
+    private TransporterSS transporterSS;
     private LED ledSS;
 
     // Commands
@@ -50,10 +56,13 @@ public class RobotContainer {
      */
     private void initializeSubsystems() {
         swerveSS = new SwerveSS();
+        shooterSS = new ShooterSS();
         intake = new IntakeSS();
         intakeOpener = new IntakeOpenerSS();
         climberSS = new ClimberSS();
+        loaderSS = new LoaderSS();
         pitcherSS = new PitcherSS();
+        transporterSS = new TransporterSS();
         ledSS = new LED();
     }
 
