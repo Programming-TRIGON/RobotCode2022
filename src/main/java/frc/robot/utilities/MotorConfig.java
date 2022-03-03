@@ -1,9 +1,6 @@
 package frc.robot.utilities;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
-import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.*;
 import frc.robot.utilities.pid.PIDFCoefs;
 
 /**
@@ -26,6 +23,7 @@ public class MotorConfig {
     private int remoteSensorSource0DeviceId;
     private int remoteSensorSource1DeviceId;
     private PIDFCoefs coefs;
+    private ControlMode closedLoopControlMode;
 
     /**
      * Default constructor
@@ -46,6 +44,7 @@ public class MotorConfig {
         remoteSensorSource0DeviceId = 0;
         remoteSensorSource1DeviceId = 0;
         coefs = new PIDFCoefs();
+        closedLoopControlMode = ControlMode.Velocity;
     }
 
     /**
@@ -67,6 +66,7 @@ public class MotorConfig {
         remoteSensorSource0DeviceId = config.getRemoteSensorSource0DeviceId();
         remoteSensorSource1DeviceId = config.getRemoteSensorSource1DeviceId();
         coefs = config.getCoefs();
+        closedLoopControlMode = config.getClosedLoopControlMode();
     }
 
     public double getOpenLoopRampRate() {
@@ -129,6 +129,10 @@ public class MotorConfig {
         return coefs;
     }
 
+    public ControlMode getClosedLoopControlMode() {
+        return closedLoopControlMode;
+    }
+
     /**
      * Chain setter for the open loop ramp rate.
      *
@@ -138,16 +142,6 @@ public class MotorConfig {
      */
     public MotorConfig withOpenLoopRampRate(double openLoopRampRate) {
         this.openLoopRampRate = openLoopRampRate;
-        return this;
-    }
-
-    /**
-     * Chain setter for the PID coefficients.
-     *
-     * @param coefs The PID coefficients.
-     */
-    public MotorConfig withPID(PIDFCoefs coefs) {
-        this.coefs = coefs;
         return this;
     }
 
@@ -296,6 +290,18 @@ public class MotorConfig {
             remoteSensorSource1DeviceId = remoteSensorSourceDeviceId;
             remoteSensorSource1Type = remoteSensorSourceType;
         }
+        return this;
+    }
+
+    /**
+     * Chain setter for a closed loop motor.
+     *
+     * @param coefs       The closed loop PIDF coefficients
+     * @param controlMode The closed loop control mode
+     */
+    public MotorConfig withClosedLoop(PIDFCoefs coefs, ControlMode controlMode) {
+        this.coefs = coefs;
+        this.closedLoopControlMode = controlMode;
         return this;
     }
 }

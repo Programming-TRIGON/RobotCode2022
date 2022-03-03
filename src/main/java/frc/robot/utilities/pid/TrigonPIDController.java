@@ -5,12 +5,14 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 
 public class TrigonPIDController extends PIDController implements PIDConfigurable {
     private final PIDCoefs pidCoefs;
+    private final PIDCoefs remotePidCoefs;
     private boolean isTuning;
 
-    public TrigonPIDController(PIDCoefs pidCoefs) {
-        super(pidCoefs.getKP(), pidCoefs.getKI(), pidCoefs.getKD());
-        super.setTolerance(pidCoefs.getTolerance(), pidCoefs.getDeltaTolerance());
-        this.pidCoefs = pidCoefs;
+    public TrigonPIDController(PIDCoefs coefs) {
+        super(coefs.getKP(), coefs.getKI(), coefs.getKD());
+
+        remotePidCoefs = coefs;
+        pidCoefs = new PIDCoefs(getRemoteCoefs());
         isTuning = false;
     }
 
@@ -30,6 +32,11 @@ public class TrigonPIDController extends PIDController implements PIDConfigurabl
     @Override
     public PIDCoefs getCoefs() {
         return pidCoefs;
+    }
+
+    @Override
+    public PIDCoefs getRemoteCoefs() {
+        return remotePidCoefs;
     }
 
     @Override

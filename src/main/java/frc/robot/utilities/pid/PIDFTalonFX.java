@@ -1,13 +1,11 @@
 package frc.robot.utilities.pid;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import frc.robot.components.TrigonTalonFX;
 import frc.robot.utilities.MotorConfig;
 
 public class PIDFTalonFX extends TrigonTalonFX implements PIDFTalon {
-    private final ControlMode controlMode;
-    private PIDFCoefs pidfCoefs;
+    private final PIDFCoefs pidfCoefs;
     private boolean isTuning;
 
     /**
@@ -16,17 +14,13 @@ public class PIDFTalonFX extends TrigonTalonFX implements PIDFTalon {
      * @param id          device ID of motor controller
      * @param motorConfig The configuration preset to use
      */
-    public PIDFTalonFX(int id, MotorConfig motorConfig, ControlMode controlMode) {
+    public PIDFTalonFX(int id, MotorConfig motorConfig) {
         super(id, motorConfig);
 
-        setCoefs(motorConfig.getCoefs());
+        pidfCoefs = new PIDFCoefs(getRemoteCoefs());
         this.isTuning = false;
-        this.controlMode = controlMode;
-    }
 
-    @Override
-    public ControlMode getControlMode() {
-        return controlMode;
+        setCoefs(getCoefs());
     }
 
     @Override
@@ -40,8 +34,8 @@ public class PIDFTalonFX extends TrigonTalonFX implements PIDFTalon {
     }
 
     @Override
-    public void setPIDFCoefs(PIDFCoefs coefs) {
-        pidfCoefs = coefs;
+    public PIDFCoefs getRemoteCoefs() {
+        return getConfig().getCoefs();
     }
 
     @Override

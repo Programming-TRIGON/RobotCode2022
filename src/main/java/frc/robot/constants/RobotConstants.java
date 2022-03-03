@@ -68,7 +68,7 @@ public class RobotConstants {
                 SwerveComponents.FrontLeft.ANGLE_MOTOR,
                 SwerveComponents.FrontLeft.DRIVE_MOTOR,
                 SwerveComponents.FrontLeft.ANGLE_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.frontLeftModuleConstants.encoderOffset,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.frontLeftModuleConstants,
                 Module.FRONT_LEFT
         );
 
@@ -76,7 +76,7 @@ public class RobotConstants {
                 SwerveComponents.FrontRight.ANGLE_MOTOR,
                 SwerveComponents.FrontRight.DRIVE_MOTOR,
                 SwerveComponents.FrontRight.ANGLE_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.frontRightModuleConstants.encoderOffset,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.frontRightModuleConstants,
                 Module.FRONT_RIGHT
         );
 
@@ -84,7 +84,7 @@ public class RobotConstants {
                 SwerveComponents.RearLeft.ANGLE_MOTOR,
                 SwerveComponents.RearLeft.DRIVE_MOTOR,
                 SwerveComponents.RearLeft.ANGLE_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.rearLeftModuleConstants.encoderOffset,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.rearLeftModuleConstants,
                 Module.REAR_LEFT
         );
 
@@ -92,7 +92,7 @@ public class RobotConstants {
                 SwerveComponents.RearRight.ANGLE_MOTOR,
                 SwerveComponents.RearRight.DRIVE_MOTOR,
                 SwerveComponents.RearRight.ANGLE_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.rearRightModuleConstants.encoderOffset,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.rearRightModuleConstants,
                 Module.REAR_RIGHT
         );
     }
@@ -148,5 +148,11 @@ public class RobotConstants {
     public static class LoaderConstants {
         public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
     }
-}
 
+    /**
+     * Writes the LOCAL_CONSTANTS values to the json file.
+     */
+    public static void write() {
+        JsonHandler.write(LOCAL_CONSTANTS);
+    }
+}

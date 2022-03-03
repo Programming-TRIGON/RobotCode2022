@@ -9,6 +9,7 @@ import frc.robot.utilities.MotorConfig;
  * on a config preset
  */
 public class TrigonTalonSRX extends WPI_TalonSRX implements ConfigurableTalon {
+    private final MotorConfig config;
 
     /**
      * constructs a new motor controller
@@ -18,6 +19,7 @@ public class TrigonTalonSRX extends WPI_TalonSRX implements ConfigurableTalon {
      */
     public TrigonTalonSRX(int id, MotorConfig motorConfig) {
         super(id);
+        this.config = motorConfig;
         ce_configFactoryDefault();
         config(motorConfig);
     }
@@ -29,5 +31,10 @@ public class TrigonTalonSRX extends WPI_TalonSRX implements ConfigurableTalon {
      */
     public TrigonTalonSRX(int id) {
         this(id, new MotorConfig());
+    }
+
+    @Override
+    public MotorConfig getConfig() {
+        return config;
     }
 }
