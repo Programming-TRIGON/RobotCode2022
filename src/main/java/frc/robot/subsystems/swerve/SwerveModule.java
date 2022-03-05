@@ -3,7 +3,6 @@ package frc.robot.subsystems.swerve;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.components.TrigonTalonSRX;
@@ -11,6 +10,7 @@ import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.SwerveConstants;
 import frc.robot.constants.SwerveModuleConstants;
 import frc.robot.utilities.Conversions;
+import frc.robot.utilities.Savable;
 import frc.robot.utilities.pid.PIDFTalonFX;
 
 /**
@@ -18,11 +18,12 @@ import frc.robot.utilities.pid.PIDFTalonFX;
  * The module has two motors, one for the drive and one for the angle.
  * There's a MAG encoder for the angle.
  */
-public class SwerveModule implements Sendable {
+public class SwerveModule implements Savable {
     private final PIDFTalonFX angleMotor;
     private final PIDFTalonFX driveMotor;
     private final TrigonTalonSRX angleEncoder;
     private final SwerveModuleConstants constants;
+    private double encoderOffset;
     private SwerveModuleState lastDesiredState;
     private boolean isTuning;
 
@@ -32,6 +33,8 @@ public class SwerveModule implements Sendable {
         angleEncoder = moduleConstants.angleEncoder;
         angleMotor = moduleConstants.angleMotor;
         driveMotor = moduleConstants.driveMotor;
+
+        encoderOffset = constants.localConstants.encoderOffset;
 
         resetToAbsolute();
         driveMotor.ce_setSelectedSensorPosition(0);
@@ -92,6 +95,15 @@ public class SwerveModule implements Sendable {
         return newAngle;
     }
 
+    public double getEncoderOffset() {
+        return encoderOffset;
+    }
+
+    public void setEncoderOffset(double encoderOffset) {
+        this.encoderOffset = encoderOffset;
+        resetToAbsolute();
+    }
+
     public double[] getEncoderVelocities() {
         return new double[] {
                 angleEncoder.getSelectedSensorVelocity(),
@@ -146,7 +158,7 @@ public class SwerveModule implements Sendable {
     private void resetToAbsolute() {
         // calculate absolute position and convert to Falcon units
         double absolutePosition = Conversions.degreesToFalcon(
-                getAngle().getDegrees() - constants.encoderOffset,
+                getAngle().getDegrees() - encoderOffset,
                 SwerveConstants.ANGLE_GEAR_RATIO);
         // Set the integrated angle encoder to the absolute position.
         angleMotor.ce_setSelectedSensorPosition((int) absolutePosition, 0);
@@ -208,6 +220,17 @@ public class SwerveModule implements Sendable {
         return lastDesiredState;
     }
 
+    /**
+     * sets the feedforward values of the drive motor
+     *
+     * @param kV drive motor velocity gain
+     * @param kS drive motor static gain
+     */
+    public void setDriveFeedforward(double kV, double kS) {
+        driveMotor.setKV(kV);
+        driveMotor.setKS(kS);
+    }
+
     public boolean isTuning() {
         return isTuning;
     }
@@ -220,6 +243,16 @@ public class SwerveModule implements Sendable {
         SmartDashboard.putData("Swerve/" + name + "/Stats", this);
         SmartDashboard.putData("Swerve/" + name + "/Angle Motor", angleMotor);
         SmartDashboard.putData("Swerve/" + name + "/Drive Motor", driveMotor);
+    }
+
+    @Override
+    public void load() {
+        setEncoderOffset(constants.localConstants.encoderOffset);
+    }
+
+    @Override
+    public void save() {
+        constants.localConstants.encoderOffset = getEncoderOffset();
     }
 
     @Override
@@ -251,6 +284,13 @@ public class SwerveModule implements Sendable {
                 () -> Conversions.falconToDegrees(
                         angleMotor.getClosedLoopError(), SwerveConstants.ANGLE_GEAR_RATIO)
                 , null);
+        builder.addDoubleProperty(
+                "Encoder Offset",
+                this::getEncoderOffset,
+                (offset) -> {
+                    if(isTuning())
+                        setEncoderOffset(offset);
+                });
         builder.addBooleanProperty(
                 "Is Tuning",
                 this::isTuning

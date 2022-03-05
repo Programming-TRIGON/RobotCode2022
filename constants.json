@@ -133,5 +133,16 @@
 			"tolerance": 0.0,
 			"deltaTolerance": 0.0
 		}
+	},
+	"Climber": {
+		"pidfCoefs": {
+			"kS": 0.0,
+			"kV": 0.0,
+			"kP": 0.0,
+			"kI": 0.0,
+			"kD": 0.0,
+			"tolerance": 0.0,
+			"deltaTolerance": 0.0
+		}
 	}
 }

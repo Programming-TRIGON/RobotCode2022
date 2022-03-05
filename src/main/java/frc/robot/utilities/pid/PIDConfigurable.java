@@ -1,11 +1,35 @@
 package frc.robot.utilities.pid;
 
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import frc.robot.utilities.Savable;
 
-public interface PIDConfigurable extends Sendable {
+/**
+ * A class that can be configured with a PIDConfig.
+ */
+public interface PIDConfigurable extends Savable {
 
     PIDCoefs getCoefs();
+
+    /**
+     * Sets the pidCoefs values
+     */
+    default void setCoefs(PIDCoefs coefs) {
+        getCoefs().set(coefs);
+    }
+
+    /**
+     * @return the PIDCoefs that is inside LOCAL_CONSTANTS
+     */
+    PIDCoefs getRemoteCoefs();
+
+    /**
+     * Sets the PID values inside LOCAL_CONSTANTS
+     *
+     * @param coefs the PIDCoefs to set to
+     */
+    default void setRemoteCoefs(PIDCoefs coefs) {
+        getRemoteCoefs().set(coefs);
+    }
 
     double getSetpoint();
 
@@ -59,7 +83,18 @@ public interface PIDConfigurable extends Sendable {
     void setDeltaTolerance(double deltaTolerance);
 
     @Override
+    default void save() {
+        setRemoteCoefs(getCoefs());
+    }
+
+    @Override
+    default void load() {
+        setCoefs(getRemoteCoefs());
+    }
+
+    @Override
     default void initSendable(SendableBuilder builder) {
+        Savable.super.initSendable(builder);
         // sends the pid values to the dashboard but only allows them to be changed if
         // isTuning is true
         builder.setSmartDashboardType("PIDConfigurable");

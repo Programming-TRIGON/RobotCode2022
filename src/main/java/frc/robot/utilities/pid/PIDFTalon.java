@@ -9,7 +9,7 @@ public interface PIDFTalon extends ConfigurableTalon, PIDFMotor {
     PIDFCoefs getCoefs();
 
     default void setCoefs(PIDFCoefs pidfCoefs) {
-        setPIDFCoefs(pidfCoefs);
+        getCoefs().set(pidfCoefs);
         setKP(pidfCoefs.getKP());
         setKI(pidfCoefs.getKI());
         setKD(pidfCoefs.getKD());
@@ -18,13 +18,11 @@ public interface PIDFTalon extends ConfigurableTalon, PIDFMotor {
         setTolerance(pidfCoefs.getTolerance());
     }
 
-    void setPIDFCoefs(PIDFCoefs coefs);
-
     default void setSetpoint(double setpoint, boolean isTuning) {
         // If we're tuning and the setpoint is not the tuning setpoint, then we ignore and don't change the setpoint
         if(isTuning() && !isTuning)
             return;
-        set(getControlMode(), setpoint, DemandType.ArbitraryFeedForward, getCoefs().getKS());
+        set(getConfig().getClosedLoopControlMode(), setpoint, DemandType.ArbitraryFeedForward, getCoefs().getKS());
     }
 
     double getClosedLoopTarget();

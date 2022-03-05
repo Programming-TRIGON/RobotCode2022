@@ -3,10 +3,10 @@ package frc.robot.utilities.pid;
 import com.google.gson.annotations.SerializedName;
 
 public class PIDFCoefs extends PIDCoefs {
-    @SerializedName(value = "kS", alternate = {"s", "S", "KS"})
-    private double KS;
     @SerializedName(value = "kV", alternate = {"v", "V", "KV"})
     private double KV;
+    @SerializedName(value = "kS", alternate = {"s", "S", "KS"})
+    private double KS;
 
     /**
      * @param KP             The Proportional coefficient of the PID loop in this
@@ -26,6 +26,16 @@ public class PIDFCoefs extends PIDCoefs {
         super(KP, KI, KD, tolerance, deltaTolerance);
         this.KV = KV;
         this.KS = KS;
+    }
+
+    public PIDFCoefs(PIDFCoefs coefs) {
+        super(coefs);
+        this.KV = coefs.getKV();
+        this.KS = coefs.getKS();
+    }
+
+    public PIDFCoefs(PIDCoefs coefs) {
+        super(coefs);
     }
 
     /**
@@ -48,5 +58,11 @@ public class PIDFCoefs extends PIDCoefs {
 
     public void setKS(double KS) {
         this.KS = KS;
+    }
+
+    public void set(PIDFCoefs coefs) {
+        super.set(coefs);
+        this.KV = coefs.getKV();
+        this.KS = coefs.getKS();
     }
 }

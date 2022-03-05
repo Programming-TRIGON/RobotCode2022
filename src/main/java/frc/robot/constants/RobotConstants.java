@@ -69,7 +69,7 @@ public class RobotConstants {
                 SwerveComponents.FrontLeft.ANGLE_MOTOR,
                 SwerveComponents.FrontLeft.DRIVE_MOTOR,
                 SwerveComponents.FrontLeft.ANGLE_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.frontLeftModuleConstants.encoderOffset,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.frontLeftModuleConstants,
                 Module.FRONT_LEFT
         );
 
@@ -77,7 +77,7 @@ public class RobotConstants {
                 SwerveComponents.FrontRight.ANGLE_MOTOR,
                 SwerveComponents.FrontRight.DRIVE_MOTOR,
                 SwerveComponents.FrontRight.ANGLE_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.frontRightModuleConstants.encoderOffset,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.frontRightModuleConstants,
                 Module.FRONT_RIGHT
         );
 
@@ -85,7 +85,7 @@ public class RobotConstants {
                 SwerveComponents.RearLeft.ANGLE_MOTOR,
                 SwerveComponents.RearLeft.DRIVE_MOTOR,
                 SwerveComponents.RearLeft.ANGLE_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.rearLeftModuleConstants.encoderOffset,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.rearLeftModuleConstants,
                 Module.REAR_LEFT
         );
 
@@ -93,9 +93,12 @@ public class RobotConstants {
                 SwerveComponents.RearRight.ANGLE_MOTOR,
                 SwerveComponents.RearRight.DRIVE_MOTOR,
                 SwerveComponents.RearRight.ANGLE_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.rearRightModuleConstants.encoderOffset,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.rearRightModuleConstants,
                 Module.REAR_RIGHT
         );
+
+        public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
+                0.2, 0.1, 3, 2, 5, false);
     }
 
     public static class LedConstants {
@@ -115,6 +118,8 @@ public class RobotConstants {
         public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
         public static final double[] ZONE_LIMITS = LOCAL_CONSTANTS.localShooterConstants.zoneLimits;
         public static final ShooterZone[] SHOOTER_ZONES = LOCAL_CONSTANTS.localShooterConstants.shooterZones;
+        public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
+                0.15, 0.15, 5, 6, 2.5, false);
     }
 
     public static class ClimberConstants {
@@ -126,6 +131,7 @@ public class RobotConstants {
     public static class TransporterConstants {
         public static final TrigonTalonSRX MOTOR = TransporterComponents.MOTOR;
         public static final ColorSensorV3 COLOR_SENSOR = TransporterComponents.COLOR_SENSOR;
+        //TODO: set to real value
         public static final int STALL_CURRENT_LIMIT = 20;
         //TODO: set reasonable power
         public static final double DEFAULT_POWER = 0.5;
@@ -154,6 +160,14 @@ public class RobotConstants {
         public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
         //TODO: set reasonable velocity
         public static final double VELOCITY = 1500; // in RPM
+        public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
+                0.15, 0.2, 3, 4, 5, false);
+    }
+
+    /**
+     * Writes the LOCAL_CONSTANTS values to the json file.
+     */
+    public static void write() {
+        JsonHandler.write(LOCAL_CONSTANTS);
     }
 }
-

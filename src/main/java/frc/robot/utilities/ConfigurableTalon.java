@@ -8,6 +8,9 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import frc.robot.constants.RobotConstants;
 
 public interface ConfigurableTalon extends IMotorController {
+
+    MotorConfig getConfig();
+
     default void config(MotorConfig motorConfig) {
         setInverted(motorConfig.isInverted());
         setSensorPhase(motorConfig.isSensorInverted());
