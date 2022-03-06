@@ -49,8 +49,7 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
     public void drive(double x, double y, double rotation, boolean fieldRelative, boolean isOpenLoop) {
         Translation2d translation = new Translation2d(y, -x); // Converting to X front positive and Y left positive
         rotation *= -1; // Converting to CCW+
-        // set the desired states based on the given
-        // translation and rotation
+        // set the desired states based on the given translation and rotation
         SwerveModuleState[] swerveModuleStates = SwerveConstants.SWERVE_KINEMATICS.toSwerveModuleStates(
                 fieldRelative ?
                 ChassisSpeeds.fromFieldRelativeSpeeds( // if field relative, convert to field relative speeds
@@ -129,7 +128,6 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
      * Calibrates and zeroes the gyro
      */
     public void resetGyro() {
-        gyro.calibrate();
         gyro.reset();
     }
 
@@ -168,7 +166,7 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        super.initSendable(builder);
+        builder.setSmartDashboardType("List");
         builder.addDoubleProperty("Angle", () -> getAngle().getDegrees(), null);
     }
 }

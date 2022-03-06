@@ -280,6 +280,10 @@ public class SwerveModule implements Savable {
                     if(isTuning())
                         setEncoderOffset(offset);
                 });
+        builder.addDoubleProperty(
+                "Raw Angle",
+                () -> this.getAngle().getDegrees(),
+                null);
         builder.addBooleanProperty(
                 "Is Tuning",
                 this::isTuning

@@ -42,7 +42,7 @@ public class RobotConstants {
     }
 
     public static class SwerveConstants {
-        public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
+        public static final boolean INVERT_GYRO = true; // Always ensure Gyro is CCW+ CW-
         public static final Pigeon PIGEON = SwerveComponents.PIGEON;
 
         /* Drivetrain Constants */
