@@ -1,13 +1,12 @@
 package frc.robot.motion_profiling;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import frc.robot.constants.RobotConstants.SwerveConstants;
 import frc.robot.constants.RobotConstants.MotionProfilingConstants;
+import frc.robot.constants.RobotConstants.SwerveConstants;
 import frc.robot.subsystems.swerve.SwerveSS;
 
 public class TrigonSwerveControllerCMDGP extends SequentialCommandGroup {
@@ -52,7 +51,7 @@ public class TrigonSwerveControllerCMDGP extends SequentialCommandGroup {
                         swerveSS
                 ),
                 new InstantCommand(() -> {
-                    swerveSS.SetSpeedMotorRampRates();
+                    swerveSS.SetSpeedMotorRampRates(SwerveConstants.FRONT_LEFT_CONSTANTS.driveMotor);
                     swerveSS.stopMoving();
                 }, swerveSS)
         );

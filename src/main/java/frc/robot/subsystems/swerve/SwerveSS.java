@@ -157,6 +157,13 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
     }
 
     @Override
+    public void SetSpeedMotorRampRates(double rampRate) {
+        for(int i = 0; i < swerveModules.length; i++) {
+            swerveModules[i].setSpeedMotorRampRate(rampRate);
+        }
+    }
+
+    @Override
     public double[] getValues() {
         double[] values = new double[12];
         for(int i = 0; i < swerveModules.length; i++) {

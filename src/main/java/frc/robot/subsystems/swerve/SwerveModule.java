@@ -199,6 +199,10 @@ public class SwerveModule implements Sendable {
                 isTuning);
     }
 
+    public void setSpeedMotorRampRate(double rampRate) {
+        driveMotor.configClosedloopRamp(rampRate, 0);
+    }
+
     /**
      * Returns the desired state of the module.
      *
