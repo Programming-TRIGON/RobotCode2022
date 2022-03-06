@@ -10,14 +10,15 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
+import frc.robot.constants.CharacterizationConstants;
 import frc.robot.constants.RobotConstants.SwerveConstants;
-import frc.robot.subsystems.TestableSubsystem;
+import frc.robot.subsystems.CharacterizableSubsystem;
 import frc.robot.utilities.Module;
 
 /**
  * The Swerve subsystem.
  */
-public class SwerveSS extends SubsystemBase implements TestableSubsystem {
+public class SwerveSS extends SubsystemBase implements CharacterizableSubsystem {
     private final SwerveDriveOdometry swerveOdometry;
     private final SwerveModule[] swerveModules;
     private final Pigeon gyro;
@@ -34,6 +35,8 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
         swerveModules[Module.FRONT_RIGHT.getId()] = new SwerveModule(SwerveConstants.FRONT_RIGHT_CONSTANTS);
         swerveModules[Module.REAR_LEFT.getId()] = new SwerveModule(SwerveConstants.REAR_LEFT_CONSTANTS);
         swerveModules[Module.REAR_RIGHT.getId()] = new SwerveModule(SwerveConstants.REAR_RIGHT_CONSTANTS);
+
+        putCharacterizeCMDInDashboard();
     }
 
     /**
@@ -149,12 +152,6 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
     }
 
     @Override
-    public void periodic() {
-        // update the odometry with the angle and the current state of each module
-        swerveOdometry.update(getAngle(), getStates());
-    }
-
-    @Override
     public double[] getValues() {
         double[] values = new double[12];
         for(int i = 0; i < swerveModules.length; i++) {
@@ -162,6 +159,29 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
             System.arraycopy(moduleValues, 0, values, i * 3, moduleValues.length);
         }
         return values;
+    }
+
+    @Override
+    public void updateFeedforward(double[] kV, double[] kS) {
+        for(int i = 0; i < swerveModules.length; i++) {
+            swerveModules[i].setDriveFeedforward(kV[i], kS[i]);
+        }
+    }
+
+    @Override
+    public CharacterizationConstants getCharacterizationConstants() {
+        return SwerveConstants.CHARACTERIZATION_CONSTANTS;
+    }
+
+    @Override
+    public void periodic() {
+        // update the odometry with the angle and the current state of each module
+        swerveOdometry.update(getAngle(), getStates());
+    }
+
+    @Override
+    public String getName() {
+        return "Swerve";
     }
 
     @Override
