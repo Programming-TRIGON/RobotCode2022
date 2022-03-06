@@ -1,7 +1,6 @@
 package frc.robot.constants;
 
 import com.google.gson.annotations.SerializedName;
-import frc.robot.subsystems.shooter.ShooterZone;
 import frc.robot.utilities.JsonHandler;
 import frc.robot.utilities.pid.PIDFCoefs;
 
@@ -109,17 +108,9 @@ public class LocalConstants {
 
     public static class LocalShooterConstants {
         PIDFCoefs pidfCoefs;
-        //TODO: Set zone limits and coefs
-        double[] zoneLimits;
-        ShooterZone[] shooterZones;
 
         public LocalShooterConstants() {
             pidfCoefs = new PIDFCoefs();
-            zoneLimits = new double[3];
-            shooterZones = new ShooterZone[zoneLimits.length + 1];
-            for(int i = 0; i < shooterZones.length; i++) {
-                shooterZones[i] = new ShooterZone();
-            }
         }
     }
 }

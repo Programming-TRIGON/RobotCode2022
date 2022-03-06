@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotComponents.*;
-import frc.robot.subsystems.shooter.ShooterZone;
 import frc.robot.utilities.JsonHandler;
 import frc.robot.utilities.Module;
 import frc.robot.utilities.pid.PIDCoefs;
@@ -116,8 +115,6 @@ public class RobotConstants {
     public static class ShooterConstants {
         public static final PIDFTalonSRX LEFT_MOTOR = ShooterComponents.LEFT_MOTOR;
         public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
-        public static final double[] ZONE_LIMITS = LOCAL_CONSTANTS.localShooterConstants.zoneLimits;
-        public static final ShooterZone[] SHOOTER_ZONES = LOCAL_CONSTANTS.localShooterConstants.shooterZones;
         public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
                 0.15, 0.15, 5, 6, 2.5, false);
     }

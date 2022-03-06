@@ -1,11 +1,7 @@
 package frc.robot.subsystems.shooter;
 
-import com.google.gson.annotations.SerializedName;
-
 public class ShooterWaypoint implements Comparable<ShooterWaypoint> {
-    @SerializedName(value = "Distance")
     private double distance;
-    @SerializedName(value = "Velocity")
     private double velocity;
 
     /**

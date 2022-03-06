@@ -1,20 +1,27 @@
 package frc.robot.subsystems.shooter;
 
-import frc.robot.constants.RobotConstants.ShooterConstants;
-
 import java.util.ArrayList;
 
 public class ShooterCalculations {
+    //TODO: Set zone limits and coefs
+    private static final double[] ZONE_LIMITS = new double[] {2, 4, 6};
+    private static final ShooterZone[] SHOOTER_ZONES = new ShooterZone[] {
+            new ShooterZone(50),
+            new ShooterZone(60),
+            new ShooterZone(70),
+            new ShooterZone(80)
+    };
+
     /**
      * @param distance The distance of the front of the robot from the hub
      * @return The zone the robot is in based on the distance from the hub.
      */
     private static int calculateZone(double distance) {
-        for(int i = 0; i < ShooterConstants.ZONE_LIMITS.length; i++) {
-            if(distance <= ShooterConstants.ZONE_LIMITS[i])
+        for(int i = 0; i < ZONE_LIMITS.length; i++) {
+            if(distance <= ZONE_LIMITS[i])
                 return i;
         }
-        return ShooterConstants.ZONE_LIMITS.length;
+        return ZONE_LIMITS.length;
     }
 
     /**
@@ -24,7 +31,7 @@ public class ShooterCalculations {
      * @return target angle of the pitcher
      */
     public static double calculateAngle(double distance) {
-        return ShooterConstants.SHOOTER_ZONES[calculateZone(distance)].getPitcherAngle();
+        return SHOOTER_ZONES[calculateZone(distance)].getPitcherAngle();
     }
 
     /**
@@ -34,7 +41,7 @@ public class ShooterCalculations {
      * @return target velocity of the shooter
      */
     public static double calculateVelocity(double distance) {
-        ShooterZone zone = ShooterConstants.SHOOTER_ZONES[calculateZone(distance)];
+        ShooterZone zone = SHOOTER_ZONES[calculateZone(distance)];
         ArrayList<ShooterWaypoint> waypoints = zone.getWaypoints();
 
         ShooterWaypoint waypoint0 = waypoints.get(0);

@@ -1,4 +1,4 @@
-package frc.robot.subsystems.pitcher;
+package frc.robot.subsystems.shooter;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.math.MathUtil;

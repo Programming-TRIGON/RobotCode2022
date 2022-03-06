@@ -1,16 +1,14 @@
 package frc.robot.subsystems.shooter;
 
-import com.google.gson.annotations.SerializedName;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class ShooterZone implements Sendable {
-    @SerializedName(value = "pitcherAngle")
     private double pitcherAngle;
-    @SerializedName(value = "waypoints")
     private ArrayList<ShooterWaypoint> waypoints;
 
     private double tempWaypointDistance;
@@ -18,6 +16,12 @@ public class ShooterZone implements Sendable {
 
     public ShooterZone() {
         waypoints = new ArrayList<>();
+    }
+
+    public ShooterZone(double pitcherAngle, ShooterWaypoint... waypoints) {
+        this.pitcherAngle = pitcherAngle;
+        this.waypoints = new ArrayList<>(Arrays.asList(waypoints));
+        Collections.sort(this.waypoints);
     }
 
     public double getPitcherAngle() {
