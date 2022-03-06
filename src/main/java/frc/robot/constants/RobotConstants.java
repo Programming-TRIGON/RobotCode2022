@@ -20,6 +20,13 @@ public class RobotConstants {
     public static final int DEFAULT_CAN_TIMEOUT = 30;
     protected static final LocalConstants LOCAL_CONSTANTS = JsonHandler.getConstants();
 
+    /**
+     * Writes the LOCAL_CONSTANTS values to the json file.
+     */
+    public static void write() {
+        JsonHandler.write(LOCAL_CONSTANTS);
+    }
+
     public static class LimelightConstants {
         public static final double DISTANCE_CALCULATION_A_COEFFICIENT = 1;
         public static final double DISTANCE_CALCULATION_B_COEFFICIENT = 1;
@@ -116,7 +123,7 @@ public class RobotConstants {
         public static final PIDFTalonSRX LEFT_MOTOR = ShooterComponents.LEFT_MOTOR;
         public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
         public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
-                0.15, 0.15, 5, 6, 2.5, false);
+                0.15, 0.15, 6, 6, 2.5, false);
     }
 
     public static class ClimberConstants {
@@ -147,21 +154,13 @@ public class RobotConstants {
 
     public static class PitcherConstants {
         public static final PIDFTalonSRX MOTOR = PitcherComponents.MOTOR;
-        public static final double GEAR_RATIO = 10;
-        public static double OPEN_ANGLE = 50; // in degrees
-        public static double CLOSED_ANGLE = 70; // in degrees
+        public static final double GEAR_RATIO = 10 / 1;
+        public static double MAX_ANGLE = 20; // in degrees
     }
 
     public static class LoaderConstants {
         public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
         public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
                 0.15, 0.2, 3, 4, 5, false);
-    }
-
-    /**
-     * Writes the LOCAL_CONSTANTS values to the json file.
-     */
-    public static void write() {
-        JsonHandler.write(LOCAL_CONSTANTS);
     }
 }

@@ -110,7 +110,7 @@ public class RobotComponents {
         }
 
         public static class RearRight {
-            public static final TrigonTalonSRX ANGLE_ENCODER = new TrigonTalonSRX(
+            public static final PIDFTalonSRX ANGLE_ENCODER = new PIDFTalonSRX(
                     CAN.Swerve.REAR_RIGHT_ANGLE_ENCODER_ID, ANGLE_ENCODER_CONFIG);
             public static final PIDFTalonFX ANGLE_MOTOR = new PIDFTalonFX(
                     CAN.Swerve.REAR_RIGHT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG
@@ -133,12 +133,13 @@ public class RobotComponents {
                 .withOpenLoopRampRate(0.5)
                 .withClosedLoopRampRate(0.5)
                 .coast()
-                .inverted(false);
+                .inverted(false)
+                .withVoltageCompSaturation(12);
+        public static final PIDFTalonSRX LEFT_MOTOR = new PIDFTalonSRX(
+                CAN.Shooter.LEFT_MOTOR_ID, LEFT_MOTOR_CONFIG);
         // Inverted because mechanically inverted
         private static final MotorConfig RIGHT_MOTOR_CONFIG = new MotorConfig(LEFT_MOTOR_CONFIG)
                 .inverted(!LEFT_MOTOR_CONFIG.isInverted());
-        public static final PIDFTalonSRX LEFT_MOTOR = new PIDFTalonSRX(
-                CAN.Shooter.LEFT_MOTOR_ID, LEFT_MOTOR_CONFIG);
         public static final PIDFTalonSRX RIGHT_MOTOR = new PIDFTalonSRX(
                 CAN.Shooter.RIGHT_MOTOR_ID, RIGHT_MOTOR_CONFIG);
     }
@@ -184,10 +185,12 @@ public class RobotComponents {
     protected static class PitcherComponents {
         private static final MotorConfig MOTOR_CONFIG = new MotorConfig().
                 brake().
-                inverted(false).
+                inverted(true).
+                sensorPhase(false).
                 withOpenLoopRampRate(0.4).
                 withClosedLoopRampRate(0.4).
-                withClosedLoop(RobotConstants.LOCAL_CONSTANTS.localPitcherConstants.pidfCoefs, ControlMode.Position);
+                withClosedLoop(RobotConstants.LOCAL_CONSTANTS.localPitcherConstants.pidfCoefs, ControlMode.Position).
+                withFeedbackDevice(FeedbackDevice.CTRE_MagEncoder_Absolute, 0);
         public static PIDFTalonSRX MOTOR = new PIDFTalonSRX(CAN.Pitcher.MOTOR_ID, MOTOR_CONFIG);
     }
 
@@ -198,7 +201,7 @@ public class RobotComponents {
                 withOpenLoopRampRate(0.5).
                 withClosedLoopRampRate(0.5).
                 withClosedLoop(RobotConstants.LOCAL_CONSTANTS.localLoaderConstants.pidfCoefs, ControlMode.Velocity);
-        public static final PIDFTalonSRX MOTOR = (PIDFTalonSRX) SwerveComponents.FrontRight.ANGLE_ENCODER.config(
+        public static final PIDFTalonSRX MOTOR = (PIDFTalonSRX) SwerveComponents.RearRight.ANGLE_ENCODER.config(
                 MOTOR_CONFIG);
     }
 }

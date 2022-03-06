@@ -116,8 +116,8 @@
 		"pidfCoefs": {
 			"kV": 0.0,
 			"kS": 0.0,
-			"kP": 0.0,
-			"kI": 0.0,
+			"kP": 0.6,
+			"kI": 0.005,
 			"kD": 0.0,
 			"tolerance": 0.0,
 			"deltaTolerance": 0.0

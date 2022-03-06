@@ -23,7 +23,6 @@ import frc.robot.utilities.DashboardController;
 public class RobotContainer {
     private final DashboardController dashboardController;
     private final TrigonXboxController driverXbox;
-
     // Subsystems
     private SwerveSS swerveSS;
     private ShooterSS shooterSS;
@@ -34,7 +33,6 @@ public class RobotContainer {
     private PitcherSS pitcherSS;
     private TransporterSS transporterSS;
     private LED ledSS;
-
     // Commands
     private SupplierDriveCMD driveWithXboxCMD;
     private MoveMovableSubsystem intakeCMD;
@@ -97,6 +95,7 @@ public class RobotContainer {
      */
     private void putData() {
         SmartDashboard.putData("Swerve", swerveSS);
+        SmartDashboard.putData("Pitcher", pitcherSS);
     }
 
     public void periodic() {

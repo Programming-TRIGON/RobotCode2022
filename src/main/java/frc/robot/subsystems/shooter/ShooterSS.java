@@ -81,6 +81,6 @@ public class ShooterSS extends SubsystemBase implements PIDSubsystem, Characteri
 
         builder.addDoubleProperty("RPM", this::getVelocity, null);
 
-        SmartDashboard.putData("Shooter/left motor", masterMotor);
+        SmartDashboard.putData("Shooter/Master Motor", masterMotor);
     }
 }
