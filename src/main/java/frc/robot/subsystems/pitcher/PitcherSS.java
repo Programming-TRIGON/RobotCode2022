@@ -1,19 +1,20 @@
 package frc.robot.subsystems.pitcher;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.math.MathUtil;
-import frc.robot.components.TrigonTalonSRX;
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.RobotConstants.PitcherConstants;
 import frc.robot.subsystems.PIDSubsystem;
 import frc.robot.subsystems.TestableSubsystem;
 import frc.robot.utilities.Conversions;
+import frc.robot.utilities.pid.PIDFTalonSRX;
 
-public class PitcherSS implements TestableSubsystem, PIDSubsystem {
-    private final TrigonTalonSRX motor;
+public class PitcherSS extends SubsystemBase implements TestableSubsystem, PIDSubsystem {
+    private final PIDFTalonSRX motor;
 
     public PitcherSS() {
         motor = PitcherConstants.MOTOR;
-        resetEncoder();
     }
 
     /**
@@ -33,6 +34,10 @@ public class PitcherSS implements TestableSubsystem, PIDSubsystem {
                 PitcherConstants.GEAR_RATIO);
     }
 
+    public double getSetpoint() {
+        return Conversions.magToDegrees(motor.getSetpoint(), PitcherConstants.GEAR_RATIO);
+    }
+
     /**
      * Sets the intake to the given angle
      *
@@ -40,19 +45,31 @@ public class PitcherSS implements TestableSubsystem, PIDSubsystem {
      */
     @Override
     public void setSetpoint(double setpoint) {
-        setpoint = Conversions.degreesToMag(
-                MathUtil.clamp(setpoint, PitcherConstants.OPEN_ANGLE, PitcherConstants.CLOSED_ANGLE),
-                PitcherConstants.GEAR_RATIO);
-        motor.set(ControlMode.Position, setpoint);
+        setpoint = MathUtil.clamp(setpoint, 0, PitcherConstants.MAX_ANGLE);
+        setpoint = Conversions.degreesToMag(setpoint, PitcherConstants.GEAR_RATIO);
+        motor.setSetpoint(setpoint);
     }
 
     public void resetEncoder() {
-        motor.setSelectedSensorPosition(PitcherConstants.CLOSED_ANGLE);
+        motor.setSelectedSensorPosition(0);
     }
 
     @Override
     public double[] getValues() {
         return new double[] {getAngle()};
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("List");
+
+        builder.addDoubleProperty("Stats/Angle", this::getAngle, null);
+
+        builder.addDoubleProperty("Stats/setpoint", () -> Math.round(getSetpoint()), this::setSetpoint);
+
+        builder.addBooleanProperty("Reset Encoder CMD", () -> false, (x) -> resetEncoder());
+
+        SmartDashboard.putData("Pitcher/Motor", motor);
     }
 }
 

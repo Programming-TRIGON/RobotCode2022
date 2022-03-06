@@ -3,6 +3,7 @@ package frc.robot.subsystems.transporter;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorSensorV3.RawColor;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants.TransporterConstants;
@@ -15,38 +16,13 @@ public class TransporterSS extends OverridableSubsystem {
     public TransporterSS() {
         motor = TransporterConstants.MOTOR;
         colorSensor = TransporterConstants.COLOR_SENSOR;
+
+        SmartDashboard.putData("Transporter/motor", motor);
     }
 
     @Override
     public void overriddenMove(double power) {
         motor.set(power);
-    }
-
-    /**
-     * Moves the motor if the subsystem is not overridden and the motor is not stalled. If the motor is stalled it
-     * will only set the motor to only values equal or lower to 0
-     *
-     * @param power The power to set the motor to.
-     */
-    @Override
-    public void move(double power) {
-        if(!isStalled() && power >= 0)
-            power = 0;
-        super.move(power);
-    }
-
-    /**
-     * @return The current being given to the motor.
-     */
-    public double getStatorCurrent() {
-        return motor.getStatorCurrent();
-    }
-
-    /**
-     * @return Whether the motor is currently stalled.
-     */
-    public boolean isStalled() {
-        return getStatorCurrent() > TransporterConstants.STALL_CURRENT_LIMIT;
     }
 
     /**

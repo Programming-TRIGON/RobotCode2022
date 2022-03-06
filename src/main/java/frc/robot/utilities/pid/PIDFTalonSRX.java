@@ -5,7 +5,6 @@ import frc.robot.components.TrigonTalonSRX;
 import frc.robot.utilities.MotorConfig;
 
 public class PIDFTalonSRX extends TrigonTalonSRX implements PIDFTalon {
-    private final MotorConfig motorConfig;
     private final PIDFCoefs pidfCoefs;
     private boolean isTuning;
 
@@ -18,15 +17,10 @@ public class PIDFTalonSRX extends TrigonTalonSRX implements PIDFTalon {
     public PIDFTalonSRX(int id, MotorConfig motorConfig) {
         super(id, motorConfig);
 
-        this.motorConfig = motorConfig;
         pidfCoefs = new PIDFCoefs(getRemoteCoefs());
         this.isTuning = false;
 
         setCoefs(getCoefs());
-    }
-
-    public MotorConfig getMotorConfig() {
-        return motorConfig;
     }
 
     @Override
@@ -41,7 +35,7 @@ public class PIDFTalonSRX extends TrigonTalonSRX implements PIDFTalon {
 
     @Override
     public PIDFCoefs getRemoteCoefs() {
-        return getMotorConfig().getCoefs();
+        return getConfig().getCoefs();
     }
 
     @Override

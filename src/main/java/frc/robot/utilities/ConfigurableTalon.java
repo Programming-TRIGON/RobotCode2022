@@ -11,7 +11,7 @@ public interface ConfigurableTalon extends IMotorController {
 
     MotorConfig getConfig();
 
-    default void config(MotorConfig motorConfig) {
+    default ConfigurableTalon config(MotorConfig motorConfig) {
         setInverted(motorConfig.isInverted());
         setSensorPhase(motorConfig.isSensorInverted());
         setNeutralMode(motorConfig.getNeutralMode());
@@ -35,6 +35,8 @@ public interface ConfigurableTalon extends IMotorController {
         ce_config_kD(0, motorConfig.getCoefs().getKD());
         ce_config_kF(0, motorConfig.getCoefs().getKV());
         ce_configAllowableClosedloopError(0, (int) motorConfig.getCoefs().getTolerance());
+
+        return this;
     }
 
     ErrorCode configFactoryDefault(int timeoutMs);

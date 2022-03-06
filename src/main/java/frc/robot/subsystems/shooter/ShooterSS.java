@@ -1,11 +1,12 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.CharacterizationConstants;
 import frc.robot.constants.RobotConstants.ShooterConstants;
 import frc.robot.subsystems.CharacterizableSubsystem;
 import frc.robot.subsystems.PIDSubsystem;
-import frc.robot.subsystems.TestableSubsystem;
 import frc.robot.utilities.Conversions;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 
@@ -40,7 +41,7 @@ public class ShooterSS extends SubsystemBase implements PIDSubsystem, Characteri
     /**
      * @return the velocity of the motors in RPM
      */
-    public double getVelocityRPM() {
+    public double getVelocity() {
         return Conversions.falconToRPM(masterMotor.getSelectedSensorVelocity());
     }
 
@@ -72,5 +73,14 @@ public class ShooterSS extends SubsystemBase implements PIDSubsystem, Characteri
     @Override
     public String getName() {
         return "Shooter";
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("List");
+
+        builder.addDoubleProperty("RPM", this::getVelocity, null);
+
+        SmartDashboard.putData("Shooter/Master Motor", masterMotor);
     }
 }
