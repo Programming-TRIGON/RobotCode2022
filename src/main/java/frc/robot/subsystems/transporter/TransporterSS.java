@@ -33,7 +33,7 @@ public class TransporterSS extends OverridableSubsystem {
      */
     @Override
     public void move(double power) {
-        if(!isStalled() && power >= 0)
+        if(isStalled() && power >= 0)
             power = 0;
         super.move(power);
     }

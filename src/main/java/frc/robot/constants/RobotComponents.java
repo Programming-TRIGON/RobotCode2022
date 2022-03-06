@@ -157,7 +157,7 @@ public class RobotComponents {
     }
 
     protected static class TransporterComponents {
-        public static final TrigonTalonSRX MOTOR = SwerveComponents.FrontRight.ANGLE_ENCODER;
+        public static final TrigonTalonSRX MOTOR = SwerveComponents.PIGEON_SRX;
         public static final ColorSensorV3 COLOR_SENSOR = new ColorSensorV3(I2C.Port.kOnboard);
     }
 

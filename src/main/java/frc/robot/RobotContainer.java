@@ -3,17 +3,20 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.components.TrigonXboxController;
+import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.DriverConstants;
 import frc.robot.subsystems.climber.ClimberSS;
+import frc.robot.subsystems.intake.IntakeOpenerSS;
+import frc.robot.subsystems.intake.IntakeSS;
 import frc.robot.subsystems.led.LED;
 import frc.robot.subsystems.loader.LoaderSS;
 import frc.robot.subsystems.pitcher.PitcherSS;
-import frc.robot.subsystems.intake.IntakeOpenerSS;
-import frc.robot.subsystems.intake.IntakeSS;
+import frc.robot.subsystems.shooter.ShooterSS;
 import frc.robot.subsystems.swerve.SupplierDriveCMD;
 import frc.robot.subsystems.swerve.SwerveSS;
-import frc.robot.subsystems.shooter.ShooterSS;
 import frc.robot.subsystems.transporter.TransporterSS;
 import frc.robot.utilities.DashboardController;
 
@@ -24,8 +27,8 @@ public class RobotContainer {
     // Subsystems
     private SwerveSS swerveSS;
     private ShooterSS shooterSS;
-    private IntakeSS intake;
-    private IntakeOpenerSS intakeOpener;
+    private IntakeSS intakeSS;
+    private IntakeOpenerSS intakeOpenerSS;
     private ClimberSS climberSS;
     private LoaderSS loaderSS;
     private PitcherSS pitcherSS;
@@ -34,6 +37,8 @@ public class RobotContainer {
 
     // Commands
     private SupplierDriveCMD driveWithXboxCMD;
+    private MoveMovableSubsystem intakeCMD;
+    private MoveMovableSubsystem transportCMD;
 
     /**
      * Add classes here
@@ -57,8 +62,8 @@ public class RobotContainer {
     private void initializeSubsystems() {
         swerveSS = new SwerveSS();
         shooterSS = new ShooterSS();
-        intake = new IntakeSS();
-        intakeOpener = new IntakeOpenerSS();
+        intakeSS = new IntakeSS();
+        intakeOpenerSS = new IntakeOpenerSS();
         climberSS = new ClimberSS();
         loaderSS = new LoaderSS();
         pitcherSS = new PitcherSS();
@@ -76,11 +81,14 @@ public class RobotContainer {
                 driverXbox::getLeftY,
                 driverXbox::getRightX,
                 true);
+        intakeCMD = new MoveMovableSubsystem(intakeSS, () -> RobotConstants.IntakeConstants.POWER);
+        transportCMD = new MoveMovableSubsystem(transporterSS, () -> RobotConstants.TransporterConstants.POWER);
     }
 
     private void bindCommands() {
         swerveSS.setDefaultCommand(driveWithXboxCMD);
         driverXbox.getYBtn().whenPressed(new InstantCommand(() -> swerveSS.resetGyro()));
+        driverXbox.getRightBumperBtn().whileHeld(new ParallelCommandGroup(intakeCMD, transportCMD));
     }
 
     /**

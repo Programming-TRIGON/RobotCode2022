@@ -128,13 +128,15 @@ public class RobotConstants {
     public static class TransporterConstants {
         public static final TrigonTalonSRX MOTOR = TransporterComponents.MOTOR;
         public static final ColorSensorV3 COLOR_SENSOR = TransporterComponents.COLOR_SENSOR;
+        public static final double POWER = 0.7;
         //TODO: set to real value
         public static final int STALL_CURRENT_LIMIT = 20;
     }
 
     public static class IntakeConstants {
         public static final TrigonTalonSRX MOTOR = IntakeComponents.MOTOR;
-        public static double STALL_CURRENT_LIMIT = 20;
+        public static final double POWER = 0.8;
+        public static final double STALL_CURRENT_LIMIT = 20;
     }
 
     public static class IntakeOpenerConstants {
