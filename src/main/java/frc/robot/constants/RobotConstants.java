@@ -136,18 +136,15 @@ public class RobotConstants {
         public static final TrigonTalonSRX MOTOR = TransporterComponents.MOTOR;
         public static final ColorSensorV3 COLOR_SENSOR = TransporterComponents.COLOR_SENSOR;
         public static final double POWER = 0.7;
-        //TODO: set to real value
-        public static final int STALL_CURRENT_LIMIT = 20;
     }
 
     public static class IntakeConstants {
         public static final TrigonTalonSRX MOTOR = IntakeComponents.MOTOR;
         public static final double POWER = 0.8;
-        public static final double STALL_CURRENT_LIMIT = 20;
     }
 
     public static class IntakeOpenerConstants {
-        public static final PIDFTalonSRX MOTOR = IntakeOpenerComponents.MOTOR;
+        public static final TrigonTalonSRX MOTOR = IntakeOpenerComponents.MOTOR;
         public static final double OPENING_POWER = 0.2;
         public static final double CLOSING_POWER = 0.5;
     }

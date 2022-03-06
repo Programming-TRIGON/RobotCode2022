@@ -26,33 +26,6 @@ public class TransporterSS extends OverridableSubsystem {
     }
 
     /**
-     * Moves the motor if the subsystem is not overridden and the motor is not stalled. If the motor is stalled it
-     * will only set the motor to only values equal or lower to 0
-     *
-     * @param power The power to set the motor to.
-     */
-    @Override
-    public void move(double power) {
-        if(isStalled() && power >= 0)
-            power = 0;
-        super.move(power);
-    }
-
-    /**
-     * @return The current being given to the motor.
-     */
-    public double getStatorCurrent() {
-        return motor.getStatorCurrent();
-    }
-
-    /**
-     * @return Whether the motor is currently stalled.
-     */
-    public boolean isStalled() {
-        return getStatorCurrent() > TransporterConstants.STALL_CURRENT_LIMIT;
-    }
-
-    /**
      * Get the raw color values from their respective ADCs (20-bit).
      *
      * @return ColorValues struct containing red, green, blue and IR values

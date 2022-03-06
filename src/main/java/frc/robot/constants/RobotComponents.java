@@ -178,7 +178,7 @@ public class RobotComponents {
                 withCurrentLimit(new SupplyCurrentLimitConfiguration(
                         true, 0.4, 8, 0.5
                 ));
-        public static PIDFTalonSRX MOTOR = (PIDFTalonSRX) SwerveComponents.FrontRight.ANGLE_ENCODER.config(
+        public static TrigonTalonSRX MOTOR = (TrigonTalonSRX) SwerveComponents.FrontRight.ANGLE_ENCODER.config(
                 MOTOR_CONFIG);
     }
 
