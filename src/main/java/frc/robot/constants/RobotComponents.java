@@ -166,15 +166,19 @@ public class RobotComponents {
     }
 
     protected static class IntakeOpenerComponents {
-        private static final MotorConfig MOTOR_CONFIG = new MotorConfig().
-                coast().
+        private static final MotorConfig MOTOR_CONFIG = new MotorConfig(
+                SwerveComponents.FrontRight.ANGLE_ENCODER.getConfig()).
+                brake().
                 inverted(true).
                 withOpenLoopRampRate(0.5).
                 withClosedLoopRampRate(0.5).
                 withClosedLoop(
-                        RobotConstants.LOCAL_CONSTANTS.localIntakeOpenerConstants.pidfCoefs, ControlMode.Position);
-        public static PIDFTalonSRX MOTOR = new PIDFTalonSRX(
-                CAN.IntakeOpener.MOTOR_ID, MOTOR_CONFIG);
+                        RobotConstants.LOCAL_CONSTANTS.localIntakeOpenerConstants.pidfCoefs, ControlMode.Position).
+                withCurrentLimit(new SupplyCurrentLimitConfiguration(
+                        true, 0.4, 8, 0.5
+                ));
+        public static PIDFTalonSRX MOTOR = (PIDFTalonSRX) SwerveComponents.FrontRight.ANGLE_ENCODER.config(
+                MOTOR_CONFIG);
     }
 
     protected static class PitcherComponents {
