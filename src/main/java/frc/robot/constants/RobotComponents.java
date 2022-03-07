@@ -21,7 +21,6 @@ public class RobotComponents {
     }
 
     protected static class SwerveComponents {
-        public static final double DRIVE_MOTOR_RAMP_RATE = 0.3;
         private static final TrigonTalonSRX PIGEON_SRX = new TrigonTalonSRX(CAN.Swerve.PIGEON_ID);
         public static final Pigeon PIGEON = new Pigeon(PIGEON_SRX);
         // configs
@@ -39,6 +38,9 @@ public class RobotComponents {
                         40,
                         0.1
                 ));
+        
+        public static final double DRIVE_MOTOR_RAMP_RATE = 0.3;
+
         private static final MotorConfig DRIVE_MOTOR_CONFIG = new MotorConfig().
                 inverted(false).
                 sensorPhase(false).
@@ -133,9 +135,9 @@ public class RobotComponents {
                 .withClosedLoop(RobotConstants.LOCAL_CONSTANTS.localShooterConstants.pidfCoefs, ControlMode.Velocity)
                 .withOpenLoopRampRate(0.5)
                 .withClosedLoopRampRate(0.5)
-                .coast().
-                inverted(false).
-                withVoltageCompSaturation(12);
+                .coast()
+                .inverted(false)
+                .withVoltageCompSaturation(12);
 
         public static final PIDFTalonSRX LEFT_MOTOR = new PIDFTalonSRX(
                 CAN.Shooter.LEFT_MOTOR_ID, LEFT_MOTOR_CONFIG);

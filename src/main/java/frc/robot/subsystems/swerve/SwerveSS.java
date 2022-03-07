@@ -153,7 +153,7 @@ public class SwerveSS extends SubsystemBase implements CharacterizableSubsystem 
 
     public void SetDriveMotorRampRates(double rampRate) {
         for(int i = 0; i < swerveModules.length; i++) {
-            swerveModules[i].setSpeedMotorRampRate(rampRate);
+            swerveModules[i].setDriveMotorRampRate(rampRate);
         }
     }
 
