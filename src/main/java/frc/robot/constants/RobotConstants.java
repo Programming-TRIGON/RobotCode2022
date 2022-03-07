@@ -162,6 +162,6 @@ public class RobotConstants {
         //TODO: set reasonable velocity
         public static final double VELOCITY = 1500; // in RPM
         public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
-                0.15, 0.2, 3, 4, 5, false);
+                0.15, 0.2, 6, 5, 2.5, false);
     }
 }
