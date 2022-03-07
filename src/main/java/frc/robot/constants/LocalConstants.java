@@ -119,14 +119,14 @@ public class LocalConstants {
     }
 
     public static class LocalMotionProfilingConstants {
-        PIDCoefs X_PID_CONTROLLER;
-        PIDCoefs Y_PID_CONTROLLER;
-        PIDCoefs THETA_PID_CONTROLLER;
+        PIDCoefs xPIDCoefs;
+        PIDCoefs yPIDCoefs;
+        PIDCoefs thetaPIDCoefs;
 
         public LocalMotionProfilingConstants() {
-            X_PID_CONTROLLER = new PIDCoefs();
-            Y_PID_CONTROLLER = new PIDCoefs();
-            THETA_PID_CONTROLLER = new PIDCoefs();
+            xPIDCoefs = new PIDCoefs();
+            yPIDCoefs = new PIDCoefs();
+            thetaPIDCoefs = new PIDCoefs();
         }
     }
 }

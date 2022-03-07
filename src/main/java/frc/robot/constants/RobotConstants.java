@@ -164,11 +164,11 @@ public class RobotConstants {
 
     public static class MotionProfilingConstants {
         public static final TrigonPIDController X_PID_CONTROLLER = new TrigonPIDController(
-                LOCAL_CONSTANTS.localMotionProfilingConstants.X_PID_CONTROLLER);
+                LOCAL_CONSTANTS.localMotionProfilingConstants.xPIDCoefs);
         public static final TrigonPIDController Y_PID_CONTROLLER = new TrigonPIDController(
-                LOCAL_CONSTANTS.localMotionProfilingConstants.Y_PID_CONTROLLER);
+                LOCAL_CONSTANTS.localMotionProfilingConstants.yPIDCoefs);
         public static final TrigonProfiledPIDController THETA_PID_CONTROLLER = new TrigonProfiledPIDController(
-                LOCAL_CONSTANTS.localMotionProfilingConstants.THETA_PID_CONTROLLER,
+                LOCAL_CONSTANTS.localMotionProfilingConstants.thetaPIDCoefs,
                 new TrapezoidProfile.Constraints(
                         SwerveConstants.MAX_ANGULAR_VELOCITY, SwerveConstants.MAX_ANGULAR_ACCELERATION));
     }
