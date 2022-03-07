@@ -159,9 +159,7 @@ public class RobotConstants {
 
     public static class LoaderConstants {
         public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
-        //TODO: set reasonable velocity
+        //TODO: set to correct power
         public static final double POWER = 0.5;
-        public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
-                0.15, 0.2, 6, 5, 2.5, false);
     }
 }
