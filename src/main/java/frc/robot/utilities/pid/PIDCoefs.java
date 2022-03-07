@@ -35,6 +35,10 @@ public class PIDCoefs {
         this.deltaTolerance = deltaTolerance;
     }
 
+    public PIDCoefs(PIDCoefs coefs) {
+        this(coefs.getKP(), coefs.getKI(), coefs.getKD(), coefs.getTolerance(), coefs.getDeltaTolerance());
+    }
+
     /**
      * Default constructor
      */
@@ -79,5 +83,13 @@ public class PIDCoefs {
 
     public void setDeltaTolerance(double deltaTolerance) {
         this.deltaTolerance = deltaTolerance;
+    }
+
+    public void set(PIDCoefs coefs) {
+        setKP(coefs.getKP());
+        setKI(coefs.getKI());
+        setKD(coefs.getKD());
+        setTolerance(coefs.getTolerance());
+        setDeltaTolerance(coefs.getDeltaTolerance());
     }
 }

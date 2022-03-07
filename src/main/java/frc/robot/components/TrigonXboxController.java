@@ -116,7 +116,7 @@ public class TrigonXboxController extends XboxController {
 
     @Override
     public double getLeftY() {
-        return processValue(super.getLeftY());
+        return processValue(-super.getLeftY());
     }
 
     @Override
@@ -126,7 +126,7 @@ public class TrigonXboxController extends XboxController {
 
     @Override
     public double getRightY() {
-        return processValue(super.getRightY());
+        return processValue(-super.getRightY());
     }
 
     public void notifierPeriodic() {

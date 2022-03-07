@@ -19,6 +19,13 @@ public class RobotConstants {
     public static final int DEFAULT_CAN_TIMEOUT = 30;
     protected static final LocalConstants LOCAL_CONSTANTS = JsonHandler.getConstants();
 
+    /**
+     * Writes the LOCAL_CONSTANTS values to the json file.
+     */
+    public static void write() {
+        JsonHandler.write(LOCAL_CONSTANTS);
+    }
+
     public static class LimelightConstants {
         public static final double DISTANCE_CALCULATION_A_COEFFICIENT = 1;
         public static final double DISTANCE_CALCULATION_B_COEFFICIENT = 1;
@@ -41,7 +48,7 @@ public class RobotConstants {
     }
 
     public static class SwerveConstants {
-        public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
+        public static final boolean INVERT_GYRO = true; // Always ensure Gyro is CCW+ CW-
         public static final Pigeon PIGEON = SwerveComponents.PIGEON;
 
         /* Drivetrain Constants */
@@ -69,7 +76,7 @@ public class RobotConstants {
                 SwerveComponents.FrontLeft.ANGLE_MOTOR,
                 SwerveComponents.FrontLeft.DRIVE_MOTOR,
                 SwerveComponents.FrontLeft.ANGLE_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.frontLeftModuleConstants.encoderOffset,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.frontLeftModuleConstants,
                 Module.FRONT_LEFT
         );
 
@@ -77,7 +84,7 @@ public class RobotConstants {
                 SwerveComponents.FrontRight.ANGLE_MOTOR,
                 SwerveComponents.FrontRight.DRIVE_MOTOR,
                 SwerveComponents.FrontRight.ANGLE_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.frontRightModuleConstants.encoderOffset,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.frontRightModuleConstants,
                 Module.FRONT_RIGHT
         );
 
@@ -85,7 +92,7 @@ public class RobotConstants {
                 SwerveComponents.RearLeft.ANGLE_MOTOR,
                 SwerveComponents.RearLeft.DRIVE_MOTOR,
                 SwerveComponents.RearLeft.ANGLE_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.rearLeftModuleConstants.encoderOffset,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.rearLeftModuleConstants,
                 Module.REAR_LEFT
         );
 
@@ -93,9 +100,12 @@ public class RobotConstants {
                 SwerveComponents.RearRight.ANGLE_MOTOR,
                 SwerveComponents.RearRight.DRIVE_MOTOR,
                 SwerveComponents.RearRight.ANGLE_ENCODER,
-                LOCAL_CONSTANTS.localSwerveConstants.modules.rearRightModuleConstants.encoderOffset,
+                LOCAL_CONSTANTS.localSwerveConstants.modules.rearRightModuleConstants,
                 Module.REAR_RIGHT
         );
+
+        public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
+                0.2, 0.1, 3, 2, 5, false);
     }
 
     public static class LedConstants {
@@ -113,6 +123,8 @@ public class RobotConstants {
     public static class ShooterConstants {
         public static final PIDFTalonSRX LEFT_MOTOR = ShooterComponents.LEFT_MOTOR;
         public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
+        public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
+                0.15, 0.15, 6, 6, 2.5, false);
     }
 
     public static class ClimberConstants {
@@ -124,30 +136,30 @@ public class RobotConstants {
     public static class TransporterConstants {
         public static final TrigonTalonSRX MOTOR = TransporterComponents.MOTOR;
         public static final ColorSensorV3 COLOR_SENSOR = TransporterComponents.COLOR_SENSOR;
-        public static final int STALL_CURRENT_LIMIT = 20;
+        public static final double POWER = 0.7;
     }
 
     public static class IntakeConstants {
         public static final TrigonTalonSRX MOTOR = IntakeComponents.MOTOR;
-        public static double STALL_CURRENT_LIMIT = 20;
+        public static final double POWER = 0.8;
     }
 
     public static class IntakeOpenerConstants {
-        public static final PIDFTalonSRX MOTOR = IntakeOpenerComponents.MOTOR;
-        public static final double GEAR_RATIO = 81;
-        public static double OPENED_ANGLE = 97; // in degrees
-        public static double STALL_CURRENT_LIMIT = 20;
+        public static final TrigonTalonSRX MOTOR = IntakeOpenerComponents.MOTOR;
+        public static final double OPENING_POWER = 0.2;
+        public static final double CLOSING_POWER = 0.5;
     }
 
     public static class PitcherConstants {
-        public static final TrigonTalonSRX MOTOR = PitcherComponents.MOTOR;
-        public static final double GEAR_RATIO = 10;
-        public static double OPEN_ANGLE = 50; // in degrees
-        public static double CLOSED_ANGLE = 70; // in degrees
+        public static final PIDFTalonSRX MOTOR = PitcherComponents.MOTOR;
+        public static final double GEAR_RATIO = 10 / 1;
+        public static double MAX_ANGLE = 20; // in degrees
     }
 
     public static class LoaderConstants {
         public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
+        public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
+                0.15, 0.2, 3, 4, 5, false);
     }
 
     public static class MotionProfilingConstants {

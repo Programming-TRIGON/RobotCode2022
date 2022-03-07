@@ -10,14 +10,15 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
+import frc.robot.constants.CharacterizationConstants;
 import frc.robot.constants.RobotConstants.SwerveConstants;
-import frc.robot.subsystems.TestableSubsystem;
+import frc.robot.subsystems.CharacterizableSubsystem;
 import frc.robot.utilities.Module;
 
 /**
  * The Swerve subsystem.
  */
-public class SwerveSS extends SubsystemBase implements TestableSubsystem {
+public class SwerveSS extends SubsystemBase implements CharacterizableSubsystem {
     private final SwerveDriveOdometry swerveOdometry;
     private final SwerveModule[] swerveModules;
     private final Pigeon gyro;
@@ -34,6 +35,8 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
         swerveModules[Module.FRONT_RIGHT.getId()] = new SwerveModule(SwerveConstants.FRONT_RIGHT_CONSTANTS);
         swerveModules[Module.REAR_LEFT.getId()] = new SwerveModule(SwerveConstants.REAR_LEFT_CONSTANTS);
         swerveModules[Module.REAR_RIGHT.getId()] = new SwerveModule(SwerveConstants.REAR_RIGHT_CONSTANTS);
+
+        putCharacterizeCMDInDashboard();
     }
 
     /**
@@ -49,8 +52,7 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
     public void drive(double x, double y, double rotation, boolean fieldRelative, boolean isOpenLoop) {
         Translation2d translation = new Translation2d(y, -x); // Converting to X front positive and Y left positive
         rotation *= -1; // Converting to CCW+
-        // set the desired states based on the given
-        // translation and rotation
+        // set the desired states based on the given translation and rotation
         SwerveModuleState[] swerveModuleStates = SwerveConstants.SWERVE_KINEMATICS.toSwerveModuleStates(
                 fieldRelative ?
                 ChassisSpeeds.fromFieldRelativeSpeeds( // if field relative, convert to field relative speeds
@@ -129,7 +131,6 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
      * Calibrates and zeroes the gyro
      */
     public void resetGyro() {
-        gyro.calibrate();
         gyro.reset();
     }
 
@@ -149,13 +150,7 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
     public void move(double power) {
         drive(0, 0, power, false, true);
     }
-
-    @Override
-    public void periodic() {
-        // update the odometry with the angle and the current state of each module
-        swerveOdometry.update(getAngle(), getStates());
-    }
-
+    
     public void SetDriveMotorRampRates(double rampRate) {
         for(int i = 0; i < swerveModules.length; i++) {
             swerveModules[i].setSpeedMotorRampRate(rampRate);
@@ -173,8 +168,31 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
     }
 
     @Override
+    public void updateFeedforward(double[] kV, double[] kS) {
+        for(int i = 0; i < swerveModules.length; i++) {
+            swerveModules[i].setDriveFeedforward(kV[i], kS[i]);
+        }
+    }
+
+    @Override
+    public CharacterizationConstants getCharacterizationConstants() {
+        return SwerveConstants.CHARACTERIZATION_CONSTANTS;
+    }
+
+    @Override
+    public void periodic() {
+        // update the odometry with the angle and the current state of each module
+        swerveOdometry.update(getAngle(), getStates());
+    }
+
+    @Override
+    public String getName() {
+        return "Swerve";
+    }
+
+    @Override
     public void initSendable(SendableBuilder builder) {
-        super.initSendable(builder);
+        builder.setSmartDashboardType("List");
         builder.addDoubleProperty("Angle", () -> getAngle().getDegrees(), null);
     }
 }

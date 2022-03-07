@@ -3,6 +3,7 @@ package frc.robot.subsystems.transporter;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorSensorV3.RawColor;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants.TransporterConstants;
@@ -15,25 +16,13 @@ public class TransporterSS extends OverridableSubsystem {
     public TransporterSS() {
         motor = TransporterConstants.MOTOR;
         colorSensor = TransporterConstants.COLOR_SENSOR;
+
+        SmartDashboard.putData("Transporter/motor", motor);
     }
 
     @Override
     public void overriddenMove(double power) {
         motor.set(power);
-    }
-
-    /**
-     * @return the current being given to the motor
-     */
-    public double getStatorCurrent() {
-        return motor.getStatorCurrent();
-    }
-
-    /**
-     * @return if the motor is currently stalled
-     */
-    public boolean isStalled() {
-        return motor.getStatorCurrent() > TransporterConstants.STALL_CURRENT_LIMIT;
     }
 
     /**
@@ -57,7 +46,7 @@ public class TransporterSS extends OverridableSubsystem {
     }
 
     /**
-     * @return If the color sensor sees a ball belonging to the alliance.
+     * @return Whether the color sensor sees a ball belonging to the alliance.
      */
     public boolean seesAllianceBall() {
         //TODO: Check that the sensor senses the correct color.
@@ -68,7 +57,7 @@ public class TransporterSS extends OverridableSubsystem {
     }
 
     /**
-     * @return If the color sensor sees a ball belonging to the rival alliance.
+     * @return Whether the color sensor sees a ball belonging to the rival alliance.
      */
     public boolean seesRivalBall() {
         Color allianceColor = DriverStation.getAlliance() == DriverStation.Alliance.Blue ?
@@ -78,7 +67,7 @@ public class TransporterSS extends OverridableSubsystem {
     }
 
     /**
-     * @return If the color sensor sees any ball.
+     * @return Whether the color sensor sees any ball.
      */
     public boolean seesBall() {
         return getColor().equals(Color.kFirstBlue) || getColor().equals(Color.kFirstRed);

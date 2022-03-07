@@ -1,13 +1,16 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.CharacterizationConstants;
 import frc.robot.constants.RobotConstants.ShooterConstants;
+import frc.robot.subsystems.CharacterizableSubsystem;
 import frc.robot.subsystems.PIDSubsystem;
-import frc.robot.subsystems.TestableSubsystem;
 import frc.robot.utilities.Conversions;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 
-public class ShooterSS extends SubsystemBase implements TestableSubsystem, PIDSubsystem {
+public class ShooterSS extends SubsystemBase implements PIDSubsystem, CharacterizableSubsystem {
     private final PIDFTalonSRX masterMotor;
 
     public ShooterSS() {
@@ -15,6 +18,8 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem, PIDSu
 
         ShooterConstants.LEFT_MOTOR.follow(masterMotor);
         ShooterConstants.RIGHT_MOTOR.follow(masterMotor);
+
+        putCharacterizeCMDInDashboard();
     }
 
     /**
@@ -36,14 +41,46 @@ public class ShooterSS extends SubsystemBase implements TestableSubsystem, PIDSu
     /**
      * @return the velocity of the motors in RPM
      */
-    public double getVelocityRPM() {
+    public double getVelocity() {
         return Conversions.falconToRPM(masterMotor.getSelectedSensorVelocity());
+    }
+
+    /**
+     * sets the feedforward for all the different components of the subsystem
+     *
+     * @param kV velocity gains
+     * @param kS static gains
+     */
+    @Override
+    public void updateFeedforward(double[] kV, double[] kS) {
+        masterMotor.getCoefs().setKV(kV[0]);
+        masterMotor.getCoefs().setKS(kS[0]);
+    }
+
+    @Override
+    public CharacterizationConstants getCharacterizationConstants() {
+        return ShooterConstants.CHARACTERIZATION_CONSTANTS;
     }
 
     /**
      * @return an array of the current encoder position
      */
+    @Override
     public double[] getValues() {
-        return new double[] {masterMotor.getSelectedSensorPosition()};
+        return new double[] {masterMotor.getSelectedSensorVelocity()};
+    }
+
+    @Override
+    public String getName() {
+        return "Shooter";
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("List");
+
+        builder.addDoubleProperty("RPM", this::getVelocity, null);
+
+        SmartDashboard.putData("Shooter/Master Motor", masterMotor);
     }
 }

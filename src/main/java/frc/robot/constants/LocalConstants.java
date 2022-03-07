@@ -96,7 +96,7 @@ public class LocalConstants {
             public LocalSwerveModuleConstants rearLeftModuleConstants;
 
             public static class LocalSwerveModuleConstants {
-                double encoderOffset;
+                public double encoderOffset;
 
                 PIDFCoefs angleCoefs;
                 PIDFCoefs driveCoefs;
