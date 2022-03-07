@@ -1,6 +1,7 @@
 package frc.robot.subsystems.climber;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.RobotConstants.ClimberConstants;
 import frc.robot.subsystems.OverridableSubsystem;
 import frc.robot.subsystems.PIDSubsystem;
@@ -15,6 +16,9 @@ public class ClimberSS extends OverridableSubsystem implements PIDSubsystem {
         rightMotor = ClimberConstants.RIGHT_MOTOR;
 
         resetEncoders();
+
+        SmartDashboard.putData("Climber/left motor", leftMotor);
+        SmartDashboard.putData("Climber/right motor", rightMotor);
     }
 
     /**

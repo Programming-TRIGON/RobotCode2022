@@ -1,11 +1,12 @@
 package frc.robot.subsystems.loader;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.CharacterizationConstants;
 import frc.robot.constants.RobotConstants.LoaderConstants;
 import frc.robot.subsystems.CharacterizableSubsystem;
 import frc.robot.subsystems.PIDSubsystem;
-import frc.robot.subsystems.TestableSubsystem;
 import frc.robot.utilities.Conversions;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 
@@ -68,6 +69,15 @@ public class LoaderSS extends SubsystemBase implements PIDSubsystem, Characteriz
     @Override
     public String getName() {
         return "Loader";
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("List");
+
+        builder.addDoubleProperty("RPM", this::getVelocity, null);
+
+        SmartDashboard.putData("Loader/Motor", motor);
     }
 }
 

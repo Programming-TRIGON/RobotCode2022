@@ -1,14 +1,14 @@
 {
 	"Driver": {
-		"drivingSpeedDivider": 6
+		"drivingSpeedDivider": 1
 	},
 	"Swerve": {
 		"modules": {
 			"frontRight": {
-				"encoderOffset": 329.5,
+				"encoderOffset": 55.0,
 				"angleCoefs": {
-					"kS": 0.0,
 					"kV": 0.0,
+					"kS": 0.0,
 					"kP": 0.1,
 					"kI": 0.0,
 					"kD": 0.0,
@@ -16,8 +16,8 @@
 					"deltaTolerance": 0.0
 				},
 				"driveCoefs": {
-					"kS": 0.0,
 					"kV": 0.05,
+					"kS": 0.0,
 					"kP": 0.01,
 					"kI": 0.001,
 					"kD": 0.0,
@@ -26,10 +26,10 @@
 				}
 			},
 			"frontLeft": {
-				"encoderOffset": 207.6,
+				"encoderOffset": 125.0,
 				"angleCoefs": {
-					"kS": 0.0,
 					"kV": 0.0,
+					"kS": 0.0,
 					"kP": 0.1,
 					"kI": 0.0,
 					"kD": 0.0,
@@ -37,8 +37,8 @@
 					"deltaTolerance": 0.0
 				},
 				"driveCoefs": {
-					"kS": 0.0,
 					"kV": 0.05,
+					"kS": 0.0,
 					"kP": 0.01,
 					"kI": 0.001,
 					"kD": 0.0,
@@ -47,10 +47,10 @@
 				}
 			},
 			"rearRight": {
-				"encoderOffset": 320.3,
+				"encoderOffset": 206.85,
 				"angleCoefs": {
-					"kS": 0.0,
 					"kV": 0.0,
+					"kS": 0.0,
 					"kP": 0.1,
 					"kI": 0.0,
 					"kD": 0.0,
@@ -58,8 +58,8 @@
 					"deltaTolerance": 0.0
 				},
 				"driveCoefs": {
-					"kS": 0.0,
 					"kV": 0.05,
+					"kS": 0.0,
 					"kP": 0.01,
 					"kI": 0.001,
 					"kD": 0.0,
@@ -68,10 +68,10 @@
 				}
 			},
 			"rearLeft": {
-				"encoderOffset": 222.5,
+				"encoderOffset": 326.3,
 				"angleCoefs": {
-					"kS": 0.0,
 					"kV": 0.0,
+					"kS": 0.0,
 					"kP": 0.1,
 					"kI": 0.0,
 					"kD": 0.0,
@@ -79,8 +79,8 @@
 					"deltaTolerance": 0.0
 				},
 				"driveCoefs": {
-					"kS": 0.0,
 					"kV": 0.05,
+					"kS": 0.0,
 					"kP": 0.01,
 					"kI": 0.001,
 					"kD": 0.0,
@@ -92,8 +92,8 @@
 	},
 	"Shooter": {
 		"pidfCoefs": {
-			"kS": 0.0,
 			"kV": 0.0,
+			"kS": 0.0,
 			"kP": 0.0,
 			"kI": 0.0,
 			"kD": 0.0,
@@ -103,8 +103,8 @@
 	},
 	"IntakeOpener": {
 		"pidfCoefs": {
-			"kS": 0.0,
 			"kV": 0.0,
+			"kS": 0.0,
 			"kP": 0.0,
 			"kI": 0.0,
 			"kD": 0.0,
@@ -114,10 +114,10 @@
 	},
 	"Pitcher": {
 		"pidfCoefs": {
-			"kS": 0.0,
 			"kV": 0.0,
-			"kP": 0.0,
-			"kI": 0.0,
+			"kS": 0.0,
+			"kP": 0.6,
+			"kI": 0.005,
 			"kD": 0.0,
 			"tolerance": 0.0,
 			"deltaTolerance": 0.0
@@ -125,8 +125,8 @@
 	},
 	"Loader": {
 		"pidfCoefs": {
-			"kS": 0.0,
 			"kV": 0.0,
+			"kS": 0.0,
 			"kP": 0.0,
 			"kI": 0.0,
 			"kD": 0.0,
@@ -136,8 +136,8 @@
 	},
 	"Climber": {
 		"pidfCoefs": {
-			"kS": 0.0,
 			"kV": 0.0,
+			"kS": 0.0,
 			"kP": 0.0,
 			"kI": 0.0,
 			"kD": 0.0,

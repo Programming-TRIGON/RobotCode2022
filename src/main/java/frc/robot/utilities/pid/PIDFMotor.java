@@ -17,7 +17,7 @@ public interface PIDFMotor extends PIDFConfigurable {
         PIDFConfigurable.super.initSendable(builder);
         builder.setSmartDashboardType("PIDFMotor");
         builder.setSafeState(() -> set(0));
-        builder.addDoubleProperty("output", this::get, isTuning() ? this::set : null);
+        builder.addDoubleProperty("output", this::get, output -> set(isTuning() ? output : get()));
     }
 
 }

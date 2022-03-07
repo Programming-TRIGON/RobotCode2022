@@ -98,10 +98,13 @@ public class CharacterizationCMD extends CommandBase {
         switch(state) {
             case Running:
                 runCycle();
+                break;
             case Finished:
                 finishCycle();
+                break;
             case Resetting:
                 resetCycle();
+                break;
         }
 
         lastVelocities = characterizableSS.getValues();

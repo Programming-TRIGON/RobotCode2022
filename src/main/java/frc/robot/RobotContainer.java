@@ -3,7 +3,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.components.TrigonXboxController;
+import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.DriverConstants;
 import frc.robot.subsystems.climber.ClimberSS;
 import frc.robot.subsystems.intake.IntakeOpenerSS;
@@ -30,12 +33,13 @@ public class RobotContainer {
     public LoaderSS loaderSS;
     public TransporterSS transporterSS;
     public ClimberSS climberSS;
-    public IntakeSS intake;
-    public IntakeOpenerSS intakeOpener;
     public LED ledSS;
-
+    private IntakeSS intakeSS;
+    private IntakeOpenerSS intakeOpenerSS;
     // Commands
     private SupplierDriveCMD driveWithXboxCMD;
+    private MoveMovableSubsystem intakeCMD;
+    private MoveMovableSubsystem transportCMD;
 
     /**
      * Add classes here
@@ -64,8 +68,8 @@ public class RobotContainer {
         loaderSS = new LoaderSS();
         transporterSS = new TransporterSS();
         climberSS = new ClimberSS();
-        intake = new IntakeSS();
-        intakeOpener = new IntakeOpenerSS();
+        intakeSS = new IntakeSS();
+        intakeOpenerSS = new IntakeOpenerSS();
         ledSS = new LED();
     }
 
@@ -79,11 +83,15 @@ public class RobotContainer {
                 driverXbox::getLeftY,
                 driverXbox::getRightX,
                 true);
+        intakeCMD = new MoveMovableSubsystem(intakeSS, () -> RobotConstants.IntakeConstants.POWER);
+        transportCMD = new MoveMovableSubsystem(transporterSS, () -> RobotConstants.TransporterConstants.POWER);
     }
 
     private void bindCommands() {
         swerveSS.setDefaultCommand(driveWithXboxCMD);
-        driverXbox.getYBtn().whenPressed(new InstantCommand(() -> swerveSS.resetGyro()));
+        driverXbox.getYBtn().whenPressed(new InstantCommand(swerveSS::resetGyro));
+        driverXbox.getRightBumperBtn().whileHeld(new ParallelCommandGroup(intakeCMD, transportCMD));
+        driverXbox.getLeftBumperBtn().whenPressed(new InstantCommand(intakeOpenerSS::toggleState));
     }
 
     /**
@@ -91,6 +99,7 @@ public class RobotContainer {
      */
     private void putData() {
         SmartDashboard.putData("Swerve", swerveSS);
+        SmartDashboard.putData("Pitcher", pitcherSS);
     }
 
     public void periodic() {
