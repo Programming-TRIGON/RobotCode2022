@@ -9,16 +9,16 @@ import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.PIDCommand;
 import frc.robot.constants.RobotConstants.LoaderConstants;
 import frc.robot.constants.RobotConstants.TransporterConstants;
-import frc.robot.subsystems.shooter.ShooterCalculations;
+import frc.robot.subsystems.shooter.ShootingCalculations;
 
 public class ShootCG extends ParallelCommandGroup {
     public ShootCG(RobotContainer robotContainer) {
         PIDCommand shooterCMD = new PIDCommand(
                 robotContainer.shooterSS,
                 //TODO: Make sure this updates dynamically
-                () -> ShooterCalculations.calculateVelocity(robotContainer.limelight.getDistance()));
+                () -> ShootingCalculations.calculateVelocity(robotContainer.limelight.getDistance()));
         PIDCommand pitcherCMD = new PIDCommand(
-                robotContainer.pitcherSS, () -> ShooterCalculations.calculateAngle(robotContainer.limelight
+                robotContainer.pitcherSS, () -> ShootingCalculations.calculateAngle(robotContainer.limelight
                 .getDistance()));
 
         addCommands(

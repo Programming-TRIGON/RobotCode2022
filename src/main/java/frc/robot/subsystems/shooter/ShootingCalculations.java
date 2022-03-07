@@ -2,7 +2,7 @@ package frc.robot.subsystems.shooter;
 
 import java.util.ArrayList;
 
-public class ShooterCalculations {
+public class ShootingCalculations {
     //TODO: Set zone limits and coefs
     private static final double[] ZONE_LIMITS = new double[] {2, 4, 6};
     private static final ShooterZone[] SHOOTER_ZONES = new ShooterZone[] {
