@@ -58,8 +58,8 @@ public class ShooterSS extends SubsystemBase implements PIDSubsystem, Characteri
      */
     @Override
     public void updateFeedforward(double[] kV, double[] kS) {
-        masterMotor.getCoefs().setKV(kV[0]);
-        masterMotor.getCoefs().setKS(kS[0]);
+        masterMotor.setKV(Conversions.kVToTalon(kV[0]));
+        masterMotor.setKS(kS[0]);
     }
 
     @Override
