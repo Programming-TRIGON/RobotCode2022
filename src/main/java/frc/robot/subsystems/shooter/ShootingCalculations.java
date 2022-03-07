@@ -21,7 +21,7 @@ public class ShootingCalculations {
             if(distance <= ZONE_LIMITS[i])
                 return i;
         }
-        return ZONE_LIMITS.length;
+        return ZONE_LIMITS.length - 1;
     }
 
     /**
@@ -44,24 +44,31 @@ public class ShootingCalculations {
         ShooterZone zone = SHOOTER_ZONES[calculateZone(distance)];
         ArrayList<ShooterWaypoint> waypoints = zone.getWaypoints();
 
+        if(waypoints.size() == 0)
+            return 0;
+        else if(waypoints.size() == 1)
+            return waypoints.get(0).getVelocity();
+        
+        // If the distance is smaller than all the points,
+        // make a slope using the first two points.
         ShooterWaypoint waypoint0 = waypoints.get(0);
-        ShooterWaypoint waypoint1 = waypoints.get(0);
+        ShooterWaypoint waypoint1 = waypoints.get(1);
 
         // In ShooterZone we sort the shooter waypoints,
         // so we can use it as a sorted array from closest to farthest.
         for(int i = 0; i < waypoints.size(); i++) {
             if(distance >= waypoints.get(i).getDistance()) {
                 waypoint0 = waypoints.get(i);
-                // If the distance in bigger than only the max point act as if it is the max point.
-                if(i + 1 >= waypoints.size())
-                    return waypoint0.getVelocity();
+                // If the distance is bigger than only the max point,
+                // make a slope using the last two points.
+                if(i + 1 >= waypoints.size()) {
+                    waypoint0 = waypoints.get(waypoints.size() - 2);
+                    waypoint1 = waypoints.get(waypoints.size() - 1);
+                }
                 waypoint1 = waypoints.get(i + 1);
                 break;
             }
         }
-        // If the distance in smaller than all the points act as if it is the max point.
-        if(waypoint1 == waypoint0)
-            return waypoint0.getVelocity();
 
         double deltaV = waypoint1.getVelocity() - waypoint0.getVelocity();
         double deltaD = waypoint1.getDistance() - waypoint0.getDistance();

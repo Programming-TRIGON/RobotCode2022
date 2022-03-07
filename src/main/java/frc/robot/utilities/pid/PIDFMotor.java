@@ -19,5 +19,4 @@ public interface PIDFMotor extends PIDFConfigurable {
         builder.setSafeState(() -> set(0));
         builder.addDoubleProperty("output", this::get, output -> set(isTuning() ? output : get()));
     }
-
 }

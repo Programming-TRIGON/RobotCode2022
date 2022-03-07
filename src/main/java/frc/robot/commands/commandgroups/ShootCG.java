@@ -8,6 +8,7 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.GenericTurnToTargetCMD;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.PIDCommand;
+import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.LoaderConstants;
 import frc.robot.constants.RobotConstants.TransporterConstants;
 import frc.robot.subsystems.shooter.ShootingCalculations;
@@ -38,7 +39,7 @@ public class ShootCG extends ParallelCommandGroup {
                                 new MoveMovableSubsystem(
                                         robotContainer.transporterSS, () -> TransporterConstants.DEFAULT_POWER),
                                 new SequentialCommandGroup(
-                                        new WaitCommand(0.5),
+                                        new WaitCommand(RobotConstants.ShooterConstants.TRANSPORTER_WAIT_TIME),
                                         new MoveMovableSubsystem(robotContainer.loaderSS, () -> LoaderConstants.POWER)
                                 )
                         )

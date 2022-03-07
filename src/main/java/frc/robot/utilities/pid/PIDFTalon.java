@@ -21,10 +21,9 @@ public interface PIDFTalon extends ConfigurableTalon, PIDFMotor {
 
     default void setSetpoint(double setpoint, boolean isTuning) {
         // If we're tuning and the setpoint is not the tuning setpoint, then we ignore and don't change the setpoint
-        if((isTuning() && !isTuning))
+        if(isTuning() && !isTuning)
             return;
-        set(
-                getConfig().getClosedLoopControlMode(), setpoint, DemandType.ArbitraryFeedForward,
+        set(getConfig().getClosedLoopControlMode(), setpoint, DemandType.ArbitraryFeedForward,
                 Math.signum(setpoint) * getKS());
     }
 

@@ -124,6 +124,7 @@ public class RobotConstants {
         public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
         public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
                 0.15, 0.15, 6, 6, 2.5, false);
+        public static final double TRANSPORTER_WAIT_TIME = 0.5;
     }
 
     public static class ClimberConstants {
