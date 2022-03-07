@@ -6,11 +6,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.CharacterizationConstants;
 import frc.robot.constants.RobotConstants.ShooterConstants;
 import frc.robot.subsystems.CharacterizableSubsystem;
-import frc.robot.subsystems.PIDSubsystem;
+import frc.robot.subsystems.PIDFSubsystem;
 import frc.robot.utilities.Conversions;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 
-public class ShooterSS extends SubsystemBase implements PIDSubsystem, CharacterizableSubsystem {
+public class ShooterSS extends SubsystemBase implements PIDFSubsystem, CharacterizableSubsystem {
     private final PIDFTalonSRX masterMotor;
 
     public ShooterSS() {

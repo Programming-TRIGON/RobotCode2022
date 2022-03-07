@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-public interface PIDSubsystem extends MovableSubsystem {
+public interface PIDFSubsystem extends MovableSubsystem {
     void setSetpoint(double setpoint);
 
     boolean atSetpoint();

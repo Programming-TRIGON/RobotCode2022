@@ -4,10 +4,10 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.RobotConstants.ClimberConstants;
 import frc.robot.subsystems.OverridableSubsystem;
-import frc.robot.subsystems.PIDSubsystem;
+import frc.robot.subsystems.PIDFSubsystem;
 import frc.robot.utilities.pid.PIDFTalonFX;
 
-public class ClimberSS extends OverridableSubsystem implements PIDSubsystem {
+public class ClimberSS extends OverridableSubsystem implements PIDFSubsystem {
     private final PIDFTalonFX leftMotor;
     private final PIDFTalonFX rightMotor;
 

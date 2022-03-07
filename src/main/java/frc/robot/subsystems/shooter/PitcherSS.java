@@ -5,12 +5,12 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.RobotConstants.PitcherConstants;
-import frc.robot.subsystems.PIDSubsystem;
+import frc.robot.subsystems.PIDFSubsystem;
 import frc.robot.subsystems.TestableSubsystem;
 import frc.robot.utilities.Conversions;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 
-public class PitcherSS extends SubsystemBase implements TestableSubsystem, PIDSubsystem {
+public class PitcherSS extends SubsystemBase implements TestableSubsystem, PIDFSubsystem {
     private final PIDFTalonSRX motor;
 
     public PitcherSS() {
