@@ -3,16 +3,14 @@ package frc.robot.constants;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotComponents.*;
 import frc.robot.utilities.JsonHandler;
 import frc.robot.utilities.Module;
-import frc.robot.utilities.pid.PIDCoefs;
-import frc.robot.utilities.pid.PIDFTalonFX;
-import frc.robot.utilities.pid.PIDFTalonSRX;
-import frc.robot.utilities.pid.TrigonPIDController;
+import frc.robot.utilities.pid.*;
 
 /**
  * All the constants to be uses for the robot
@@ -62,8 +60,10 @@ public class RobotConstants {
                 new Translation2d(-WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0)
         );
 
-        public static final double MAX_SPEED = 4.5; //meters per second
-        public static final double MAX_ANGULAR_VELOCITY = 11.5;
+        public static final double MAX_SPEED = 4.5; // meters per second
+        public static final double MAX_ANGULAR_VELOCITY = 11.5; // meters per second
+        public static final double MAX_ANGULAR_ACCELERATION = 20; // meters per second squared
+        public static final double DRIVE_MOTOR_RAMP_RATE = SwerveComponents.DRIVE_MOTOR_RAMP_RATE;
 
         public static final SwerveModuleConstants FRONT_LEFT_CONSTANTS = new SwerveModuleConstants(
                 SwerveComponents.FrontLeft.ANGLE_MOTOR,
@@ -155,8 +155,10 @@ public class RobotConstants {
                 LOCAL_CONSTANTS.localMotionProfilingConstants.X_PID_CONTROLLER);
         public static final TrigonPIDController Y_PID_CONTROLLER = new TrigonPIDController(
                 LOCAL_CONSTANTS.localMotionProfilingConstants.Y_PID_CONTROLLER);
-        public static final TrigonPIDController THETA_PID_CONTROLLER = new TrigonPIDController(
-                LOCAL_CONSTANTS.localMotionProfilingConstants.THETA_PID_CONTROLLER);
+        public static final TrigonProfiledPIDController THETA_PID_CONTROLLER = new TrigonProfiledPIDController(
+                LOCAL_CONSTANTS.localMotionProfilingConstants.THETA_PID_CONTROLLER,
+                new TrapezoidProfile.Constraints(
+                        SwerveConstants.MAX_ANGULAR_VELOCITY, SwerveConstants.MAX_ANGULAR_ACCELERATION));
     }
 }
 

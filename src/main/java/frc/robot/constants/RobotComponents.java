@@ -21,9 +21,9 @@ public class RobotComponents {
     }
 
     protected static class SwerveComponents {
+        public static final double DRIVE_MOTOR_RAMP_RATE = 0.1;
         private static final TrigonTalonSRX PIGEON_SRX = new TrigonTalonSRX(CAN.Swerve.PIGEON_ID);
         public static final Pigeon PIGEON = new Pigeon(PIGEON_SRX);
-
         // configs
         private static final MotorConfig ANGLE_MOTOR_CONFIG = new MotorConfig().
                 inverted(false).
@@ -42,8 +42,8 @@ public class RobotComponents {
         private static final MotorConfig DRIVE_MOTOR_CONFIG = new MotorConfig().
                 inverted(true).
                 sensorPhase(false).
-                withOpenLoopRampRate(0.1).
-                withClosedLoopRampRate(0.1).
+                withOpenLoopRampRate(DRIVE_MOTOR_RAMP_RATE).
+                withClosedLoopRampRate(DRIVE_MOTOR_RAMP_RATE).
                 brake().
                 withCurrentLimit(new SupplyCurrentLimitConfiguration(
                         true,
@@ -51,6 +51,7 @@ public class RobotComponents {
                         60,
                         0.1
                 ));
+
         private static final MotorConfig ANGLE_ENCODER_CONFIG = new MotorConfig().
                 withFeedbackNotContinuous(true).
                 withPrimaryFeedbackDevice(FeedbackDevice.CTRE_MagEncoder_Absolute);
@@ -130,11 +131,11 @@ public class RobotComponents {
                 .withClosedLoopRampRate(0.5)
                 .coast()
                 .inverted(false);
+        public static final PIDFTalonSRX LEFT_MOTOR = new PIDFTalonSRX(
+                CAN.Shooter.LEFT_MOTOR_ID, LEFT_MOTOR_CONFIG, ControlMode.Velocity);
         // Inverted because mechanically inverted
         private static final MotorConfig RIGHT_MOTOR_CONFIG = new MotorConfig(LEFT_MOTOR_CONFIG)
                 .inverted(!LEFT_MOTOR_CONFIG.isInverted());
-        public static final PIDFTalonSRX LEFT_MOTOR = new PIDFTalonSRX(
-                CAN.Shooter.LEFT_MOTOR_ID, LEFT_MOTOR_CONFIG, ControlMode.Velocity);
         public static final PIDFTalonSRX RIGHT_MOTOR = new PIDFTalonSRX(
                 CAN.Shooter.RIGHT_MOTOR_ID, RIGHT_MOTOR_CONFIG, ControlMode.Velocity);
     }

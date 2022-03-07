@@ -82,7 +82,7 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
     }
 
     /**
-     * Sets each module by the given array
+     * Sets each module by the given array with closed loop control.
      *
      * @param desiredStates array of length 4, where each element is the desired state of the module
      */
@@ -90,7 +90,7 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.MAX_SPEED);
 
         for(int i = 0; i < swerveModules.length; i++) {
-            swerveModules[i].setDesiredState(desiredStates[i], true, false);
+            swerveModules[i].setDesiredState(desiredStates[i], false, false);
         }
     }
 
@@ -156,8 +156,7 @@ public class SwerveSS extends SubsystemBase implements TestableSubsystem {
         swerveOdometry.update(getAngle(), getStates());
     }
 
-    @Override
-    public void SetSpeedMotorRampRates(double rampRate) {
+    public void SetDriveMotorRampRates(double rampRate) {
         for(int i = 0; i < swerveModules.length; i++) {
             swerveModules[i].setSpeedMotorRampRate(rampRate);
         }

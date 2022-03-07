@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 import frc.robot.utilities.JsonHandler;
 import frc.robot.utilities.pid.PIDCoefs;
 import frc.robot.utilities.pid.PIDFCoefs;
-import frc.robot.utilities.pid.TrigonPIDController;
 
 public class LocalConstants {
     @SerializedName("Driver")

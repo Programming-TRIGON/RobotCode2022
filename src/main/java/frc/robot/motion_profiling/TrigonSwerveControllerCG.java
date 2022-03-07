@@ -1,5 +1,8 @@
 package frc.robot.motion_profiling;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -9,7 +12,7 @@ import frc.robot.constants.RobotConstants.MotionProfilingConstants;
 import frc.robot.constants.RobotConstants.SwerveConstants;
 import frc.robot.subsystems.swerve.SwerveSS;
 
-public class TrigonSwerveControllerCMDGP extends SequentialCommandGroup {
+public class TrigonSwerveControllerCG extends SequentialCommandGroup {
     /**
      * A command that uses two PID controllers ({@link PIDController}) and a
      * ProfiledPIDController ({@link ProfiledPIDController}) to follow a trajectory
@@ -24,18 +27,20 @@ public class TrigonSwerveControllerCMDGP extends SequentialCommandGroup {
      * The robot angle controller does not follow the angle given by the trajectory
      * but rather goes to the angle given in the final state of the trajectory.
      */
-    public TrigonSwerveControllerCMDGP(SwerveSS swerveSS, AutoPath path) {
+    public TrigonSwerveControllerCG(SwerveSS swerveSS, AutoPath path) {
         //constants.THETA_PID_CONTROLLER.enableContinuousInput(-180, 180);
         MotionProfilingConstants.THETA_PID_CONTROLLER.enableContinuousInput(-Math.PI, Math.PI);
+
         SmartDashboard.putData("TrigonSwerveControllerCMDGP/PID X", MotionProfilingConstants.X_PID_CONTROLLER);
         SmartDashboard.putData("TrigonSwerveControllerCMDGP/PID Y", MotionProfilingConstants.Y_PID_CONTROLLER);
         SmartDashboard.putData(
                 "TrigonSwerveControllerCMDGP/PID Rotation", MotionProfilingConstants.THETA_PID_CONTROLLER);
+
         addCommands(
                 new InstantCommand(() ->
                 {
                     swerveSS.stopMoving();
-                    swerveSS.SetSpeedMotorRampRates(0);
+                    swerveSS.SetDriveMotorRampRates(0);
                     swerveSS.resetOdometry(
                             path.getPath(swerveSS).getTrajectory().getInitialPose()
                     );
@@ -51,7 +56,7 @@ public class TrigonSwerveControllerCMDGP extends SequentialCommandGroup {
                         swerveSS
                 ),
                 new InstantCommand(() -> {
-                    swerveSS.SetSpeedMotorRampRates(SwerveConstants.FRONT_LEFT_CONSTANTS.driveMotor);
+                    swerveSS.SetDriveMotorRampRates(SwerveConstants.DRIVE_MOTOR_RAMP_RATE);
                     swerveSS.stopMoving();
                 }, swerveSS)
         );
