@@ -35,8 +35,7 @@ public class RobotContainer {
     private LED ledSS;
     // Commands
     private SupplierDriveCMD driveWithXboxCMD;
-    private MoveMovableSubsystem intakeCMD;
-    private MoveMovableSubsystem transportCMD;
+    private ParallelCommandGroup intakeCG;
 
     /**
      * Add classes here
@@ -79,14 +78,15 @@ public class RobotContainer {
                 driverXbox::getLeftY,
                 driverXbox::getRightX,
                 true);
-        intakeCMD = new MoveMovableSubsystem(intakeSS, () -> RobotConstants.IntakeConstants.POWER);
-        transportCMD = new MoveMovableSubsystem(transporterSS, () -> RobotConstants.TransporterConstants.POWER);
+        intakeCG = new ParallelCommandGroup(
+                new MoveMovableSubsystem(intakeSS, () -> RobotConstants.IntakeConstants.POWER),
+                new MoveMovableSubsystem(transporterSS, () -> RobotConstants.TransporterConstants.POWER));
     }
 
     private void bindCommands() {
         swerveSS.setDefaultCommand(driveWithXboxCMD);
         driverXbox.getYBtn().whenPressed(new InstantCommand(swerveSS::resetGyro));
-        driverXbox.getRightBumperBtn().whileHeld(new ParallelCommandGroup(intakeCMD, transportCMD));
+        driverXbox.getRightBumperBtn().whileHeld(intakeCG);
         driverXbox.getLeftBumperBtn().whenPressed(new InstantCommand(intakeOpenerSS::toggleState));
     }
 
