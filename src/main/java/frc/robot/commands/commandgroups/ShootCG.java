@@ -7,7 +7,8 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.GenericTurnToTargetCMD;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.PIDCommand;
-import frc.robot.constants.RobotConstants.*;
+import frc.robot.constants.RobotConstants.LoaderConstants;
+import frc.robot.constants.RobotConstants.TransporterConstants;
 import frc.robot.subsystems.shooter.ShooterCalculations;
 
 public class ShootCG extends ParallelCommandGroup {
@@ -15,13 +16,14 @@ public class ShootCG extends ParallelCommandGroup {
         PIDCommand shooterCMD = new PIDCommand(
                 robotContainer.shooterSS,
                 //TODO: Make sure this updates dynamically
-                () -> ShooterCalculations.calculateVelocity(robotContainer.limelight.getTy()));
-                PIDCommand pitcherCMD = new PIDCommand(
-                        robotContainer.pitcherSS, () -> ShooterCalculations.calculateAngle(robotContainer.limelight
-                        .getTy()));
+                () -> ShooterCalculations.calculateVelocity(robotContainer.limelight.getDistance()));
+        PIDCommand pitcherCMD = new PIDCommand(
+                robotContainer.pitcherSS, () -> ShooterCalculations.calculateAngle(robotContainer.limelight
+                .getDistance()));
 
         addCommands(
                 shooterCMD,
+                pitcherCMD,
                 new GenericTurnToTargetCMD(robotContainer.limelight, robotContainer.swerveSS),
                 new SequentialCommandGroup(
                         new WaitUntilCommand(() ->
