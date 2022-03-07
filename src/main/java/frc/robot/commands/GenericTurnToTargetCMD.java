@@ -44,7 +44,7 @@ public class GenericTurnToTargetCMD extends CommandBase {
     @Override
     public void execute() {
         if(limelight.getTv()) {
-            subsystem.move(rotationPIDController.calculate(limelight.getAngle()));
+            subsystem.move(rotationPIDController.calculate(limelight.getTx()));
             lastTimeSeenTarget = Timer.getFPGATimestamp();
         } else
             // The target wasn't found
