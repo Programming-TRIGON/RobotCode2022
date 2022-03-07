@@ -63,6 +63,10 @@ public class GenericTurnToTargetCMD extends CommandBase {
                 || rotationPIDController.atSetpoint();
     }
 
+    public boolean atSetpoint() {
+        return rotationPIDController.atSetpoint();
+    }
+
     public void enableTuning() {
         SmartDashboard.putData("PID/visionRotation", rotationPIDController);
     }
