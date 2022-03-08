@@ -6,7 +6,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.components.TrigonTalonSRX;
-import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.SwerveConstants;
 import frc.robot.constants.SwerveModuleConstants;
 import frc.robot.utilities.Conversions;
@@ -127,9 +126,7 @@ public class SwerveModule implements Savable {
             and we just set the drive speed in percentage of the max speed */
             double percentOutput =
                     desiredState.speedMetersPerSecond / SwerveConstants.MAX_SPEED;
-            driveMotor.set(
-                    ControlMode.PercentOutput,
-                    percentOutput / RobotConstants.DriverConstants.DRIVING_SPEED_DIVIDER);
+            driveMotor.set(ControlMode.PercentOutput, percentOutput);
         } else {
             /* If we're in closed loop, we want to use the PID controller,
             and we set the drive speed in meters per second  */
