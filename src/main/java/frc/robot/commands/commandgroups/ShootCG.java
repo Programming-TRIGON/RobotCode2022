@@ -37,7 +37,7 @@ public class ShootCG extends ParallelCommandGroup {
                         ),
                         new ParallelCommandGroup(
                                 new MoveMovableSubsystem(
-                                        robotContainer.transporterSS, () -> TransporterConstants.DEFAULT_POWER),
+                                        robotContainer.transporterSS, () -> TransporterConstants.POWER),
                                 new SequentialCommandGroup(
                                         new WaitCommand(RobotConstants.ShooterConstants.TRANSPORTER_WAIT_TIME),
                                         new MoveMovableSubsystem(robotContainer.loaderSS, () -> LoaderConstants.POWER)

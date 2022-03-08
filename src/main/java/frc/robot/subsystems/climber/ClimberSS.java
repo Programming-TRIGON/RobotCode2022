@@ -1,6 +1,7 @@
 package frc.robot.subsystems.climber;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.RobotConstants.ClimberConstants;
 import frc.robot.subsystems.OverridableSubsystem;
@@ -67,5 +68,11 @@ public class ClimberSS extends OverridableSubsystem implements PIDFSubsystem {
     public void overriddenMove(double power) {
         rightMotor.set(power);
         leftMotor.set(power);
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("List");
+        builder.addBooleanProperty("Reset Encoders", () -> false, (x) -> resetEncoders());
     }
 }

@@ -191,7 +191,8 @@ public class RobotComponents {
                 withOpenLoopRampRate(0.4).
                 withClosedLoopRampRate(0.4).
                 withClosedLoop(RobotConstants.LOCAL_CONSTANTS.localPitcherConstants.pidfCoefs, ControlMode.Position).
-                withFeedbackDevice(FeedbackDevice.CTRE_MagEncoder_Absolute, 0);
+                withFeedbackDevice(FeedbackDevice.CTRE_MagEncoder_Absolute, 0).
+                withVoltageCompSaturation(12);
         public static PIDFTalonSRX MOTOR = new PIDFTalonSRX(CAN.Pitcher.MOTOR_ID, MOTOR_CONFIG);
     }
 

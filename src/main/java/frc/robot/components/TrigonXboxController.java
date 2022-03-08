@@ -3,7 +3,6 @@ package frc.robot.components;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.constants.RobotConstants.DriverConstants;
 
 public class TrigonXboxController extends XboxController {
     private final JoystickButton aBtn;
@@ -97,16 +96,6 @@ public class TrigonXboxController extends XboxController {
     public void setRumble(double power) {
         setRumble(RumbleType.kLeftRumble, power);
         setRumble(RumbleType.kRightRumble, power);
-    }
-
-    /**
-     * Rumbles the controller the desired amount of times.
-     *
-     * @param quantity the number of times to rumble.
-     */
-    public void intermittentRumble(int quantity) {
-        rumbleAmount = quantity * 2 - 1;
-        notifier.startPeriodic(DriverConstants.RUMBLE_INTERMISSION_TIME);
     }
 
     @Override

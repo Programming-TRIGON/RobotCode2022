@@ -3,7 +3,6 @@ package frc.robot.components;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.constants.RobotConstants.DriverConstants;
 import frc.robot.utilities.OIMap;
 import frc.robot.utilities.OIMap.Axis;
 
@@ -133,16 +132,6 @@ public class TrigonPlaystationController extends GenericHID {
     public void setRumble(double power) {
         setRumble(RumbleType.kLeftRumble, power);
         setRumble(RumbleType.kRightRumble, power);
-    }
-
-    /**
-     * Rumbles the controller the desired amount of times.
-     *
-     * @param quantity the number of times to rumble.
-     */
-    public void intermittentRumble(int quantity) {
-        rumbleAmount = quantity * 2 - 1;
-        notifier.startPeriodic(DriverConstants.RUMBLE_INTERMISSION_TIME);
     }
 
     public double getLeftX() {

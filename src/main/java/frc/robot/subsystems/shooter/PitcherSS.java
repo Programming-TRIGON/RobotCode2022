@@ -45,6 +45,7 @@ public class PitcherSS extends SubsystemBase implements TestableSubsystem, PIDFS
      */
     @Override
     public void setSetpoint(double setpoint) {
+        motor.setIntegralAccumulator(0);
         setpoint = MathUtil.clamp(setpoint, 0, PitcherConstants.MAX_ANGLE);
         setpoint = Conversions.degreesToMag(setpoint, PitcherConstants.GEAR_RATIO);
         motor.setSetpoint(setpoint);
@@ -72,7 +73,10 @@ public class PitcherSS extends SubsystemBase implements TestableSubsystem, PIDFS
 
         builder.addDoubleProperty("Stats/setpoint", () -> Math.round(getSetpoint()), this::setSetpoint);
 
-        builder.addBooleanProperty("Reset Encoder CMD", () -> false, (x) -> resetEncoder());
+        builder.addBooleanProperty("Reset Encoder", () -> false, (x) -> {
+            if(x)
+                resetEncoder();
+        });
 
         SmartDashboard.putData("Pitcher/Motor", motor);
     }
