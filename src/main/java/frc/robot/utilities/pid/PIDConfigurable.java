@@ -44,6 +44,7 @@ public interface PIDConfigurable extends Savable {
     double getDeltaError();
 
     default boolean atSetpoint() {
+        //        return Math.abs(getError()) <= getTolerance();
         return Math.abs(getError()) <= getTolerance() &&
                 Math.abs(getDeltaError()) <= getDeltaTolerance();
     }
@@ -101,17 +102,14 @@ public interface PIDConfigurable extends Savable {
         builder.addDoubleProperty("p", this::getKP, kP -> setKP(isTuning() ? kP : getKP()));
         builder.addDoubleProperty("i", this::getKI, kI -> setKI(isTuning() ? kI : getKI()));
         builder.addDoubleProperty("d", this::getKD, kD -> setKD(isTuning() ? kD : getKD()));
-        builder.addDoubleProperty(
-                "tolerance", getCoefs()::getTolerance,
+        builder.addDoubleProperty("tolerance", getCoefs()::getTolerance,
                 tolerance -> setTolerance(isTuning() ? tolerance : getTolerance()));
-        builder.addDoubleProperty(
-                "deltaTolerance", getCoefs()::getDeltaTolerance,
+        builder.addDoubleProperty("deltaTolerance", getCoefs()::getDeltaTolerance,
                 deltaTolerance -> setDeltaTolerance(isTuning() ? deltaTolerance : getDeltaTolerance()));
-        builder.addDoubleProperty("setpoint", this::getSetpoint,
-                (setpoint) -> {
-                    if(isTuning())
-                        setSetpoint(setpoint, true);
-                });
+        builder.addDoubleProperty("setpoint", this::getSetpoint, (setpoint) -> {
+            if(isTuning())
+                setSetpoint(setpoint, true);
+        });
         builder.addBooleanProperty("isTuning", this::isTuning, this::setIsTuning);
     }
 }

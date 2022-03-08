@@ -65,6 +65,7 @@ public class RobotContainer {
                 CommanderConstants.CONTROLLER_DEADBAND,
                 CommanderConstants.SQUARED_CONTROLLER_DRIVING);
         limelight = new Limelight();
+        limelight.startVision();
 
         initializeSubsystems();
         initializeCommands();

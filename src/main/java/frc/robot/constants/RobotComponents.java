@@ -147,14 +147,14 @@ public class RobotComponents {
     protected static class ClimberComponents {
         private static final MotorConfig MOTOR_CONFIG = new MotorConfig().
                 brake().
-                inverted(false).
+                inverted(true).
                 withOpenLoopRampRate(0.4).
                 withClosedLoopRampRate(0.4).
                 withClosedLoop(RobotConstants.LOCAL_CONSTANTS.localClimberConstants.pidfCoefs, ControlMode.Position);
         public static final PIDFTalonFX LEFT_MOTOR = new PIDFTalonFX(
                 CAN.Climber.LEFT_MOTOR_ID, MOTOR_CONFIG);
         public static final PIDFTalonFX RIGHT_MOTOR = new PIDFTalonFX(
-                CAN.Climber.RIGHT_MOTOR_ID, MOTOR_CONFIG);
+                CAN.Climber.RIGHT_MOTOR_ID, MOTOR_CONFIG.inverted(!MOTOR_CONFIG.isInverted()));
     }
 
     protected static class TransporterComponents {

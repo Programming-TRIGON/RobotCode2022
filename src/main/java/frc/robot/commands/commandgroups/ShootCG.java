@@ -27,20 +27,18 @@ public class ShootCG extends ParallelCommandGroup {
         addCommands(
                 shooterCMD,
                 pitcherCMD,
-                turnToTargetCMD,
                 new SequentialCommandGroup(
                         new WaitUntilCommand(() ->
                                 robotContainer.shooterSS.atSetpoint() &&
-                                        robotContainer.pitcherSS.atSetpoint() &&
-                                        turnToTargetCMD.atSetpoint()
+                                        robotContainer.pitcherSS.atSetpoint()
 
                         ),
                         new ParallelCommandGroup(
-                                new MoveMovableSubsystem(
-                                        robotContainer.transporterSS, () -> TransporterConstants.POWER),
+                                new MoveMovableSubsystem(robotContainer.loaderSS, () -> LoaderConstants.POWER),
                                 new SequentialCommandGroup(
                                         new WaitCommand(RobotConstants.ShooterConstants.TRANSPORTER_WAIT_TIME),
-                                        new MoveMovableSubsystem(robotContainer.loaderSS, () -> LoaderConstants.POWER)
+                                        new MoveMovableSubsystem(
+                                                robotContainer.transporterSS, () -> TransporterConstants.POWER)
                                 )
                         )
                 )

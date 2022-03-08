@@ -28,9 +28,9 @@ public class RobotConstants {
     }
 
     public static class LimelightConstants {
-        public static final double DISTANCE_CALCULATION_A_COEFFICIENT = 1;
-        public static final double DISTANCE_CALCULATION_B_COEFFICIENT = 1;
-        public static final double DISTANCE_CALCULATION_C_COEFFICIENT = 1;
+        public static final double DISTANCE_CALCULATION_A_COEFFICIENT = 0.00235;
+        public static final double DISTANCE_CALCULATION_B_COEFFICIENT = -0.086;
+        public static final double DISTANCE_CALCULATION_C_COEFFICIENT = 1.77;
         public static final double LIMELIGHT_ANGLE_OFFSET = 1;
         public static final double LIMELIGHT_OFFSET_X = 1;
         public static final double LIMELIGHT_OFFSET_Y = 1;
@@ -44,7 +44,7 @@ public class RobotConstants {
     }
 
     public static class VisionConstants {
-        public static final PIDCoefs ROTATION_SETTINGS = new PIDCoefs(0, 0, 0, 0, 0);
+        public static final PIDCoefs ROTATION_SETTINGS = LOCAL_CONSTANTS.localSwerveConstants.turnTorTargetCoefs;
         public static final double TARGET_TIME_OUT = 0.1;
     }
 
@@ -148,7 +148,7 @@ public class RobotConstants {
         public static final TrigonTalonSRX MOTOR = TransporterComponents.MOTOR;
         public static final ColorSensorV3 COLOR_SENSOR = TransporterComponents.COLOR_SENSOR;
         //TODO: set reasonable power
-        public static final double POWER = 0.43;
+        public static final double POWER = 0.4;
     }
 
     public static class IntakeConstants {
@@ -173,6 +173,6 @@ public class RobotConstants {
     public static class LoaderConstants {
         public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
         //TODO: set to correct power
-        public static final double POWER = 0.5;
+        public static final double POWER = 0.43;
     }
 }

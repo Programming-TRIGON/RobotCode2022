@@ -59,6 +59,7 @@ public class PitcherSS extends SubsystemBase implements TestableSubsystem, PIDFS
 
     @Override
     public boolean atSetpoint() {
+        SmartDashboard.putBoolean("shoot/pitcher at setpoint", motor.atSetpoint());
         return motor.atSetpoint();
     }
 

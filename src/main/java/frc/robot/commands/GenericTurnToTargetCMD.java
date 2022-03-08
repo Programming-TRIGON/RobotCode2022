@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.RobotConstants.VisionConstants;
 import frc.robot.subsystems.MovableSubsystem;
-import frc.robot.utilities.pid.PIDCoefs;
+import frc.robot.utilities.pid.TrigonPIDController;
 import frc.robot.vision.Limelight;
 
 /**
@@ -26,10 +26,8 @@ public class GenericTurnToTargetCMD extends CommandBase {
         this.limelight = limelight;
         this.subsystem = subsystem;
 
-        PIDCoefs rotationSettings = VisionConstants.ROTATION_SETTINGS;
-        rotationPIDController = new PIDController(rotationSettings.getKP(), rotationSettings.getKI(),
-                rotationSettings.getKD());
-        rotationPIDController.setTolerance(rotationSettings.getTolerance(), rotationSettings.getDeltaTolerance());
+        rotationPIDController = new TrigonPIDController(VisionConstants.ROTATION_SETTINGS);
+        SmartDashboard.putData("turn to target coefs", rotationPIDController);
     }
 
     @Override
@@ -44,7 +42,7 @@ public class GenericTurnToTargetCMD extends CommandBase {
     @Override
     public void execute() {
         if(limelight.getTv()) {
-            subsystem.move(rotationPIDController.calculate(limelight.getTx()));
+            subsystem.move(rotationPIDController.calculate(-limelight.getTx()));
             lastTimeSeenTarget = Timer.getFPGATimestamp();
         } else
             // The target wasn't found
@@ -54,17 +52,18 @@ public class GenericTurnToTargetCMD extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         subsystem.stopMoving();
-        limelight.stopVision();
     }
 
     @Override
     public boolean isFinished() {
-        return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > VisionConstants.TARGET_TIME_OUT)
-                || rotationPIDController.atSetpoint();
+        return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > VisionConstants.TARGET_TIME_OUT);
     }
 
     public boolean atSetpoint() {
-        return rotationPIDController.atSetpoint();
+        SmartDashboard.putBoolean("shoot/turn at setpoint", Math.abs(
+                limelight.getTx() - rotationPIDController.getSetpoint()) < VisionConstants.ROTATION_SETTINGS.getTolerance());
+        return Math.abs(
+                limelight.getTx() - rotationPIDController.getSetpoint()) < VisionConstants.ROTATION_SETTINGS.getTolerance();
     }
 
     public void enableTuning() {

@@ -2,6 +2,7 @@ package frc.robot.constants;
 
 import com.google.gson.annotations.SerializedName;
 import frc.robot.utilities.JsonHandler;
+import frc.robot.utilities.pid.PIDCoefs;
 import frc.robot.utilities.pid.PIDFCoefs;
 
 public class LocalConstants {
@@ -65,9 +66,11 @@ public class LocalConstants {
     }
 
     public static class LocalSwerveConstants {
+        PIDCoefs turnTorTargetCoefs;
         LocalSwerveModules modules;
 
         public LocalSwerveConstants() {
+            turnTorTargetCoefs = new PIDCoefs();
             modules = new LocalSwerveModules();
             modules.frontRightModuleConstants = new LocalSwerveModules.LocalSwerveModuleConstants();
             modules.frontLeftModuleConstants = new LocalSwerveModules.LocalSwerveModuleConstants();
