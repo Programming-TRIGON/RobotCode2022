@@ -2,6 +2,7 @@ package frc.robot.constants;
 
 import com.google.gson.annotations.SerializedName;
 import frc.robot.utilities.JsonHandler;
+import frc.robot.utilities.pid.PIDCoefs;
 import frc.robot.utilities.pid.PIDFCoefs;
 
 public class LocalConstants {
@@ -17,6 +18,8 @@ public class LocalConstants {
     public LocalLoaderConstants localLoaderConstants;
     @SerializedName("Climber")
     public LocalClimberConstants localClimberConstants;
+    @SerializedName("MotionProfiling")
+    public LocalMotionProfilingConstants localMotionProfilingConstants;
 
     public LocalConstants() {
         localSwerveConstants = new LocalSwerveConstants();
@@ -25,6 +28,7 @@ public class LocalConstants {
         localPitcherConstants = new LocalPitcherConstants();
         localLoaderConstants = new LocalLoaderConstants();
         localClimberConstants = new LocalClimberConstants();
+        localMotionProfilingConstants = new LocalMotionProfilingConstants();
     }
 
     public void write() {
@@ -104,6 +108,18 @@ public class LocalConstants {
 
         public LocalShooterConstants() {
             pidfCoefs = new PIDFCoefs();
+        }
+    }
+
+    public static class LocalMotionProfilingConstants {
+        PIDCoefs xPIDCoefs;
+        PIDCoefs yPIDCoefs;
+        PIDCoefs thetaPIDCoefs;
+
+        public LocalMotionProfilingConstants() {
+            xPIDCoefs = new PIDCoefs();
+            yPIDCoefs = new PIDCoefs();
+            thetaPIDCoefs = new PIDCoefs();
         }
     }
 }

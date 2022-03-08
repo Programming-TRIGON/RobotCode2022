@@ -23,7 +23,6 @@ public class RobotComponents {
     protected static class SwerveComponents {
         private static final TrigonTalonSRX PIGEON_SRX = new TrigonTalonSRX(CAN.Swerve.PIGEON_ID);
         public static final Pigeon PIGEON = new Pigeon(PIGEON_SRX);
-
         // configs
         private static final MotorConfig ANGLE_MOTOR_CONFIG = new MotorConfig().
                 inverted(false).
@@ -39,11 +38,14 @@ public class RobotComponents {
                         40,
                         0.1
                 ));
+
+        public static final double DRIVE_MOTOR_RAMP_RATE = 0.3;
+
         private static final MotorConfig DRIVE_MOTOR_CONFIG = new MotorConfig().
                 inverted(false).
                 sensorPhase(false).
-                withOpenLoopRampRate(0.3).
-                withClosedLoopRampRate(0.3).
+                withOpenLoopRampRate(DRIVE_MOTOR_RAMP_RATE).
+                withClosedLoopRampRate(DRIVE_MOTOR_RAMP_RATE).
                 brake().
                 withCurrentLimit(new SupplyCurrentLimitConfiguration(
                         true,
@@ -51,6 +53,7 @@ public class RobotComponents {
                         34,
                         0.3
                 ));
+
         private static final MotorConfig ANGLE_ENCODER_CONFIG = new MotorConfig().
                 withFeedbackNotContinuous(true).
                 withPrimaryFeedbackDevice(FeedbackDevice.CTRE_MagEncoder_Absolute);
@@ -135,6 +138,7 @@ public class RobotComponents {
                 .coast()
                 .inverted(false)
                 .withVoltageCompSaturation(12);
+
         public static final PIDFTalonSRX LEFT_MOTOR = new PIDFTalonSRX(
                 CAN.Shooter.LEFT_MOTOR_ID, LEFT_MOTOR_CONFIG);
         // Inverted because mechanically inverted

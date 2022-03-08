@@ -144,5 +144,28 @@
 			"tolerance": 0.0,
 			"deltaTolerance": 0.0
 		}
+	},
+	"MotionProfiling": {
+		"xPIDCoefs": {
+			"kP": 0.0,
+			"kI": 0.0,
+			"kD": 0.0,
+			"tolerance": 0.0,
+			"deltaTolerance": 0.0
+		},
+		"yPIDCoefs": {
+			"kP": 0.0,
+			"kI": 0.0,
+			"kD": 0.0,
+			"tolerance": 0.0,
+			"deltaTolerance": 0.0
+		},
+		"thetaPIDCoefs": {
+			"kP": 0.0,
+			"kI": 0.0,
+			"kD": 0.0,
+			"tolerance": 0.0,
+			"deltaTolerance": 0.0
+		}
 	}
 }

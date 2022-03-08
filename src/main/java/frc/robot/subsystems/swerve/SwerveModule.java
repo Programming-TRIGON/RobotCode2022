@@ -208,6 +208,10 @@ public class SwerveModule implements Savable {
                 isTuning);
     }
 
+    public void setDriveMotorRampRate(double rampRate) {
+        driveMotor.configClosedloopRamp(rampRate, 0);
+    }
+
     /**
      * Returns the desired state of the module.
      *

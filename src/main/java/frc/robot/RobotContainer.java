@@ -117,7 +117,6 @@ public class RobotContainer {
         swerveSS.setDefaultCommand(driveWithXboxCMD);
 
         driverXbox.getYBtn().whenPressed(new InstantCommand(swerveSS::resetGyro));
-        driverXbox.getRightBumperBtn().whileHeld(new ParallelCommandGroup(intakeCMD, transportCMD));
         driverXbox.getLeftBumperBtn().whenPressed(new InstantCommand(intakeOpenerSS::toggleState));
         driverXbox.getLeftBumperBtn().whileHeld(new ParallelCommandGroup(inverseIntakeCMD, inverseTransportCMD));
 
