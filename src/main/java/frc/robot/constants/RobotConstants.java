@@ -122,7 +122,7 @@ public class RobotConstants {
     }
 
     public static class CommanderConstants {
-        public static final int XBOX_PORT = 0;
+        public static final int XBOX_PORT = 1;
         public static final boolean SQUARED_CONTROLLER_DRIVING = true;
         public static final double CONTROLLER_DEADBAND = 0.1;
     }
@@ -131,7 +131,7 @@ public class RobotConstants {
         public static final PIDFTalonSRX LEFT_MOTOR = ShooterComponents.LEFT_MOTOR;
         public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
         public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
-                0.15, 0.15, 6, 6, 2.5, false);
+                0.4, 0.2, 3, 5, 2.5, false);
         public static final double TRANSPORTER_WAIT_TIME = 0.5;
     }
 
@@ -165,7 +165,9 @@ public class RobotConstants {
     public static class PitcherConstants {
         public static final PIDFTalonSRX MOTOR = PitcherComponents.MOTOR;
         public static final double GEAR_RATIO = 10 / 1;
-        public static double MAX_ANGLE = 20; // in degrees
+        public static final double MAX_ANGLE = 20; // in degrees
+        public static final LocalConstants.LocalPitcherConstants LOCAL_PITCHER_CONSTANTS =
+                LOCAL_CONSTANTS.localPitcherConstants;
     }
 
     public static class LoaderConstants {

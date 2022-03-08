@@ -13,6 +13,16 @@ import frc.robot.utilities.pid.PIDFTalonSRX;
 public class ShooterSS extends SubsystemBase implements PIDFSubsystem, CharacterizableSubsystem {
     private final PIDFTalonSRX masterMotor;
 
+    public double getDistanceToCalculate() {
+        return distanceToCalculate;
+    }
+
+    public void setDistanceToCalculate(double distanceToCalculate) {
+        this.distanceToCalculate = distanceToCalculate;
+    }
+
+    private double distanceToCalculate;
+
     public ShooterSS() {
         masterMotor = ShooterConstants.LEFT_MOTOR;
 
@@ -20,6 +30,7 @@ public class ShooterSS extends SubsystemBase implements PIDFSubsystem, Character
         ShooterConstants.RIGHT_MOTOR.follow(masterMotor);
 
         putCharacterizeCMDInDashboard();
+        distanceToCalculate = 0;
     }
 
     /**
@@ -28,6 +39,10 @@ public class ShooterSS extends SubsystemBase implements PIDFSubsystem, Character
     @Override
     public void setSetpoint(double setpoint) {
         masterMotor.setSetpoint(Conversions.RPMToFalcon(setpoint));
+    }
+
+    public double getSetpoint() {
+        return Conversions.falconToRPM(masterMotor.getSetpoint());
     }
 
     @Override
@@ -85,6 +100,12 @@ public class ShooterSS extends SubsystemBase implements PIDFSubsystem, Character
         builder.setSmartDashboardType("List");
 
         builder.addDoubleProperty("RPM", this::getVelocity, null);
+
+        builder.addDoubleProperty("setpoint", this::getSetpoint, this::setSetpoint);
+        builder.addDoubleProperty("distance", this::getDistanceToCalculate, this::setDistanceToCalculate);
+        builder.addDoubleProperty(
+                "velocity to shoot", () -> ShootingCalculations.calculateVelocity(distanceToCalculate), null);
+        builder.addDoubleProperty("angle", () -> ShootingCalculations.calculateAngle(distanceToCalculate), null);
 
         SmartDashboard.putData("Shooter/Master Motor", masterMotor);
     }

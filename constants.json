@@ -1,7 +1,4 @@
 {
-	"Driver": {
-		"drivingSpeedDivider": 1
-	},
 	"Swerve": {
 		"modules": {
 			"frontRight": {
@@ -92,10 +89,10 @@
 	},
 	"Shooter": {
 		"pidfCoefs": {
-			"kV": 0.0,
-			"kS": 0.0,
+			"kV": 0.044,
+			"kS": 0.0413,
 			"kP": 0.0,
-			"kI": 0.0,
+			"kI": 1.5E-6,
 			"kD": 0.0,
 			"tolerance": 0.0,
 			"deltaTolerance": 0.0
@@ -117,11 +114,12 @@
 			"kV": 0.0,
 			"kS": 0.0,
 			"kP": 0.6,
-			"kI": 0.005,
+			"kI": 0.001,
 			"kD": 0.0,
 			"tolerance": 0.0,
 			"deltaTolerance": 0.0
-		}
+		},
+		"encoderOffset": -2531
 	},
 	"Loader": {
 		"pidfCoefs": {

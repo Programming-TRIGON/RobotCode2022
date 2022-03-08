@@ -33,6 +33,7 @@ public class LocalConstants {
 
     public static class LocalPitcherConstants {
         PIDFCoefs pidfCoefs;
+        public int encoderOffset;
 
         public LocalPitcherConstants() {
             pidfCoefs = new PIDFCoefs();

@@ -77,7 +77,7 @@ public interface ConfigurableTalon extends IMotorController {
 
     default ErrorCode ce_config_kF(int slotIdx, double value) {
         return CTREUtil.checkError(
-                () -> config_kF(slotIdx, Conversions.kVToTalon(value), RobotConstants.DEFAULT_CAN_TIMEOUT));
+                () -> config_kF(slotIdx, value, RobotConstants.DEFAULT_CAN_TIMEOUT));
     }
 
     default ErrorCode ce_configAllowableClosedloopError(int slotIdx, int allowableCloseLoopError) {

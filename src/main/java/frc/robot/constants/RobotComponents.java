@@ -170,7 +170,7 @@ public class RobotComponents {
         private static final MotorConfig MOTOR_CONFIG = new MotorConfig(
                 SwerveComponents.FrontRight.ANGLE_ENCODER.getConfig()).
                 brake().
-                inverted(true).
+                inverted(false).
                 withOpenLoopRampRate(0.5).
                 withClosedLoopRampRate(0.5).
                 withClosedLoop(
@@ -200,6 +200,7 @@ public class RobotComponents {
         private static final MotorConfig MOTOR_CONFIG = new MotorConfig(
                 SwerveComponents.RearRight.ANGLE_ENCODER.getConfig()).
                 brake().
+                inverted(true).
                 withOpenLoopRampRate(0.5).
                 withClosedLoopRampRate(0.5).
                 withClosedLoop(RobotConstants.LOCAL_CONSTANTS.localLoaderConstants.pidfCoefs, ControlMode.Velocity).

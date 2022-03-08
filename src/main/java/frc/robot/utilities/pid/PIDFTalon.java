@@ -3,7 +3,6 @@ package frc.robot.utilities.pid;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import frc.robot.utilities.ConfigurableTalon;
-import frc.robot.utilities.Conversions;
 
 public interface PIDFTalon extends ConfigurableTalon, PIDFMotor {
 
@@ -53,7 +52,7 @@ public interface PIDFTalon extends ConfigurableTalon, PIDFMotor {
 
     default void setKV(double v) {
         getCoefs().setKV(v);
-        ce_config_kF(0, Conversions.kVToTalon(v));
+        ce_config_kF(0, v);
     }
 
     default void setKS(double s) {

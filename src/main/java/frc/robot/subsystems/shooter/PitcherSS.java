@@ -4,6 +4,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.PitcherConstants;
 import frc.robot.subsystems.PIDFSubsystem;
 import frc.robot.subsystems.TestableSubsystem;
@@ -15,6 +16,7 @@ public class PitcherSS extends SubsystemBase implements TestableSubsystem, PIDFS
 
     public PitcherSS() {
         motor = PitcherConstants.MOTOR;
+        setSetpoint(getAngle());
     }
 
     /**
@@ -30,12 +32,14 @@ public class PitcherSS extends SubsystemBase implements TestableSubsystem, PIDFS
      */
     public double getAngle() {
         return Conversions.magToDegrees(
-                motor.getSelectedSensorPosition(),
+                motor.getSelectedSensorPosition() - PitcherConstants.LOCAL_PITCHER_CONSTANTS.encoderOffset,
                 PitcherConstants.GEAR_RATIO);
     }
 
     public double getSetpoint() {
-        return Conversions.magToDegrees(motor.getSetpoint(), PitcherConstants.GEAR_RATIO);
+        return Conversions.magToDegrees(
+                motor.getSetpoint() - PitcherConstants.LOCAL_PITCHER_CONSTANTS.encoderOffset,
+                PitcherConstants.GEAR_RATIO);
     }
 
     /**
@@ -47,7 +51,9 @@ public class PitcherSS extends SubsystemBase implements TestableSubsystem, PIDFS
     public void setSetpoint(double setpoint) {
         motor.setIntegralAccumulator(0);
         setpoint = MathUtil.clamp(setpoint, 0, PitcherConstants.MAX_ANGLE);
-        setpoint = Conversions.degreesToMag(setpoint, PitcherConstants.GEAR_RATIO);
+        setpoint =
+                Conversions.degreesToMag(setpoint, PitcherConstants.GEAR_RATIO) +
+                        PitcherConstants.LOCAL_PITCHER_CONSTANTS.encoderOffset;
         motor.setSetpoint(setpoint);
     }
 
@@ -57,7 +63,8 @@ public class PitcherSS extends SubsystemBase implements TestableSubsystem, PIDFS
     }
 
     public void resetEncoder() {
-        motor.setSelectedSensorPosition(0);
+        PitcherConstants.LOCAL_PITCHER_CONSTANTS.encoderOffset = (int) motor.getSelectedSensorPosition();
+        RobotConstants.write();
     }
 
     @Override

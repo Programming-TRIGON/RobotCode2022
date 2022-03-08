@@ -119,8 +119,8 @@ public class RobotContainer {
         driverXbox.getYBtn().whenPressed(new InstantCommand(swerveSS::resetGyro));
         driverXbox.getRightBumperBtn().whileHeld(new ParallelCommandGroup(intakeCMD, transportCMD));
         driverXbox.getLeftBumperBtn().whenPressed(new InstantCommand(intakeOpenerSS::toggleState));
-        driverXbox.getLeftBumperBtn().whileHeld(new ParallelCommandGroup(inverseIntakeCMD, inverseTransportCMD));
 
+        commanderXbox.getBBtn().whileHeld(new ParallelCommandGroup(inverseIntakeCMD, inverseTransportCMD));
         climbCMD.withInterrupt(commanderXbox::getXButton);
         commanderXbox.getABtn().whenPressed(new InstantCommand(() -> {
             setEndgame(!isEndgame());
@@ -134,6 +134,8 @@ public class RobotContainer {
         SmartDashboard.putData("Swerve", swerveSS);
         SmartDashboard.putData("Pitcher", pitcherSS);
         SmartDashboard.putData("Climber", climberSS);
+        SmartDashboard.putData("Shooter", shooterSS
+        );
     }
 
     public void periodic() {
@@ -149,6 +151,10 @@ public class RobotContainer {
             userBtnPressed = true;
             limelight.setLedMode(limelight.getLedMode() == LedMode.off ? LedMode.on : LedMode.off);
         }
+        if(driverXbox.getBButton())
+            loaderSS.move(LoaderConstants.POWER);
+        else
+            loaderSS.stopMoving();
     }
 
     private void runClimber() {
@@ -170,6 +176,10 @@ public class RobotContainer {
             if(commanderXbox.getLeftBumper())
                 climberSS.moveLeft(ClimberConstants.OVERRIDDEN_POWER);
         }
+        if(!commanderXbox.getRightBumper())
+            climberSS.moveRight(0);
+        if(!commanderXbox.getLeftBumper())
+            climberSS.moveLeft(0);
     }
 
     public boolean isEndgame() {
