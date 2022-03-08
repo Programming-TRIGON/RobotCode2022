@@ -70,6 +70,14 @@ public class ClimberSS extends OverridableSubsystem implements PIDFSubsystem {
         leftMotor.set(power);
     }
 
+    public void moveRight(double power) {
+        rightMotor.set(power);
+    }
+
+    public void moveLeft(double power) {
+        leftMotor.set(power);
+    }
+
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("List");

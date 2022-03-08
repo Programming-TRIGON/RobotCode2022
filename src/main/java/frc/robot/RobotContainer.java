@@ -160,12 +160,15 @@ public class RobotContainer {
             climbCMD.schedule(0);
 
         if(commanderXbox.getYButton()) {
-            if(commanderXbox.getPOV() == 0)
-                climberSS.overriddenMove(ClimberConstants.OVERRIDDEN_POWER);
-            else if(commanderXbox.getPOV() == 180)
-                climberSS.overriddenMove(-ClimberConstants.OVERRIDDEN_POWER);
-            else
-                climberSS.stopMoving();
+            if(commanderXbox.getRightBumper())
+                climberSS.moveRight(-ClimberConstants.OVERRIDDEN_POWER);
+            if(commanderXbox.getLeftBumper())
+                climberSS.moveLeft(-ClimberConstants.OVERRIDDEN_POWER);
+        } else {
+            if(commanderXbox.getRightBumper())
+                climberSS.moveRight(ClimberConstants.OVERRIDDEN_POWER);
+            if(commanderXbox.getLeftBumper())
+                climberSS.moveLeft(ClimberConstants.OVERRIDDEN_POWER);
         }
     }
 
