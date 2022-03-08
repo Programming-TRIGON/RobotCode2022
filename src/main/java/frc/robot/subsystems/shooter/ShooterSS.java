@@ -6,11 +6,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.CharacterizationConstants;
 import frc.robot.constants.RobotConstants.ShooterConstants;
 import frc.robot.subsystems.CharacterizableSubsystem;
-import frc.robot.subsystems.PIDSubsystem;
+import frc.robot.subsystems.PIDFSubsystem;
 import frc.robot.utilities.Conversions;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 
-public class ShooterSS extends SubsystemBase implements PIDSubsystem, CharacterizableSubsystem {
+public class ShooterSS extends SubsystemBase implements PIDFSubsystem, CharacterizableSubsystem {
     private final PIDFTalonSRX masterMotor;
 
     public ShooterSS() {
@@ -28,6 +28,11 @@ public class ShooterSS extends SubsystemBase implements PIDSubsystem, Characteri
     @Override
     public void setSetpoint(double setpoint) {
         masterMotor.setSetpoint(Conversions.RPMToFalcon(setpoint));
+    }
+
+    @Override
+    public boolean atSetpoint() {
+        return masterMotor.atSetpoint();
     }
 
     /**
@@ -53,8 +58,8 @@ public class ShooterSS extends SubsystemBase implements PIDSubsystem, Characteri
      */
     @Override
     public void updateFeedforward(double[] kV, double[] kS) {
-        masterMotor.getCoefs().setKV(kV[0]);
-        masterMotor.getCoefs().setKS(kS[0]);
+        masterMotor.setKV(Conversions.kVToTalon(kV[0]));
+        masterMotor.setKS(kS[0]);
     }
 
     @Override

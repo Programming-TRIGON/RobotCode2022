@@ -30,6 +30,16 @@ public class TrigonPIDController extends PIDController implements PIDConfigurabl
     }
 
     @Override
+    public double getError() {
+        return getPositionError();
+    }
+
+    @Override
+    public double getDeltaError() {
+        return getVelocityError();
+    }
+
+    @Override
     public PIDCoefs getCoefs() {
         return pidCoefs;
     }

@@ -13,26 +13,29 @@ import frc.robot.subsystems.intake.IntakeOpenerSS;
 import frc.robot.subsystems.intake.IntakeSS;
 import frc.robot.subsystems.led.LED;
 import frc.robot.subsystems.loader.LoaderSS;
-import frc.robot.subsystems.pitcher.PitcherSS;
+import frc.robot.subsystems.shooter.PitcherSS;
 import frc.robot.subsystems.shooter.ShooterSS;
 import frc.robot.subsystems.swerve.SupplierDriveCMD;
 import frc.robot.subsystems.swerve.SwerveSS;
 import frc.robot.subsystems.transporter.TransporterSS;
 import frc.robot.utilities.DashboardController;
+import frc.robot.vision.Limelight;
 
 public class RobotContainer {
     private final DashboardController dashboardController;
     private final TrigonXboxController driverXbox;
+    public Limelight limelight;
+
     // Subsystems
-    private SwerveSS swerveSS;
-    private ShooterSS shooterSS;
+    public SwerveSS swerveSS;
+    public ShooterSS shooterSS;
+    public PitcherSS pitcherSS;
+    public LoaderSS loaderSS;
+    public TransporterSS transporterSS;
+    public ClimberSS climberSS;
+    public LED ledSS;
     private IntakeSS intakeSS;
     private IntakeOpenerSS intakeOpenerSS;
-    private ClimberSS climberSS;
-    private LoaderSS loaderSS;
-    private PitcherSS pitcherSS;
-    private TransporterSS transporterSS;
-    private LED ledSS;
     // Commands
     private SupplierDriveCMD driveWithXboxCMD;
     private MoveMovableSubsystem intakeCMD;
@@ -47,6 +50,7 @@ public class RobotContainer {
                 DriverConstants.XBOX_PORT,
                 DriverConstants.CONTROLLER_DEADBAND,
                 DriverConstants.SQUARED_CONTROLLER_DRIVING);
+        limelight = new Limelight();
 
         initializeSubsystems();
         initializeCommands();
@@ -60,12 +64,12 @@ public class RobotContainer {
     private void initializeSubsystems() {
         swerveSS = new SwerveSS();
         shooterSS = new ShooterSS();
+        pitcherSS = new PitcherSS();
+        loaderSS = new LoaderSS();
+        transporterSS = new TransporterSS();
+        climberSS = new ClimberSS();
         intakeSS = new IntakeSS();
         intakeOpenerSS = new IntakeOpenerSS();
-        climberSS = new ClimberSS();
-        loaderSS = new LoaderSS();
-        pitcherSS = new PitcherSS();
-        transporterSS = new TransporterSS();
         ledSS = new LED();
     }
 

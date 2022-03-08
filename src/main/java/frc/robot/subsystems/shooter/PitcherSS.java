@@ -1,16 +1,16 @@
-package frc.robot.subsystems.pitcher;
+package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.RobotConstants.PitcherConstants;
-import frc.robot.subsystems.PIDSubsystem;
+import frc.robot.subsystems.PIDFSubsystem;
 import frc.robot.subsystems.TestableSubsystem;
 import frc.robot.utilities.Conversions;
 import frc.robot.utilities.pid.PIDFTalonSRX;
 
-public class PitcherSS extends SubsystemBase implements TestableSubsystem, PIDSubsystem {
+public class PitcherSS extends SubsystemBase implements TestableSubsystem, PIDFSubsystem {
     private final PIDFTalonSRX motor;
 
     public PitcherSS() {
@@ -48,6 +48,11 @@ public class PitcherSS extends SubsystemBase implements TestableSubsystem, PIDSu
         setpoint = MathUtil.clamp(setpoint, 0, PitcherConstants.MAX_ANGLE);
         setpoint = Conversions.degreesToMag(setpoint, PitcherConstants.GEAR_RATIO);
         motor.setSetpoint(setpoint);
+    }
+
+    @Override
+    public boolean atSetpoint() {
+        return motor.atSetpoint();
     }
 
     public void resetEncoder() {

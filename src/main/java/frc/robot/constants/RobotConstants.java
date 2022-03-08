@@ -124,6 +124,7 @@ public class RobotConstants {
         public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
         public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
                 0.15, 0.15, 6, 6, 2.5, false);
+        public static final double TRANSPORTER_WAIT_TIME = 0.5;
     }
 
     public static class ClimberConstants {
@@ -135,6 +136,8 @@ public class RobotConstants {
     public static class TransporterConstants {
         public static final TrigonTalonSRX MOTOR = TransporterComponents.MOTOR;
         public static final ColorSensorV3 COLOR_SENSOR = TransporterComponents.COLOR_SENSOR;
+        //TODO: set reasonable power
+        public static final double DEFAULT_POWER = 0.5;
         public static final double POWER = 0.7;
     }
 
@@ -157,7 +160,7 @@ public class RobotConstants {
 
     public static class LoaderConstants {
         public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
-        public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
-                0.15, 0.2, 3, 4, 5, false);
+        //TODO: set to correct power
+        public static final double POWER = 0.5;
     }
 }

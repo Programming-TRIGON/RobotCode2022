@@ -8,7 +8,6 @@ import frc.robot.constants.RobotConstants.VisionConstants;
 import frc.robot.subsystems.MovableSubsystem;
 import frc.robot.utilities.pid.PIDCoefs;
 import frc.robot.vision.Limelight;
-import frc.robot.vision.Target;
 
 /**
  * This is just template for a subsystem turn to target command. It will
@@ -17,18 +16,14 @@ import frc.robot.vision.Target;
 public class GenericTurnToTargetCMD extends CommandBase {
     private final Limelight limelight;
     private final MovableSubsystem subsystem;
-    private final Target target;
     private final PIDController rotationPIDController;
     private double lastTimeSeenTarget;
 
-    public GenericTurnToTargetCMD(
-            Limelight limelight, Target target,
-            MovableSubsystem subsystem) {
+    public GenericTurnToTargetCMD(Limelight limelight, MovableSubsystem subsystem) {
 
         addRequirements(subsystem);
 
         this.limelight = limelight;
-        this.target = target;
         this.subsystem = subsystem;
 
         PIDCoefs rotationSettings = VisionConstants.ROTATION_SETTINGS;
@@ -43,13 +38,13 @@ public class GenericTurnToTargetCMD extends CommandBase {
         rotationPIDController.setSetpoint(0);
         lastTimeSeenTarget = Timer.getFPGATimestamp();
         // Configure the limelight to start computing vision.
-        limelight.startVision(target);
+        limelight.startVision();
     }
 
     @Override
     public void execute() {
         if(limelight.getTv()) {
-            subsystem.move(rotationPIDController.calculate(limelight.getAngle()));
+            subsystem.move(rotationPIDController.calculate(limelight.getTx()));
             lastTimeSeenTarget = Timer.getFPGATimestamp();
         } else
             // The target wasn't found
@@ -66,6 +61,10 @@ public class GenericTurnToTargetCMD extends CommandBase {
     public boolean isFinished() {
         return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > VisionConstants.TARGET_TIME_OUT)
                 || rotationPIDController.atSetpoint();
+    }
+
+    public boolean atSetpoint() {
+        return rotationPIDController.atSetpoint();
     }
 
     public void enableTuning() {
