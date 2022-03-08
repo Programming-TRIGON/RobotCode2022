@@ -22,11 +22,6 @@ public class ClimbCMD extends CommandBase {
     }
 
     @Override
-    public void execute() {
-
-    }
-
-    @Override
     public boolean isFinished() {
         return climberSS.atSetpoint();
     }

@@ -141,6 +141,7 @@ public class RobotConstants {
         public static final int MAX_POSITION = 7000; // in ticks
         public static final double MIN_POSITION = -7000; // in ticks
         public static final double TRIGGER_DEADBAND = 0.6;
+        public static final double OVERRIDDEN_POWER = 0.5;
     }
 
     public static class TransporterConstants {

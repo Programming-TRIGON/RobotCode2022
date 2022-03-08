@@ -119,11 +119,9 @@ public class RobotContainer {
         driverXbox.getYBtn().whenPressed(new InstantCommand(swerveSS::resetGyro));
         driverXbox.getRightBumperBtn().whileHeld(new ParallelCommandGroup(intakeCMD, transportCMD));
         driverXbox.getLeftBumperBtn().whenPressed(new InstantCommand(intakeOpenerSS::toggleState));
-
         driverXbox.getLeftBumperBtn().whileHeld(new ParallelCommandGroup(inverseIntakeCMD, inverseTransportCMD));
-        commanderXbox.getXBtn().whenPressed(new InstantCommand(() -> {
-            climbCMD.cancel();
-        }));
+
+        climbCMD.withInterrupt(commanderXbox::getXButton);
         commanderXbox.getABtn().whenPressed(new InstantCommand(() -> {
             setEndgame(!isEndgame());
         }));
@@ -158,8 +156,17 @@ public class RobotContainer {
             climbCMD.schedule(ClimberConstants.MAX_POSITION);
         else if(driverXbox.getLeftTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND)
             climbCMD.schedule(ClimberConstants.MIN_POSITION);
-        else
+        else if(commanderXbox.getPOV() == 270)
             climbCMD.schedule(0);
+
+        if(commanderXbox.getYButton()) {
+            if(commanderXbox.getPOV() == 0)
+                climberSS.overriddenMove(ClimberConstants.OVERRIDDEN_POWER);
+            else if(commanderXbox.getPOV() == 180)
+                climberSS.overriddenMove(-ClimberConstants.OVERRIDDEN_POWER);
+            else
+                climberSS.stopMoving();
+        }
     }
 
     public boolean isEndgame() {
