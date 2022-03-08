@@ -181,7 +181,8 @@ public class RobotComponents {
                         RobotConstants.LOCAL_CONSTANTS.localIntakeOpenerConstants.pidfCoefs, ControlMode.Position).
                 withCurrentLimit(new SupplyCurrentLimitConfiguration(
                         true, 0.4, 8, 0.5
-                ));
+                )).
+                withVoltageCompSaturation(12);
         public static TrigonTalonSRX MOTOR = (TrigonTalonSRX) SwerveComponents.FrontRight.ANGLE_ENCODER.config(
                 MOTOR_CONFIG);
     }
@@ -194,7 +195,8 @@ public class RobotComponents {
                 withOpenLoopRampRate(0.4).
                 withClosedLoopRampRate(0.4).
                 withClosedLoop(RobotConstants.LOCAL_CONSTANTS.localPitcherConstants.pidfCoefs, ControlMode.Position).
-                withFeedbackDevice(FeedbackDevice.CTRE_MagEncoder_Absolute, 0);
+                withFeedbackDevice(FeedbackDevice.CTRE_MagEncoder_Absolute, 0).
+                withVoltageCompSaturation(12);
         public static PIDFTalonSRX MOTOR = new PIDFTalonSRX(CAN.Pitcher.MOTOR_ID, MOTOR_CONFIG);
     }
 
@@ -204,7 +206,8 @@ public class RobotComponents {
                 brake().
                 withOpenLoopRampRate(0.5).
                 withClosedLoopRampRate(0.5).
-                withClosedLoop(RobotConstants.LOCAL_CONSTANTS.localLoaderConstants.pidfCoefs, ControlMode.Velocity);
+                withClosedLoop(RobotConstants.LOCAL_CONSTANTS.localLoaderConstants.pidfCoefs, ControlMode.Velocity).
+                withVoltageCompSaturation(12);
         public static final PIDFTalonSRX MOTOR = (PIDFTalonSRX) SwerveComponents.RearRight.ANGLE_ENCODER.config(
                 MOTOR_CONFIG);
     }

@@ -1,17 +1,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.PIDSubsystem;
+import frc.robot.subsystems.PIDFSubsystem;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class PIDCommand extends CommandBase {
-    private final PIDSubsystem subsystem;
+    private final PIDFSubsystem subsystem;
     private final BooleanSupplier isFinished;
     private final DoubleSupplier setpoint;
 
-    public PIDCommand(PIDSubsystem subsystem, DoubleSupplier setpoint, BooleanSupplier isFinished) {
+    public PIDCommand(PIDFSubsystem subsystem, DoubleSupplier setpoint, BooleanSupplier isFinished) {
         this.subsystem = subsystem;
         this.setpoint = setpoint;
         this.isFinished = isFinished;
@@ -19,7 +19,7 @@ public class PIDCommand extends CommandBase {
         addRequirements(subsystem);
     }
 
-    public PIDCommand(PIDSubsystem subsystem, DoubleSupplier setpoint) {
+    public PIDCommand(PIDFSubsystem subsystem, DoubleSupplier setpoint) {
         this(subsystem, setpoint, () -> false);
     }
 

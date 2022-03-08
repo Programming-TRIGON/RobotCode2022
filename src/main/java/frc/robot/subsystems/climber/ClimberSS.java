@@ -1,13 +1,14 @@
 package frc.robot.subsystems.climber;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.RobotConstants.ClimberConstants;
 import frc.robot.subsystems.OverridableSubsystem;
-import frc.robot.subsystems.PIDSubsystem;
+import frc.robot.subsystems.PIDFSubsystem;
 import frc.robot.utilities.pid.PIDFTalonFX;
 
-public class ClimberSS extends OverridableSubsystem implements PIDSubsystem {
+public class ClimberSS extends OverridableSubsystem implements PIDFSubsystem {
     private final PIDFTalonFX leftMotor;
     private final PIDFTalonFX rightMotor;
 
@@ -27,9 +28,14 @@ public class ClimberSS extends OverridableSubsystem implements PIDSubsystem {
     @Override
     public void setSetpoint(double setpoint) {
         setpoint = MathUtil.clamp(setpoint, 0, ClimberConstants.MAX_POSITION);
-        
+
         leftMotor.setSetpoint(setpoint);
         rightMotor.setSetpoint(setpoint);
+    }
+
+    @Override
+    public boolean atSetpoint() {
+        return leftMotor.atSetpoint() && rightMotor.atSetpoint();
     }
 
     /**
@@ -62,5 +68,19 @@ public class ClimberSS extends OverridableSubsystem implements PIDSubsystem {
     public void overriddenMove(double power) {
         rightMotor.set(power);
         leftMotor.set(power);
+    }
+
+    public void moveRight(double power) {
+        rightMotor.set(power);
+    }
+
+    public void moveLeft(double power) {
+        leftMotor.set(power);
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("List");
+        builder.addBooleanProperty("Reset Encoders", () -> false, (x) -> resetEncoders());
     }
 }

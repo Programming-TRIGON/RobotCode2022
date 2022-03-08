@@ -114,9 +114,17 @@ public class RobotConstants {
 
     public static class DriverConstants {
         public static final boolean SQUARED_CONTROLLER_DRIVING = true;
-        public static final double DRIVING_SPEED_DIVIDER = LOCAL_CONSTANTS.localDriverConstants.drivingSpeedDivider;
+        public static final double SPEED_DIVIDER = 1;
+        public static final double ROTATION_SPEED_DIVIDER = 2;
+        public static final double ENDGAME_SPEED_DIVIDER = 6;
+        public static final double ENDGAME_ROTATION_SPEED_DIVIDER = 6;
         public static final int XBOX_PORT = 0;
-        public static final double RUMBLE_INTERMISSION_TIME = 0.15;
+        public static final double CONTROLLER_DEADBAND = 0.1;
+    }
+
+    public static class CommanderConstants {
+        public static final int XBOX_PORT = 0;
+        public static final boolean SQUARED_CONTROLLER_DRIVING = true;
         public static final double CONTROLLER_DEADBAND = 0.1;
     }
 
@@ -125,18 +133,23 @@ public class RobotConstants {
         public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
         public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
                 0.15, 0.15, 6, 6, 2.5, false);
+        public static final double TRANSPORTER_WAIT_TIME = 0.5;
     }
 
     public static class ClimberConstants {
         public static final PIDFTalonFX LEFT_MOTOR = ClimberComponents.LEFT_MOTOR;
         public static final PIDFTalonFX RIGHT_MOTOR = ClimberComponents.RIGHT_MOTOR;
         public static final int MAX_POSITION = 7000; // in ticks
+        public static final double MIN_POSITION = -7000; // in ticks
+        public static final double TRIGGER_DEADBAND = 0.6;
+        public static final double OVERRIDDEN_POWER = 0.5;
     }
 
     public static class TransporterConstants {
         public static final TrigonTalonSRX MOTOR = TransporterComponents.MOTOR;
         public static final ColorSensorV3 COLOR_SENSOR = TransporterComponents.COLOR_SENSOR;
-        public static final double POWER = 0.7;
+        //TODO: set reasonable power
+        public static final double POWER = 0.43;
     }
 
     public static class IntakeConstants {
@@ -158,8 +171,8 @@ public class RobotConstants {
 
     public static class LoaderConstants {
         public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
-        public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
-                0.15, 0.2, 3, 4, 5, false);
+        //TODO: set to correct power
+        public static final double POWER = 0.5;
     }
 
     public static class MotionProfilingConstants {

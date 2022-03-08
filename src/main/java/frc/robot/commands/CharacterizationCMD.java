@@ -218,17 +218,19 @@ public class CharacterizationCMD extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         characterizableSS.stopMoving();
-        for(int i = 0; i < constants.cycleCount; i++) {
-            powers[i] = Math.abs(powers[i]);
+        if(!interrupted) {
+            for(int i = 0; i < constants.cycleCount; i++) {
+                powers[i] = Math.abs(powers[i]);
+            }
+            double[] kV = new double[componentCount];
+            double[] kS = new double[componentCount];
+            for(int i = 0; i < componentCount; i++) {
+                LinearRegression linearRegression = new LinearRegression(averageVelocities[i], powers);
+                kV[i] = linearRegression.slope();
+                kS[i] = linearRegression.intercept();
+            }
+            characterizableSS.updateFeedforward(kV, kS);
         }
-        double[] kV = new double[componentCount];
-        double[] kS = new double[componentCount];
-        for(int i = 0; i < componentCount; i++) {
-            LinearRegression linearRegression = new LinearRegression(averageVelocities[i], powers);
-            kV[i] = linearRegression.slope();
-            kS[i] = linearRegression.intercept();
-        }
-        characterizableSS.updateFeedforward(kV, kS);
     }
 
     @Override

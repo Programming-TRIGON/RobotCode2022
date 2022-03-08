@@ -6,8 +6,6 @@ import frc.robot.utilities.pid.PIDCoefs;
 import frc.robot.utilities.pid.PIDFCoefs;
 
 public class LocalConstants {
-    @SerializedName("Driver")
-    public LocalDriverConstants localDriverConstants;
     @SerializedName("Swerve")
     public LocalSwerveConstants localSwerveConstants;
     @SerializedName("Shooter")
@@ -24,7 +22,6 @@ public class LocalConstants {
     public LocalMotionProfilingConstants localMotionProfilingConstants;
 
     public LocalConstants() {
-        localDriverConstants = new LocalDriverConstants();
         localSwerveConstants = new LocalSwerveConstants();
         localShooterConstants = new LocalShooterConstants();
         localIntakeOpenerConstants = new LocalIntakeOpenerConstants();
@@ -36,10 +33,6 @@ public class LocalConstants {
 
     public void write() {
         JsonHandler.write(this);
-    }
-
-    public static class LocalDriverConstants {
-        int drivingSpeedDivider;
     }
 
     public static class LocalPitcherConstants {

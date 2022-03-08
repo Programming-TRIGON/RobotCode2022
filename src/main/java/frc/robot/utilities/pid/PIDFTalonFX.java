@@ -34,6 +34,15 @@ public class PIDFTalonFX extends TrigonTalonFX implements PIDFTalon {
     }
 
     @Override
+    public double getError() {
+        return getClosedLoopError();
+    }
+
+    @Override
+    public double getDeltaError() {
+        return getErrorDerivative();
+    }
+
     public PIDFCoefs getRemoteCoefs() {
         return getConfig().getCoefs();
     }
