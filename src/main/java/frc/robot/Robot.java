@@ -10,6 +10,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         robotContainer = new RobotContainer();
+        backupAutoCG = new BackupAutoCG(robotContainer, () -> 0, false);
     }
 
     @Override
@@ -19,7 +20,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        backupAutoCG = new BackupAutoCG(robotContainer);
         backupAutoCG.schedule();
     }
 

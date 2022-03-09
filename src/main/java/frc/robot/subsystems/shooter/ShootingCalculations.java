@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class ShootingCalculations {
     //TODO: Set zone limits and coefs
-    private static final double[] ZONE_LIMITS = new double[] {1.31, 1.7};
+    private static final double[] ZONE_LIMITS = new double[] {};
     private static final ShooterZone[] SHOOTER_ZONES = new ShooterZone[] {
-            new ShooterZone(5, new ShooterWaypoint(0.67, 2777), new ShooterWaypoint(1.31, 3000)),
             new ShooterZone(15, new ShooterWaypoint(2.16, 3177), new ShooterWaypoint(2.905, 3650))
     };
+    //            new ShooterZone(5, new ShooterWaypoint(0.67, 2777), new ShooterWaypoint(1.31, 3000)),
 
     /**
      * @param distance The distance of the front of the robot from the hub

@@ -28,7 +28,13 @@ public interface Savable extends Sendable {
 
     @Override
     default void initSendable(SendableBuilder builder) {
-        builder.addBooleanProperty("load", () -> false, (load) -> load());
-        builder.addBooleanProperty("write", () -> false, (write) -> write());
+        builder.addBooleanProperty("load", () -> false, (load) -> {
+            if(load)
+                load();
+        });
+        builder.addBooleanProperty("write", () -> false, (write) -> {
+            if(write)
+                write();
+        });
     }
 }

@@ -5,10 +5,9 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.RobotConstants.ClimberConstants;
 import frc.robot.subsystems.OverridableSubsystem;
-import frc.robot.subsystems.PIDFSubsystem;
 import frc.robot.utilities.pid.PIDFTalonFX;
 
-public class ClimberSS extends OverridableSubsystem implements PIDFSubsystem {
+public class ClimberSS extends OverridableSubsystem {
     private final PIDFTalonFX leftMotor;
     private final PIDFTalonFX rightMotor;
 
@@ -25,15 +24,14 @@ public class ClimberSS extends OverridableSubsystem implements PIDFSubsystem {
     /**
      * @param setpoint desired position in ticks
      */
-    @Override
-    public void setSetpoint(double setpoint) {
-        setpoint = MathUtil.clamp(setpoint, 0, ClimberConstants.MAX_POSITION);
+    public void setSetpoint(double... setpoint) {
+        setpoint[0] = MathUtil.clamp(setpoint[0], 0, ClimberConstants.MAX_LEFT_POSE);
+        setpoint[1] = MathUtil.clamp(setpoint[1], 0, ClimberConstants.MAX__RIGHT_POSITION);
 
-        leftMotor.setSetpoint(setpoint);
-        rightMotor.setSetpoint(setpoint);
+        leftMotor.setSetpoint(setpoint[0]);
+        rightMotor.setSetpoint(setpoint[1]);
     }
 
-    @Override
     public boolean atSetpoint() {
         return leftMotor.atSetpoint() && rightMotor.atSetpoint();
     }

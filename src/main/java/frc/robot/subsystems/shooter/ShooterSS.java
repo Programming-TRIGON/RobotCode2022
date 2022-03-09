@@ -47,8 +47,11 @@ public class ShooterSS extends SubsystemBase implements PIDFSubsystem, Character
 
     @Override
     public boolean atSetpoint() {
-        SmartDashboard.putBoolean("shoot/shooter at setpoint", masterMotor.atSetpoint());
-        return masterMotor.atSetpoint();
+        SmartDashboard.putBoolean(
+                "shoot/shooter at setpoint", Math.abs(masterMotor.getError()) <= masterMotor.getTolerance() && Math.abs(
+                        masterMotor.getDeltaError()) <= 5);
+        return Math.abs(masterMotor.getError()) <= masterMotor.getTolerance() && Math.abs(
+                masterMotor.getDeltaError()) <= 5;
     }
 
     /**

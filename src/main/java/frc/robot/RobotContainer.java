@@ -2,8 +2,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.*;
-import frc.robot.commands.GenericTurnToTargetCMD;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.commandgroups.ShootCG;
 import frc.robot.components.TrigonXboxController;
@@ -37,16 +39,16 @@ public class RobotContainer {
     public TransporterSS transporterSS;
     public ClimberSS climberSS;
     public LED ledSS;
-    private IntakeSS intakeSS;
-    private IntakeOpenerSS intakeOpenerSS;
+    public IntakeSS intakeSS;
+    public IntakeOpenerSS intakeOpenerSS;
     // Commands
     private SupplierDriveCMD driveWithXboxCMD;
-    private MoveMovableSubsystem intakeCMD;
-    private MoveMovableSubsystem transportCMD;
+    public MoveMovableSubsystem intakeCMD;
+    public MoveMovableSubsystem transportCMD;
     private MoveMovableSubsystem inverseIntakeCMD;
     private MoveMovableSubsystem inverseTransportCMD;
-    private ClimbCMD climbCMD;
-    private ParallelDeadlineGroup shootCG;
+    //    private ClimbCMD climbCMD;
+    private ShootCG shootCG;
 
     // States
     private boolean endgame = false;
@@ -112,25 +114,24 @@ public class RobotContainer {
         transportCMD = new MoveMovableSubsystem(transporterSS, () -> TransporterConstants.POWER);
         inverseIntakeCMD = new MoveMovableSubsystem(intakeSS, () -> -IntakeConstants.POWER);
         inverseTransportCMD = new MoveMovableSubsystem(transporterSS, () -> -TransporterConstants.POWER);
-        climbCMD = new ClimbCMD(climberSS);
-        shootCG = new ShootCG(this).deadlineWith(
-                new GenericTurnToTargetCMD(
-                        limelight, swerveSS));
+        //        climbCMD = new ClimbCMD();
+        shootCG = new ShootCG(this, () -> 0, false);
     }
 
     private void bindCommands() {
         swerveSS.setDefaultCommand(driveWithXboxCMD);
 
         driverXbox.getYBtn().whenPressed(new InstantCommand(swerveSS::resetGyro));
-        driverXbox.getRightBumperBtn().whileHeld(
+        driverXbox.getLeftBumperBtn().whileHeld(
                 new SequentialCommandGroup(
                         new InstantCommand(() -> intakeOpenerSS.setState(true)),
                         new ParallelCommandGroup(intakeCMD, transportCMD)));
-        driverXbox.getRightBumperBtn().whenReleased(new InstantCommand(() -> intakeOpenerSS.setState(false)));
+        driverXbox.getLeftBumperBtn().whenReleased(new InstantCommand(() -> intakeOpenerSS.setState(false)));
         driverXbox.getXBtn().whileHeld(shootCG);
 
         commanderXbox.getBBtn().whileHeld(new ParallelCommandGroup(inverseIntakeCMD, inverseTransportCMD));
-        climbCMD.withInterrupt(commanderXbox::getXButton);
+        //        commanderXbox.getXBtn().whileHeld(new LoaderCMD)
+        //        climbCMD.withInterrupt(commanderXbox::getXButton);
         commanderXbox.getABtn().whenPressed(new InstantCommand(() -> {
             setEndgame(!isEndgame());
         }));
@@ -145,6 +146,9 @@ public class RobotContainer {
         SmartDashboard.putData("Climber", climberSS);
         SmartDashboard.putData("Shooter", shooterSS
         );
+        SmartDashboard.putNumber("ShootCGa/velocity", 0);
+        SmartDashboard.putData("ShootCGa/ShootCGa", new ShootCG(this,
+                () -> SmartDashboard.getNumber("ShootCGa/velocity", 0), true));
     }
 
     public void periodic() {
@@ -168,11 +172,11 @@ public class RobotContainer {
 
     private void runClimber() {
         if(driverXbox.getRightTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND)
-            climbCMD.schedule(ClimberConstants.MAX_POSITION);
+            new ClimbCMD(climberSS, ClimberConstants.MAX_LEFT_POSE, ClimberConstants.MAX__RIGHT_POSITION).schedule();
         else if(driverXbox.getLeftTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND)
-            climbCMD.schedule(ClimberConstants.MIN_POSITION);
+            new ClimbCMD(climberSS, -ClimberConstants.MAX_LEFT_POSE, -ClimberConstants.MAX__RIGHT_POSITION).schedule();
         else if(commanderXbox.getPOV() == 270)
-            climbCMD.schedule(0);
+            new ClimbCMD(climberSS, 0, 0).schedule();
 
         if(commanderXbox.getYButton()) {
             if(commanderXbox.getRightBumper())

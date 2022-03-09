@@ -138,8 +138,8 @@ public class RobotConstants {
     public static class ClimberConstants {
         public static final PIDFTalonFX LEFT_MOTOR = ClimberComponents.LEFT_MOTOR;
         public static final PIDFTalonFX RIGHT_MOTOR = ClimberComponents.RIGHT_MOTOR;
-        public static final int MAX_POSITION = 7000; // in ticks
-        public static final double MIN_POSITION = -7000; // in ticks
+        public static final int MAX__RIGHT_POSITION = 119133; // in ticks
+        public static final int MAX_LEFT_POSE = 168222;
         public static final double TRIGGER_DEADBAND = 0.6;
         public static final double OVERRIDDEN_POWER = 0.5;
     }
