@@ -2,10 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.GenericTurnToTargetCMD;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.commandgroups.ShootCG;
@@ -125,8 +122,11 @@ public class RobotContainer {
         swerveSS.setDefaultCommand(driveWithXboxCMD);
 
         driverXbox.getYBtn().whenPressed(new InstantCommand(swerveSS::resetGyro));
-        driverXbox.getRightBumperBtn().whileHeld(new ParallelCommandGroup(intakeCMD, transportCMD));
-        driverXbox.getLeftBumperBtn().whenPressed(new InstantCommand(intakeOpenerSS::toggleState));
+        driverXbox.getRightBumperBtn().whileHeld(
+                new SequentialCommandGroup(
+                        new InstantCommand(() -> intakeOpenerSS.setState(true)),
+                        new ParallelCommandGroup(intakeCMD, transportCMD)));
+        driverXbox.getRightBumperBtn().whenReleased(new InstantCommand(() -> intakeOpenerSS.setState(false)));
         driverXbox.getXBtn().whileHeld(shootCG);
 
         commanderXbox.getBBtn().whileHeld(new ParallelCommandGroup(inverseIntakeCMD, inverseTransportCMD));
