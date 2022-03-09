@@ -44,7 +44,8 @@ public class RobotConstants {
     }
 
     public static class VisionConstants {
-        public static final PIDCoefs ROTATION_SETTINGS = LOCAL_CONSTANTS.localSwerveConstants.turnTorTargetCoefs;
+        public static final PIDCoefs ROTATION_SETTINGS = LOCAL_CONSTANTS.localSwerveConstants.turnToTargetCoefs;
+        public static final PIDCoefs DRIVE_SETTINGS = LOCAL_CONSTANTS.localSwerveConstants.driveToTargetCoefs;
         public static final double TARGET_TIME_OUT = 0.1;
     }
 

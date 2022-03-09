@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.RobotConstants.VisionConstants;
-import frc.robot.subsystems.MovableSubsystem;
+import frc.robot.subsystems.swerve.SwerveSS;
 import frc.robot.utilities.pid.TrigonPIDController;
 import frc.robot.vision.Limelight;
 
@@ -15,25 +15,32 @@ import frc.robot.vision.Limelight;
  */
 public class GenericTurnToTargetCMD extends CommandBase {
     private final Limelight limelight;
-    private final MovableSubsystem subsystem;
+    private final SwerveSS swerveSS;
     private final PIDController rotationPIDController;
+    private final PIDController distancePIDController;
     private double lastTimeSeenTarget;
+    private boolean driveToTarget;
 
-    public GenericTurnToTargetCMD(Limelight limelight, MovableSubsystem subsystem) {
+    public GenericTurnToTargetCMD(Limelight limelight, SwerveSS swerveSS, boolean driveToTarget) {
 
-        addRequirements(subsystem);
+        addRequirements(swerveSS);
 
         this.limelight = limelight;
-        this.subsystem = subsystem;
+        this.swerveSS = swerveSS;
+        this.driveToTarget = driveToTarget;
 
         rotationPIDController = new TrigonPIDController(VisionConstants.ROTATION_SETTINGS);
+        distancePIDController = new TrigonPIDController(VisionConstants.DRIVE_SETTINGS);
         SmartDashboard.putData("turn to target coefs", rotationPIDController);
+        SmartDashboard.putData("drive to target coefs", distancePIDController);
     }
 
     @Override
     public void initialize() {
         rotationPIDController.reset();
-        rotationPIDController.setSetpoint(2);
+        rotationPIDController.setSetpoint(1.5);
+        distancePIDController.reset();
+        distancePIDController.setSetpoint(2);
         lastTimeSeenTarget = Timer.getFPGATimestamp();
         // Configure the limelight to start computing vision.
         limelight.startVision();
@@ -42,16 +49,20 @@ public class GenericTurnToTargetCMD extends CommandBase {
     @Override
     public void execute() {
         if(limelight.getTv()) {
-            subsystem.move(rotationPIDController.calculate(-limelight.getTx()));
+            if(driveToTarget)
+                swerveSS.drive(0, distancePIDController.calculate(limelight.getDistance()),
+                        rotationPIDController.calculate(-limelight.getTx()), false, false);
+            else
+                swerveSS.move(rotationPIDController.calculate(-limelight.getTx()));
             lastTimeSeenTarget = Timer.getFPGATimestamp();
         } else
             // The target wasn't found
-            subsystem.stopMoving();
+            swerveSS.stopMoving();
     }
 
     @Override
     public void end(boolean interrupted) {
-        subsystem.stopMoving();
+        swerveSS.stopMoving();
     }
 
     @Override
@@ -62,8 +73,7 @@ public class GenericTurnToTargetCMD extends CommandBase {
     public boolean atSetpoint() {
         SmartDashboard.putBoolean("shoot/turn at setpoint", Math.abs(
                 limelight.getTx() - rotationPIDController.getSetpoint()) < VisionConstants.ROTATION_SETTINGS.getTolerance());
-        return Math.abs(
-                limelight.getTx() - rotationPIDController.getSetpoint()) < VisionConstants.ROTATION_SETTINGS.getTolerance();
+        return distancePIDController.atSetpoint();
     }
 
     public void enableTuning() {

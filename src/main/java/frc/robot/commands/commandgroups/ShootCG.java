@@ -18,9 +18,7 @@ import java.util.function.DoubleSupplier;
 public class ShootCG extends ParallelCommandGroup {
     public ShootCG(RobotContainer robotContainer, DoubleSupplier velocity, boolean isManual) {
         PIDCommand shooterCMD = new PIDCommand(
-                robotContainer.shooterSS, isManual ? velocity :
-                                          () -> ShootingCalculations.calculateVelocity(
-                                                  robotContainer.limelight.getDistance()));
+                robotContainer.shooterSS, () -> 2800);
         PIDCommand pitcherCMD = new PIDCommand(
                 robotContainer.pitcherSS,
                 isManual ? () -> 15 : () -> ShootingCalculations.calculateAngle(robotContainer.limelight
@@ -30,7 +28,7 @@ public class ShootCG extends ParallelCommandGroup {
                 shooterCMD,
                 pitcherCMD,
                 new GenericTurnToTargetCMD(
-                        robotContainer.limelight, robotContainer.swerveSS),
+                        robotContainer.limelight, robotContainer.swerveSS, true),
                 new SequentialCommandGroup(
                         new WaitCommand(0.6),
                         new WaitUntilCommand(() -> robotContainer.limelight.getTv() || isManual),

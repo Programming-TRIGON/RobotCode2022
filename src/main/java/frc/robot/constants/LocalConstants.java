@@ -66,11 +66,13 @@ public class LocalConstants {
     }
 
     public static class LocalSwerveConstants {
-        PIDCoefs turnTorTargetCoefs;
+        PIDCoefs turnToTargetCoefs;
+        PIDCoefs driveToTargetCoefs;
         LocalSwerveModules modules;
 
         public LocalSwerveConstants() {
-            turnTorTargetCoefs = new PIDCoefs();
+            turnToTargetCoefs = new PIDCoefs();
+            driveToTargetCoefs = new PIDCoefs();
             modules = new LocalSwerveModules();
             modules.frontRightModuleConstants = new LocalSwerveModules.LocalSwerveModuleConstants();
             modules.frontLeftModuleConstants = new LocalSwerveModules.LocalSwerveModuleConstants();
