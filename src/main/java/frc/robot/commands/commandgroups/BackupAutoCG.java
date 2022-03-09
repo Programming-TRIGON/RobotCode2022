@@ -13,7 +13,8 @@ import java.util.function.DoubleSupplier;
 public class BackupAutoCG extends SequentialCommandGroup {
     public BackupAutoCG(RobotContainer robotContainer, DoubleSupplier velocity, boolean isManual) {
         addCommands(
-                new SupplierDriveCMD(robotContainer.swerveSS, () -> -0.5, () -> 0.0, () -> 0.0, true).raceWith(
+                new InstantCommand(() -> robotContainer.swerveSS.resetGyro()),
+                new SupplierDriveCMD(robotContainer.swerveSS, () -> 0.0, () -> 0.35, () -> 0.0, true).raceWith(
                                 new SequentialCommandGroup(
                                         new InstantCommand(() -> robotContainer.intakeOpenerSS.setState(true)),
                                         new ParallelCommandGroup(
@@ -24,7 +25,7 @@ public class BackupAutoCG extends SequentialCommandGroup {
                                                         robotContainer.transporterSS,
                                                         () -> RobotConstants.TransporterConstants.POWER))))
                         .withTimeout(3),
-                new SupplierDriveCMD(robotContainer.swerveSS, () -> 0.1, () -> 0.0, () -> 0.3, true).withInterrupt(
+                new SupplierDriveCMD(robotContainer.swerveSS, () -> 0.0, () -> -0.2, () -> 0.3, true).withInterrupt(
                         () -> robotContainer.limelight.getTv()),
                 new ShootCG(robotContainer, velocity, isManual),
                 new SupplierDriveCMD(robotContainer.swerveSS, () -> 0.2, () -> 0.0, () -> 0.1, true).withInterrupt(

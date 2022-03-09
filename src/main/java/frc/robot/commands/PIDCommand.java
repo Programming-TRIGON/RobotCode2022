@@ -24,8 +24,12 @@ public class PIDCommand extends CommandBase {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         subsystem.setSetpoint(setpoint.getAsDouble());
+    }
+
+    @Override
+    public void execute() {
     }
 
     @Override

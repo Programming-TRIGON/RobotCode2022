@@ -34,7 +34,6 @@ public interface ConfigurableTalon extends IMotorController {
         ce_config_kI(0, motorConfig.getCoefs().getKI());
         ce_config_kD(0, motorConfig.getCoefs().getKD());
         ce_config_kF(0, motorConfig.getCoefs().getKV());
-        ce_configAllowableClosedloopError(0, (int) motorConfig.getCoefs().getTolerance());
 
         return this;
     }
@@ -78,12 +77,6 @@ public interface ConfigurableTalon extends IMotorController {
     default ErrorCode ce_config_kF(int slotIdx, double value) {
         return CTREUtil.checkError(
                 () -> config_kF(slotIdx, value, RobotConstants.DEFAULT_CAN_TIMEOUT));
-    }
-
-    default ErrorCode ce_configAllowableClosedloopError(int slotIdx, int allowableCloseLoopError) {
-        return CTREUtil.checkError(
-                () -> configAllowableClosedloopError(
-                        slotIdx, allowableCloseLoopError, RobotConstants.DEFAULT_CAN_TIMEOUT));
     }
 
     default ErrorCode ce_configRemoteFeedbackFilter(

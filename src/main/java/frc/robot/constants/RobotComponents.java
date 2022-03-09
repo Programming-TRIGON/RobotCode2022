@@ -110,7 +110,7 @@ public class RobotComponents {
         }
 
         public static class RearRight {
-            public static final PIDFTalonSRX ANGLE_ENCODER = new PIDFTalonSRX(
+            public static final TrigonTalonSRX ANGLE_ENCODER = new TrigonTalonSRX(
                     CAN.Swerve.REAR_RIGHT_ANGLE_ENCODER_ID, ANGLE_ENCODER_CONFIG);
             public static final PIDFTalonFX ANGLE_MOTOR = new PIDFTalonFX(
                     CAN.Swerve.REAR_RIGHT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG
@@ -205,7 +205,6 @@ public class RobotComponents {
                 withClosedLoopRampRate(0.5).
                 withClosedLoop(RobotConstants.LOCAL_CONSTANTS.localLoaderConstants.pidfCoefs, ControlMode.Velocity).
                 withVoltageCompSaturation(12);
-        public static final PIDFTalonSRX MOTOR = (PIDFTalonSRX) SwerveComponents.RearRight.ANGLE_ENCODER.config(
-                MOTOR_CONFIG);
+        public static final TrigonTalonSRX MOTOR = SwerveComponents.RearRight.ANGLE_ENCODER;
     }
 }

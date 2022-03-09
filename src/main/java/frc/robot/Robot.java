@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.commands.commandgroups.BackupAutoCG;
+import frc.robot.subsystems.shooter.ShootingCalculations;
 
 public class Robot extends TimedRobot {
     private RobotContainer robotContainer;
@@ -10,7 +11,9 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         robotContainer = new RobotContainer();
-        backupAutoCG = new BackupAutoCG(robotContainer, () -> 0, false);
+        backupAutoCG = new BackupAutoCG(
+                robotContainer,
+                () -> ShootingCalculations.calculateVelocity(robotContainer.limelight.getDistance()), false);
     }
 
     @Override

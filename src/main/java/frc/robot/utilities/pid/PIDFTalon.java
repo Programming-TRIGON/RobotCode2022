@@ -61,7 +61,6 @@ public interface PIDFTalon extends ConfigurableTalon, PIDFMotor {
 
     default void setTolerance(double tolerance) {
         getCoefs().setTolerance(tolerance);
-        ce_configAllowableClosedloopError(0, (int) tolerance);
     }
 
     default void setDeltaTolerance(double deltaTolerance) {

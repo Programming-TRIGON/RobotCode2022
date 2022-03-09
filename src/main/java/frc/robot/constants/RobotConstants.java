@@ -132,7 +132,7 @@ public class RobotConstants {
         public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
         public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
                 0.4, 0.2, 3, 5, 2.5, false);
-        public static final double TRANSPORTER_WAIT_TIME = 0.5;
+        public static final double TRANSPORTER_WAIT_TIME = 0.2;
     }
 
     public static class ClimberConstants {
@@ -171,8 +171,8 @@ public class RobotConstants {
     }
 
     public static class LoaderConstants {
-        public static final PIDFTalonSRX MOTOR = LoaderComponents.MOTOR;
+        public static final TrigonTalonSRX MOTOR = LoaderComponents.MOTOR;
         //TODO: set to correct power
-        public static final double POWER = 0.43;
+        public static final double POWER = -0.43;
     }
 }

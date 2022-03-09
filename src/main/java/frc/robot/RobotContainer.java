@@ -18,6 +18,7 @@ import frc.robot.subsystems.led.LED;
 import frc.robot.subsystems.loader.LoaderSS;
 import frc.robot.subsystems.shooter.PitcherSS;
 import frc.robot.subsystems.shooter.ShooterSS;
+import frc.robot.subsystems.shooter.ShootingCalculations;
 import frc.robot.subsystems.swerve.SupplierDriveCMD;
 import frc.robot.subsystems.swerve.SwerveSS;
 import frc.robot.subsystems.transporter.TransporterSS;
@@ -115,7 +116,7 @@ public class RobotContainer {
         inverseIntakeCMD = new MoveMovableSubsystem(intakeSS, () -> -IntakeConstants.POWER);
         inverseTransportCMD = new MoveMovableSubsystem(transporterSS, () -> -TransporterConstants.POWER);
         //        climbCMD = new ClimbCMD();
-        shootCG = new ShootCG(this, () -> 0, false);
+        shootCG = new ShootCG(this, () -> ShootingCalculations.calculateVelocity(limelight.getDistance()), false);
     }
 
     private void bindCommands() {
@@ -127,7 +128,8 @@ public class RobotContainer {
                         new InstantCommand(() -> intakeOpenerSS.setState(true)),
                         new ParallelCommandGroup(intakeCMD, transportCMD)));
         driverXbox.getLeftBumperBtn().whenReleased(new InstantCommand(() -> intakeOpenerSS.setState(false)));
-        driverXbox.getXBtn().whileHeld(shootCG);
+        driverXbox.getRightBumperBtn().whileHeld(new ShootCG(this, () -> 3650, true));
+        driverXbox.getBBtn().whileHeld(shootCG);
 
         commanderXbox.getBBtn().whileHeld(new ParallelCommandGroup(inverseIntakeCMD, inverseTransportCMD));
         //        commanderXbox.getXBtn().whileHeld(new LoaderCMD)
@@ -146,6 +148,8 @@ public class RobotContainer {
         SmartDashboard.putData("Climber", climberSS);
         SmartDashboard.putData("Shooter", shooterSS
         );
+        //        SmartDashboard.putData("Loader/move", new MoveMovableSubsystem(loaderSS, () -> LoaderConstants
+        //        .POWER));
         SmartDashboard.putNumber("ShootCGa/velocity", 0);
         SmartDashboard.putData("ShootCGa/ShootCGa", new ShootCG(this,
                 () -> SmartDashboard.getNumber("ShootCGa/velocity", 0), true));
@@ -164,10 +168,10 @@ public class RobotContainer {
             userBtnPressed = true;
             limelight.setLedMode(limelight.getLedMode() == LedMode.off ? LedMode.on : LedMode.off);
         }
-        if(driverXbox.getBButton())
-            loaderSS.move(LoaderConstants.POWER);
-        else
-            loaderSS.stopMoving();
+        //        if(driverXbox.getBButton())
+        //            loaderSS.move(LoaderConstants.POWER);
+        //        else
+        //            loaderSS.stopMoving();
     }
 
     private void runClimber() {
