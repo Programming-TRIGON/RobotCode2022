@@ -1,9 +1,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.commands.commandgroups.BackupAutoCG;
 
 public class Robot extends TimedRobot {
     private RobotContainer robotContainer;
+    private BackupAutoCG backupAutoCG;
 
     @Override
     public void robotInit() {
@@ -17,6 +19,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        backupAutoCG = new BackupAutoCG(robotContainer);
+        backupAutoCG.schedule();
     }
 
     @Override
@@ -25,6 +29,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        backupAutoCG.cancel();
     }
 
     @Override

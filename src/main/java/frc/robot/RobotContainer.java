@@ -5,7 +5,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import frc.robot.commands.GenericTurnToTargetCMD;
 import frc.robot.commands.MoveMovableSubsystem;
+import frc.robot.commands.commandgroups.ShootCG;
 import frc.robot.components.TrigonXboxController;
 import frc.robot.constants.RobotConstants.*;
 import frc.robot.subsystems.climber.ClimbCMD;
@@ -46,6 +49,7 @@ public class RobotContainer {
     private MoveMovableSubsystem inverseIntakeCMD;
     private MoveMovableSubsystem inverseTransportCMD;
     private ClimbCMD climbCMD;
+    private ParallelDeadlineGroup shootCG;
 
     // States
     private boolean endgame = false;
@@ -112,6 +116,9 @@ public class RobotContainer {
         inverseIntakeCMD = new MoveMovableSubsystem(intakeSS, () -> -IntakeConstants.POWER);
         inverseTransportCMD = new MoveMovableSubsystem(transporterSS, () -> -TransporterConstants.POWER);
         climbCMD = new ClimbCMD(climberSS);
+        shootCG = new ShootCG(this).deadlineWith(
+                new GenericTurnToTargetCMD(
+                        limelight, swerveSS));
     }
 
     private void bindCommands() {
@@ -120,6 +127,7 @@ public class RobotContainer {
         driverXbox.getYBtn().whenPressed(new InstantCommand(swerveSS::resetGyro));
         driverXbox.getRightBumperBtn().whileHeld(new ParallelCommandGroup(intakeCMD, transportCMD));
         driverXbox.getLeftBumperBtn().whenPressed(new InstantCommand(intakeOpenerSS::toggleState));
+        driverXbox.getXBtn().whileHeld(shootCG);
 
         commanderXbox.getBBtn().whileHeld(new ParallelCommandGroup(inverseIntakeCMD, inverseTransportCMD));
         climbCMD.withInterrupt(commanderXbox::getXButton);

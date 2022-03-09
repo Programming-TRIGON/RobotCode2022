@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.RobotContainer;
-import frc.robot.commands.GenericTurnToTargetCMD;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.PIDCommand;
 import frc.robot.constants.RobotConstants;
@@ -21,8 +20,6 @@ public class ShootCG extends ParallelCommandGroup {
         PIDCommand pitcherCMD = new PIDCommand(
                 robotContainer.pitcherSS, () -> ShootingCalculations.calculateAngle(robotContainer.limelight
                 .getDistance()));
-        GenericTurnToTargetCMD turnToTargetCMD = new GenericTurnToTargetCMD(
-                robotContainer.limelight, robotContainer.swerveSS);
 
         addCommands(
                 shooterCMD,
