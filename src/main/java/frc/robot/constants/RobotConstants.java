@@ -115,8 +115,8 @@ public class RobotConstants {
         public static final boolean SQUARED_CONTROLLER_DRIVING = true;
         public static final double SPEED_DIVIDER = 1;
         public static final double ROTATION_SPEED_DIVIDER = 2;
-        public static final double ENDGAME_SPEED_DIVIDER = 6;
-        public static final double ENDGAME_ROTATION_SPEED_DIVIDER = 6;
+        public static final double ENDGAME_SPEED_DIVIDER = 3;
+        public static final double ENDGAME_ROTATION_SPEED_DIVIDER = 3;
         public static final int XBOX_PORT = 0;
         public static final double CONTROLLER_DEADBAND = 0.1;
     }
@@ -148,7 +148,7 @@ public class RobotConstants {
         public static final TrigonTalonSRX MOTOR = TransporterComponents.MOTOR;
         public static final ColorSensorV3 COLOR_SENSOR = TransporterComponents.COLOR_SENSOR;
         //TODO: set reasonable power
-        public static final double POWER = 0.4;
+        public static final double POWER = 0.55;
     }
 
     public static class IntakeConstants {
@@ -158,8 +158,8 @@ public class RobotConstants {
 
     public static class IntakeOpenerConstants {
         public static final TrigonTalonSRX MOTOR = IntakeOpenerComponents.MOTOR;
-        public static final double OPENING_POWER = 0.2;
-        public static final double CLOSING_POWER = 0.5;
+        public static final double OPENING_POWER = 0.3;
+        public static final double CLOSING_POWER = 0.4;
     }
 
     public static class PitcherConstants {

@@ -221,6 +221,7 @@ public class CharacterizationCMD extends CommandBase {
         if(!interrupted) {
             for(int i = 0; i < constants.cycleCount; i++) {
                 powers[i] = Math.abs(powers[i]);
+                System.out.println("power: " + powers[i] + "\tVelocities: " + averageVelocities[0][i]);
             }
             double[] kV = new double[componentCount];
             double[] kS = new double[componentCount];

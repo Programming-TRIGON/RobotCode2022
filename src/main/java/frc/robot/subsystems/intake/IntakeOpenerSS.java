@@ -1,5 +1,6 @@
 package frc.robot.subsystems.intake;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotConstants.IntakeOpenerConstants;
@@ -27,6 +28,12 @@ public class IntakeOpenerSS extends OverridableSubsystem {
     }
 
     public void setState(boolean isOpening) {
-        motor.set(isOpening ? IntakeOpenerConstants.OPENING_POWER : -IntakeOpenerConstants.CLOSING_POWER);
+        if(isOpening) {
+            motor.set(IntakeOpenerConstants.OPENING_POWER);
+            motor.setNeutralMode(NeutralMode.Coast);
+        } else {
+            motor.set(-IntakeOpenerConstants.CLOSING_POWER);
+            motor.setNeutralMode(NeutralMode.Brake);
+        }
     }
 }

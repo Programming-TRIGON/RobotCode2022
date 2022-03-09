@@ -32,8 +32,10 @@ public class ShootCG extends ParallelCommandGroup {
                 new GenericTurnToTargetCMD(
                         robotContainer.limelight, robotContainer.swerveSS),
                 new SequentialCommandGroup(
+                        new WaitCommand(0.6),
+                        new WaitUntilCommand(() -> robotContainer.limelight.getTv() || isManual),
                         new WaitUntilCommand(() ->
-                                robotContainer.shooterSS.atSetpoint() && (robotContainer.limelight.getTv() || isManual)
+                                robotContainer.shooterSS.atSetpoint()
                         ),
                         new ParallelCommandGroup(
                                 new MoveMovableSubsystem(robotContainer.loaderSS, () -> LoaderConstants.POWER),

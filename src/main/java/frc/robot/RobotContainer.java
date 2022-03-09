@@ -153,6 +153,7 @@ public class RobotContainer {
         SmartDashboard.putNumber("ShootCGa/velocity", 0);
         SmartDashboard.putData("ShootCGa/ShootCGa", new ShootCG(this,
                 () -> SmartDashboard.getNumber("ShootCGa/velocity", 0), true));
+        dashboardController.addNumber("limelight/distance", () -> limelight.getDistance());
     }
 
     public void periodic() {

@@ -33,7 +33,7 @@ public class GenericTurnToTargetCMD extends CommandBase {
     @Override
     public void initialize() {
         rotationPIDController.reset();
-        rotationPIDController.setSetpoint(0);
+        rotationPIDController.setSetpoint(2);
         lastTimeSeenTarget = Timer.getFPGATimestamp();
         // Configure the limelight to start computing vision.
         limelight.startVision();
