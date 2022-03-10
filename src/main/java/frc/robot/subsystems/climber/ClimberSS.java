@@ -36,6 +36,14 @@ public class ClimberSS extends OverridableSubsystem {
         return leftMotor.atSetpoint() && rightMotor.atSetpoint();
     }
 
+    public double getLeftPower() {
+        return leftMotor.get();
+    }
+
+    public double getRightPower() {
+        return rightMotor.get();
+    }
+
     /**
      * @return left position in ticks
      */
@@ -69,10 +77,20 @@ public class ClimberSS extends OverridableSubsystem {
     }
 
     public void moveRight(double power) {
+        if(getRightPosition() >= ClimberConstants.MAX__RIGHT_POSITION
+                - ClimberConstants.POSITION_TOLERANCE ||
+                getRightPosition() <= -ClimberConstants.MAX__RIGHT_POSITION
+                        + ClimberConstants.POSITION_TOLERANCE)
+            power = 0;
         rightMotor.set(power);
     }
 
     public void moveLeft(double power) {
+        if(getLeftPosition() >= ClimberConstants.MAX_LEFT_POSE
+                - ClimberConstants.POSITION_TOLERANCE ||
+                getLeftPosition() <= -ClimberConstants.MAX_LEFT_POSE
+                        + ClimberConstants.POSITION_TOLERANCE)
+            power = 0;
         leftMotor.set(power);
     }
 
