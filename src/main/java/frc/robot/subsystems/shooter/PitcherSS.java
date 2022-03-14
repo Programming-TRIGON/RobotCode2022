@@ -17,6 +17,8 @@ public class PitcherSS extends SubsystemBase implements TestableSubsystem, PIDFS
     public PitcherSS() {
         motor = PitcherConstants.MOTOR;
         setSetpoint(getAngle());
+        motor.configMaxIntegralAccumulator(0, 30000);
+        motor.configClosedLoopPeakOutput(0, 0.2);
     }
 
     /**
@@ -79,7 +81,7 @@ public class PitcherSS extends SubsystemBase implements TestableSubsystem, PIDFS
 
         builder.addDoubleProperty("Stats/Angle", this::getAngle, null);
 
-        builder.addDoubleProperty("Stats/setpoint", () -> Math.round(getSetpoint()), this::setSetpoint);
+        builder.addDoubleProperty("Stats/setpoint", this::getSetpoint, this::setSetpoint);
 
         builder.addBooleanProperty("Reset Encoder", () -> false, (x) -> {
             if(x)
