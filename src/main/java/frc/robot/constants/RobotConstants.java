@@ -28,9 +28,9 @@ public class RobotConstants {
     }
 
     public static class HubLimelightConstants {
-        public static final double DISTANCE_CALCULATION_A_COEFFICIENT = 0.00235;
-        public static final double DISTANCE_CALCULATION_B_COEFFICIENT = -0.086;
-        public static final double DISTANCE_CALCULATION_C_COEFFICIENT = 1.77;
+        public static final double DISTANCE_CALCULATION_A_COEFFICIENT = 0.0023;
+        public static final double DISTANCE_CALCULATION_B_COEFFICIENT = -0.0962;
+        public static final double DISTANCE_CALCULATION_C_COEFFICIENT = 1.75;
     }
 
     public static class TesterConstants {
@@ -178,6 +178,6 @@ public class RobotConstants {
     public static class LoaderConstants {
         public static final TrigonTalonSRX MOTOR = LoaderComponents.MOTOR;
         //TODO: set to correct power
-        public static final double POWER = 0.43;
+        public static final double POWER = 0.4;
     }
 }

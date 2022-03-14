@@ -113,7 +113,7 @@ public class RobotComponents {
             public static final TrigonTalonSRX ANGLE_ENCODER = new TrigonTalonSRX(
                     CAN.Swerve.REAR_RIGHT_ANGLE_ENCODER_ID, ANGLE_ENCODER_CONFIG.withCurrentLimit(
                     new SupplyCurrentLimitConfiguration(
-                            true, 0, 15, 0.1
+                            true, 0, 23, 0.1
                     )
             ));
             public static final PIDFTalonFX ANGLE_MOTOR = new PIDFTalonFX(

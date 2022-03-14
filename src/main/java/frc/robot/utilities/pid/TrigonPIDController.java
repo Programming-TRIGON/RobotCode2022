@@ -10,6 +10,7 @@ public class TrigonPIDController extends PIDController implements PIDConfigurabl
 
     public TrigonPIDController(PIDCoefs coefs) {
         super(coefs.getKP(), coefs.getKI(), coefs.getKD());
+        this.setTolerance(coefs.getTolerance(), coefs.getDeltaTolerance());
 
         remotePidCoefs = coefs;
         pidCoefs = new PIDCoefs(getRemoteCoefs());

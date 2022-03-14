@@ -5,7 +5,6 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.constants.RobotConstants.VisionConstants;
 import frc.robot.subsystems.swerve.SwerveSS;
 import frc.robot.utilities.pid.PIDCoefs;
 import frc.robot.utilities.pid.TrigonPIDController;
@@ -33,7 +32,7 @@ public class GenericTurnToTargetCMD extends CommandBase {
         this.inSight = inSight;
         this.timeout = timeout;
 
-        rotationPIDController = new TrigonPIDController(VisionConstants.HUB_TTT_COEFS);
+        rotationPIDController = new TrigonPIDController(coefs);
         rotationPIDController.setSetpoint(setpoint);
 
         addRequirements(swerveSS);
@@ -62,7 +61,7 @@ public class GenericTurnToTargetCMD extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > VisionConstants.TARGET_TIME_OUT);
+        return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > timeout);
     }
 
     public boolean atSetpoint() {
@@ -77,6 +76,7 @@ public class GenericTurnToTargetCMD extends CommandBase {
             if(x)
                 schedule();
         });
+        builder.addDoubleProperty("error", rotationPIDController::getPositionError, null);
     }
 
     public void putOnDashboard(String entry) {

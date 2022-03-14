@@ -7,10 +7,12 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import frc.robot.commands.GenericTurnToTargetCMD;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.RunWhenDisabledCommand;
 import frc.robot.commands.commandgroups.ShootCG;
 import frc.robot.components.TrigonXboxController;
+import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.*;
 import frc.robot.subsystems.climber.ClimbCMD;
 import frc.robot.subsystems.climber.ClimberSS;
@@ -28,13 +30,14 @@ import frc.robot.utilities.DashboardController;
 import frc.robot.vision.CamMode;
 import frc.robot.vision.LedMode;
 import frc.robot.vision.Limelight;
+import org.photonvision.PhotonCamera;
 
 public class RobotContainer {
     private final DashboardController dashboardController;
     private final TrigonXboxController driverXbox;
     private final TrigonXboxController commanderXbox;
     public Limelight hubLimelight;
-    public Limelight cargoLimelight;
+    public PhotonCamera cargoPhoton;
 
     // Subsystems
     public SwerveSS swerveSS;
@@ -70,9 +73,10 @@ public class RobotContainer {
                 CommanderConstants.SQUARED_CONTROLLER_DRIVING);
         hubLimelight = new Limelight("limelight-hub");
         hubLimelight.setCamMode(CamMode.vision);
-        cargoLimelight = new Limelight("limelight-cargo");
-        cargoLimelight.setPipeline(DriverStation.getAlliance().equals(DriverStation.Alliance.Blue) ? 0 : 1);
-        cargoLimelight.setCamMode(CamMode.vision);
+
+        cargoPhoton = new PhotonCamera("photon-cargo");
+        cargoPhoton.setPipelineIndex(DriverStation.getAlliance().equals(DriverStation.Alliance.Blue) ? 0 : 1);
+        cargoPhoton.setDriverMode(false);
 
         userBtn = new Button(RobotController::getUserButton);
 
@@ -123,6 +127,7 @@ public class RobotContainer {
                           DriverConstants.ROTATION_SPEED_DIVIDER)),
                 true);
         shootCG = new ShootCG(this);
+        SmartDashboard.putData("shootcgg", shootCG);
     }
 
     private void bindCommands() {
@@ -142,6 +147,11 @@ public class RobotContainer {
                                         0.4)))
         );
         driverXbox.getBBtn().whileHeld(shootCG);
+        driverXbox.getRightBumperBtn().whileHeld(new MoveMovableSubsystem(loaderSS, () -> LoaderConstants.POWER));
+        driverXbox.getABtn()
+                .whileHeld(new GenericTurnToTargetCMD(swerveSS, () -> -hubLimelight.getTx(), hubLimelight::getTv, 2,
+                        RobotConstants.VisionConstants.HUB_TTT_COEFS,
+                        1));
 
         commanderXbox.getBBtn().whileHeld(new ParallelCommandGroup(
                 new MoveMovableSubsystem(intakeSS, () -> -IntakeConstants.POWER),
