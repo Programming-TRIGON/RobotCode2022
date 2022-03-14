@@ -41,4 +41,8 @@ public class PIDCommand extends CommandBase {
     public boolean isFinished() {
         return isFinished.getAsBoolean();
     }
+
+    public boolean atSetpoint() {
+        return subsystem.atSetpoint();
+    }
 }

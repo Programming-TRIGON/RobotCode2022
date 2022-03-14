@@ -27,14 +27,10 @@ public class RobotConstants {
         JsonHandler.write(LOCAL_CONSTANTS);
     }
 
-    public static class LimelightConstants {
+    public static class HubLimelightConstants {
         public static final double DISTANCE_CALCULATION_A_COEFFICIENT = 0.00235;
         public static final double DISTANCE_CALCULATION_B_COEFFICIENT = -0.086;
         public static final double DISTANCE_CALCULATION_C_COEFFICIENT = 1.77;
-        public static final double LIMELIGHT_ANGLE_OFFSET = 1;
-        public static final double LIMELIGHT_OFFSET_X = 1;
-        public static final double LIMELIGHT_OFFSET_Y = 1;
-        public static final String DEFAULT_TABLE_KEY = "limelight";
     }
 
     public static class TesterConstants {
@@ -44,7 +40,7 @@ public class RobotConstants {
     }
 
     public static class VisionConstants {
-        public static final PIDCoefs ROTATION_SETTINGS = LOCAL_CONSTANTS.localSwerveConstants.turnToTargetCoefs;
+        public static final PIDCoefs HUB_TTT_COEFS = LOCAL_CONSTANTS.localSwerveConstants.turnToTargetCoefs;
         public static final PIDCoefs DRIVE_SETTINGS = LOCAL_CONSTANTS.localSwerveConstants.driveToTargetCoefs;
         public static final double DISTANCE_POWER = 0.2;
         public static final double DISTANCE_TOLERANCE = 0.2;
@@ -182,6 +178,6 @@ public class RobotConstants {
     public static class LoaderConstants {
         public static final TrigonTalonSRX MOTOR = LoaderComponents.MOTOR;
         //TODO: set to correct power
-        public static final double POWER = -0.43;
+        public static final double POWER = 0.43;
     }
 }

@@ -1,15 +1,14 @@
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.HttpCamera;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.GenericTurnToTargetCMD;
+import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.MoveMovableSubsystem;
+import frc.robot.commands.RunWhenDisabledCommand;
 import frc.robot.commands.commandgroups.ShootCG;
 import frc.robot.components.TrigonXboxController;
 import frc.robot.constants.RobotConstants.*;
@@ -26,6 +25,7 @@ import frc.robot.subsystems.swerve.SupplierDriveCMD;
 import frc.robot.subsystems.swerve.SwerveSS;
 import frc.robot.subsystems.transporter.TransporterSS;
 import frc.robot.utilities.DashboardController;
+import frc.robot.vision.CamMode;
 import frc.robot.vision.LedMode;
 import frc.robot.vision.Limelight;
 
@@ -48,15 +48,12 @@ public class RobotContainer {
     public IntakeOpenerSS intakeOpenerSS;
     // Commands
     private SupplierDriveCMD driveWithXboxCMD;
-    public MoveMovableSubsystem intakeCMD;
-    public MoveMovableSubsystem transportCMD;
-    private MoveMovableSubsystem inverseIntakeCMD;
-    private MoveMovableSubsystem inverseTransportCMD;
     private ShootCG shootCG;
 
     // States
     private boolean endgame = false;
-    private boolean userBtnPressed;
+
+    private final Button userBtn;
 
     /**
      * Add classes here
@@ -71,14 +68,13 @@ public class RobotContainer {
                 CommanderConstants.XBOX_PORT,
                 CommanderConstants.CONTROLLER_DEADBAND,
                 CommanderConstants.SQUARED_CONTROLLER_DRIVING);
-        hubLimelight = new Limelight("hub");
-        hubLimelight.startVision();
-        cargoLimelight = new Limelight("cargo");
-        cargoLimelight.startVision();
+        hubLimelight = new Limelight("limelight-hub");
+        hubLimelight.setCamMode(CamMode.vision);
+        cargoLimelight = new Limelight("limelight-cargo");
+        cargoLimelight.setPipeline(DriverStation.getAlliance().equals(DriverStation.Alliance.Blue) ? 0 : 1);
+        cargoLimelight.setCamMode(CamMode.vision);
 
-        HttpCamera limelightFeed = new HttpCamera(
-                "cargo", "http://limelight-cargo:5800/stream.mjpg", HttpCamera.HttpCameraKind.kMJPGStreamer);
-        CameraServer.startAutomaticCapture(limelightFeed);
+        userBtn = new Button(RobotController::getUserButton);
 
         initializeSubsystems();
         initializeCommands();
@@ -126,41 +122,36 @@ public class RobotContainer {
                           DriverConstants.COLLECT_ROTATION_SPEED_DIVIDER :
                           DriverConstants.ROTATION_SPEED_DIVIDER)),
                 true);
-        intakeCMD = new MoveMovableSubsystem(intakeSS, () -> IntakeConstants.POWER);
-        transportCMD = new MoveMovableSubsystem(transporterSS, () -> TransporterConstants.POWER);
-        inverseIntakeCMD = new MoveMovableSubsystem(intakeSS, () -> -IntakeConstants.POWER);
-        inverseTransportCMD = new MoveMovableSubsystem(transporterSS, () -> -TransporterConstants.POWER);
-        shootCG = new ShootCG(this, () -> ShootingCalculations.calculateVelocity(hubLimelight.getDistance()), false);
+        shootCG = new ShootCG(this);
     }
 
     private void bindCommands() {
         swerveSS.setDefaultCommand(driveWithXboxCMD);
 
         driverXbox.getYBtn().whenPressed(new InstantCommand(swerveSS::resetGyro));
+        driverXbox.getLeftBumperBtn().whenPressed(new InstantCommand(() -> intakeOpenerSS.setState(true)));
         driverXbox.getLeftBumperBtn().whileHeld(
-                new SequentialCommandGroup(
-                        new InstantCommand(() -> intakeOpenerSS.setState(true)),
-                        new ParallelCommandGroup(intakeCMD, transportCMD)));
+                new ParallelCommandGroup(
+                        new MoveMovableSubsystem(intakeSS, () -> IntakeConstants.POWER),
+                        new MoveMovableSubsystem(transporterSS, () -> TransporterConstants.POWER)));
         driverXbox.getLeftBumperBtn().whenReleased(
                 new ParallelCommandGroup(
                         new InstantCommand(() -> intakeOpenerSS.setState(false)),
                         new MoveMovableSubsystem(intakeSS, () -> IntakeConstants.POWER).withTimeout(0.4)
-                                .andThen(new MoveMovableSubsystem(loaderSS, () -> 0.7).withTimeout(0.4)))
+                                .andThen(new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER).withTimeout(
+                                        0.4)))
         );
-        driverXbox.getXBtn().whileHeld(
-                new GenericTurnToTargetCMD(
-                        hubLimelight, swerveSS, true));
-        driverXbox.getBBtn().whileHeld(
-                new ShootCG(this, () -> ShootingCalculations.calculateVelocity(hubLimelight.getDistance()), false));
-        ;
+        driverXbox.getBBtn().whileHeld(shootCG);
 
-        commanderXbox.getBBtn().whileHeld(new ParallelCommandGroup(inverseIntakeCMD, inverseTransportCMD,
-                new MoveMovableSubsystem(loaderSS, () -> 0.7)));
-        //        commanderXbox.getXBtn().whileHeld(new LoaderCMD)
-        //        climbCMD.withInterrupt(commanderXbox::getXButton);
-        commanderXbox.getABtn().whenPressed(new InstantCommand(() -> {
-            setEndgame(!isEndgame());
-        }));
+        commanderXbox.getBBtn().whileHeld(new ParallelCommandGroup(
+                new MoveMovableSubsystem(intakeSS, () -> -IntakeConstants.POWER),
+                new MoveMovableSubsystem(transporterSS, () -> -TransporterConstants.POWER),
+                new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER)));
+        commanderXbox.getXBtn().whileHeld(new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER));
+        commanderXbox.getABtn().whenPressed(new InstantCommand(() -> setEndgame(!isEndgame())));
+
+        userBtn.whenPressed(new RunWhenDisabledCommand(
+                () -> hubLimelight.setLedMode(hubLimelight.getLedMode() == LedMode.off ? LedMode.on : LedMode.off)));
     }
 
     /**
@@ -170,14 +161,9 @@ public class RobotContainer {
         SmartDashboard.putData("Swerve", swerveSS);
         SmartDashboard.putData("Pitcher", pitcherSS);
         SmartDashboard.putData("Climber", climberSS);
-        SmartDashboard.putData("Shooter", shooterSS
-        );
-        //        SmartDashboard.putData("Loader/move", new MoveMovableSubsystem(loaderSS, () -> LoaderConstants
-        //        .POWER));
-        SmartDashboard.putNumber("ShootCGa/velocity", 0);
-        SmartDashboard.putData("ShootCGa/ShootCGa", new ShootCG(this,
-                () -> SmartDashboard.getNumber("ShootCGa/velocity", 0), true));
-        dashboardController.addNumber("limelight/distance", () -> hubLimelight.getDistance());
+        SmartDashboard.putData("Shooter", shooterSS);
+        dashboardController.addNumber(
+                "hubLimelight/distance", () -> ShootingCalculations.calculateDistance(hubLimelight.getTy()));
     }
 
     public void periodic() {
@@ -186,17 +172,6 @@ public class RobotContainer {
         if(endgame) {
             runClimber();
         }
-        if(userBtnPressed) {
-            if(!RobotController.getUserButton())
-                userBtnPressed = false;
-        } else if(RobotController.getUserButton()) {
-            userBtnPressed = true;
-            hubLimelight.setLedMode(hubLimelight.getLedMode() == LedMode.off ? LedMode.on : LedMode.off);
-        }
-        //        if(driverXbox.getBButton())
-        //            loaderSS.move(LoaderConstants.POWER);
-        //        else
-        //            loaderSS.stopMoving();
     }
 
     private void runClimber() {

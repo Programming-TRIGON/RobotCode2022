@@ -3,7 +3,6 @@ package frc.robot.vision;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.constants.RobotConstants.LimelightConstants;
 
 public class Limelight {
 
@@ -24,10 +23,6 @@ public class Limelight {
         camMode = limelightTable.getEntry("camMode");
         pipeline = limelightTable.getEntry("pipeline");
         snapshot = limelightTable.getEntry("snapshot");
-    }
-
-    public Limelight() {
-        this(LimelightConstants.DEFAULT_TABLE_KEY);
     }
 
     /**
@@ -63,17 +58,6 @@ public class Limelight {
      */
     public double getTs() {
         return ts.getDouble(0);
-    }
-
-    /**
-     * @return The distance between the target and the limelight
-     */
-    // TODO: set real function
-    public double getDistance() {
-        double y = getTy();
-        return LimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT * Math.pow(y, 2)
-                + LimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT * y
-                + LimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT;
     }
 
     /**
@@ -152,12 +136,6 @@ public class Limelight {
      */
     public void setSnapshotState(boolean isTakingSnapshots) {
         snapshot.setNumber(isTakingSnapshots ? 1 : 0);
-    }
-
-    public void startVision() {
-        setPipeline(0);
-        setCamMode(CamMode.vision);
-        setLedMode(LedMode.on);
     }
 
     /**

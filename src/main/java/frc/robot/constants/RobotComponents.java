@@ -205,10 +205,8 @@ public class RobotComponents {
                 SwerveComponents.RearRight.ANGLE_ENCODER.getConfig()).
                 brake().
                 inverted(true).
-                withOpenLoopRampRate(0.5).
-                withClosedLoopRampRate(0.5).
-                withClosedLoop(RobotConstants.LOCAL_CONSTANTS.localLoaderConstants.pidfCoefs, ControlMode.Velocity).
                 withVoltageCompSaturation(12);
-        public static final TrigonTalonSRX MOTOR = SwerveComponents.RearRight.ANGLE_ENCODER;
+        public static final TrigonTalonSRX MOTOR = (TrigonTalonSRX) SwerveComponents.RearRight.ANGLE_ENCODER.config(
+                MOTOR_CONFIG);
     }
 }
