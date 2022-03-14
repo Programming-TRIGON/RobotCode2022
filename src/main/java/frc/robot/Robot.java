@@ -13,7 +13,7 @@ public class Robot extends TimedRobot {
         robotContainer = new RobotContainer();
         backupAutoCG = new BackupAutoCG(
                 robotContainer,
-                () -> ShootingCalculations.calculateVelocity(robotContainer.limelight.getDistance()), false);
+                () -> ShootingCalculations.calculateVelocity(robotContainer.hubLimelight.getDistance()), false);
     }
 
     @Override
@@ -24,6 +24,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         backupAutoCG.schedule();
+        robotContainer.climberSS.resetEncoders();
     }
 
     @Override
@@ -33,6 +34,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         backupAutoCG.cancel();
+        robotContainer.setEndgame(false);
     }
 
     @Override

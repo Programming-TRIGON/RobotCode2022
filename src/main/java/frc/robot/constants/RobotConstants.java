@@ -46,6 +46,9 @@ public class RobotConstants {
     public static class VisionConstants {
         public static final PIDCoefs ROTATION_SETTINGS = LOCAL_CONSTANTS.localSwerveConstants.turnToTargetCoefs;
         public static final PIDCoefs DRIVE_SETTINGS = LOCAL_CONSTANTS.localSwerveConstants.driveToTargetCoefs;
+        public static final double DISTANCE_POWER = 0.2;
+        public static final double DISTANCE_TOLERANCE = 0.2;
+        public static final double ANGLE_TOLERANCE = 0.15;
         public static final double TARGET_TIME_OUT = 0.1;
     }
 
@@ -117,6 +120,8 @@ public class RobotConstants {
         public static final double SPEED_DIVIDER = 1;
         public static final double ROTATION_SPEED_DIVIDER = 2;
         public static final double ENDGAME_SPEED_DIVIDER = 3;
+        public static final double COLLECT_SPEED_DIVIDER = 2;
+        public static final double COLLECT_ROTATION_SPEED_DIVIDER = 4;
         public static final double ENDGAME_ROTATION_SPEED_DIVIDER = 3;
         public static final int XBOX_PORT = 0;
         public static final double CONTROLLER_DEADBAND = 0.1;
@@ -139,9 +144,11 @@ public class RobotConstants {
     public static class ClimberConstants {
         public static final PIDFTalonFX LEFT_MOTOR = ClimberComponents.LEFT_MOTOR;
         public static final PIDFTalonFX RIGHT_MOTOR = ClimberComponents.RIGHT_MOTOR;
-        public static final int MAX__RIGHT_POSITION = 119133; // in ticks
-        public static final int MAX_LEFT_POSE = 168222; // in ticks
-        public static final int POSITION_TOLERANCE = 5000; // in ticks
+        public static final int MAX__RIGHT_POSITION = 106133; // in ticks
+        public static final int MIN__RIGHT_POSITION = -102133; // in ticks
+        public static final int MAX_LEFT_POSE = 154222; // in ticks
+        public static final int MIN_LEFT_POSE = -159222; // in ticks
+        public static final int POSITION_TOLERANCE = 10000; // in ticks
         public static final double TRIGGER_DEADBAND = 0.6;
         public static final double OVERRIDDEN_POWER = 0.5;
     }

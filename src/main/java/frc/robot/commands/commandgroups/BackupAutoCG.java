@@ -25,7 +25,7 @@ public class BackupAutoCG extends SequentialCommandGroup {
                                         new MoveMovableSubsystem(
                                                 robotContainer.transporterSS,
                                                 () -> RobotConstants.TransporterConstants.POWER)))
-                        .withTimeout(3),
+                        .withTimeout(2),
                 new ParallelCommandGroup(
                         new MoveMovableSubsystem(
                                 robotContainer.intakeSS,
@@ -35,10 +35,10 @@ public class BackupAutoCG extends SequentialCommandGroup {
                                 () -> RobotConstants.TransporterConstants.POWER),
                         new SupplierDriveCMD(
                                 robotContainer.swerveSS, () -> 0.0, () -> -0.2, () -> 0.3, true)).withInterrupt(
-                        () -> robotContainer.limelight.getTv()),
+                        () -> robotContainer.hubLimelight.getTv()),
                 new ShootCG(robotContainer, velocity, isManual),
                 new SupplierDriveCMD(robotContainer.swerveSS, () -> 0.2, () -> 0.0, () -> 0.1, true).withInterrupt(
-                        () -> robotContainer.limelight.getTv()),
+                        () -> robotContainer.hubLimelight.getTv()),
 
                 new ShootCG(robotContainer, velocity, isManual)
         );

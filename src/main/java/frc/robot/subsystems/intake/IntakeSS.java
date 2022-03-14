@@ -18,4 +18,8 @@ public class IntakeSS extends OverridableSubsystem {
     public void overriddenMove(double power) {
         motor.set(power);
     }
+
+    public boolean isCollecting() {
+        return motor.get() > 0;
+    }
 }

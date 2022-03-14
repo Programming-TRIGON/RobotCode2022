@@ -111,7 +111,11 @@ public class RobotComponents {
 
         public static class RearRight {
             public static final TrigonTalonSRX ANGLE_ENCODER = new TrigonTalonSRX(
-                    CAN.Swerve.REAR_RIGHT_ANGLE_ENCODER_ID, ANGLE_ENCODER_CONFIG);
+                    CAN.Swerve.REAR_RIGHT_ANGLE_ENCODER_ID, ANGLE_ENCODER_CONFIG.withCurrentLimit(
+                    new SupplyCurrentLimitConfiguration(
+                            true, 0, 15, 0.1
+                    )
+            ));
             public static final PIDFTalonFX ANGLE_MOTOR = new PIDFTalonFX(
                     CAN.Swerve.REAR_RIGHT_ANGLE_MOTOR_ID, ANGLE_MOTOR_CONFIG
                     .withClosedLoop(

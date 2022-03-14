@@ -21,17 +21,17 @@ public class ShootCG extends ParallelCommandGroup {
                 robotContainer.shooterSS, () -> 2800);
         PIDCommand pitcherCMD = new PIDCommand(
                 robotContainer.pitcherSS,
-                isManual ? () -> 15 : () -> ShootingCalculations.calculateAngle(robotContainer.limelight
+                isManual ? () -> 15 : () -> ShootingCalculations.calculateAngle(robotContainer.hubLimelight
                         .getDistance()));
 
         addCommands(
                 shooterCMD,
                 pitcherCMD,
                 new GenericTurnToTargetCMD(
-                        robotContainer.limelight, robotContainer.swerveSS, true),
+                        robotContainer.hubLimelight, robotContainer.swerveSS, true),
                 new SequentialCommandGroup(
                         new WaitCommand(0.6),
-                        new WaitUntilCommand(() -> robotContainer.limelight.getTv() || isManual),
+                        new WaitUntilCommand(() -> robotContainer.hubLimelight.getTv() || isManual),
                         new WaitUntilCommand(() ->
                                 robotContainer.shooterSS.atSetpoint()
                         ),

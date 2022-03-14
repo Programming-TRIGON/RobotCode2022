@@ -1,11 +1,14 @@
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.GenericTurnToTargetCMD;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.commandgroups.ShootCG;
 import frc.robot.components.TrigonXboxController;
@@ -30,7 +33,8 @@ public class RobotContainer {
     private final DashboardController dashboardController;
     private final TrigonXboxController driverXbox;
     private final TrigonXboxController commanderXbox;
-    public Limelight limelight;
+    public Limelight hubLimelight;
+    public Limelight cargoLimelight;
 
     // Subsystems
     public SwerveSS swerveSS;
@@ -48,7 +52,6 @@ public class RobotContainer {
     public MoveMovableSubsystem transportCMD;
     private MoveMovableSubsystem inverseIntakeCMD;
     private MoveMovableSubsystem inverseTransportCMD;
-    //    private ClimbCMD climbCMD;
     private ShootCG shootCG;
 
     // States
@@ -68,8 +71,14 @@ public class RobotContainer {
                 CommanderConstants.XBOX_PORT,
                 CommanderConstants.CONTROLLER_DEADBAND,
                 CommanderConstants.SQUARED_CONTROLLER_DRIVING);
-        limelight = new Limelight();
-        limelight.startVision();
+        hubLimelight = new Limelight("hub");
+        hubLimelight.startVision();
+        cargoLimelight = new Limelight("cargo");
+        cargoLimelight.startVision();
+
+        HttpCamera limelightFeed = new HttpCamera(
+                "cargo", "http://limelight-cargo:5800/stream.mjpg", HttpCamera.HttpCameraKind.kMJPGStreamer);
+        CameraServer.startAutomaticCapture(limelightFeed);
 
         initializeSubsystems();
         initializeCommands();
@@ -101,22 +110,27 @@ public class RobotContainer {
                 () -> driverXbox.getLeftX() /
                         (isEndgame() ?
                          DriverConstants.ENDGAME_SPEED_DIVIDER :
-                         DriverConstants.SPEED_DIVIDER),
+                         (intakeSS.isCollecting() ?
+                          DriverConstants.COLLECT_SPEED_DIVIDER :
+                          DriverConstants.SPEED_DIVIDER)),
                 () -> driverXbox.getLeftY() /
                         (isEndgame() ?
                          DriverConstants.ENDGAME_SPEED_DIVIDER :
-                         DriverConstants.SPEED_DIVIDER),
+                         (intakeSS.isCollecting() ?
+                          DriverConstants.COLLECT_SPEED_DIVIDER :
+                          DriverConstants.SPEED_DIVIDER)),
                 () -> driverXbox.getRightX() /
                         (isEndgame() ?
                          DriverConstants.ENDGAME_ROTATION_SPEED_DIVIDER :
-                         DriverConstants.ROTATION_SPEED_DIVIDER),
+                         (intakeSS.isCollecting() ?
+                          DriverConstants.COLLECT_ROTATION_SPEED_DIVIDER :
+                          DriverConstants.ROTATION_SPEED_DIVIDER)),
                 true);
         intakeCMD = new MoveMovableSubsystem(intakeSS, () -> IntakeConstants.POWER);
         transportCMD = new MoveMovableSubsystem(transporterSS, () -> TransporterConstants.POWER);
         inverseIntakeCMD = new MoveMovableSubsystem(intakeSS, () -> -IntakeConstants.POWER);
         inverseTransportCMD = new MoveMovableSubsystem(transporterSS, () -> -TransporterConstants.POWER);
-        //        climbCMD = new ClimbCMD();
-        shootCG = new ShootCG(this, () -> ShootingCalculations.calculateVelocity(limelight.getDistance()), false);
+        shootCG = new ShootCG(this, () -> ShootingCalculations.calculateVelocity(hubLimelight.getDistance()), false);
     }
 
     private void bindCommands() {
@@ -127,11 +141,21 @@ public class RobotContainer {
                 new SequentialCommandGroup(
                         new InstantCommand(() -> intakeOpenerSS.setState(true)),
                         new ParallelCommandGroup(intakeCMD, transportCMD)));
-        driverXbox.getLeftBumperBtn().whenReleased(new InstantCommand(() -> intakeOpenerSS.setState(false)));
-        driverXbox.getRightBumperBtn().whileHeld(new ShootCG(this, () -> 3650, true));
-        driverXbox.getBBtn().whileHeld(shootCG);
+        driverXbox.getLeftBumperBtn().whenReleased(
+                new ParallelCommandGroup(
+                        new InstantCommand(() -> intakeOpenerSS.setState(false)),
+                        new MoveMovableSubsystem(intakeSS, () -> IntakeConstants.POWER).withTimeout(0.4)
+                                .andThen(new MoveMovableSubsystem(loaderSS, () -> 0.7).withTimeout(0.4)))
+        );
+        driverXbox.getXBtn().whileHeld(
+                new GenericTurnToTargetCMD(
+                        hubLimelight, swerveSS, true));
+        driverXbox.getBBtn().whileHeld(
+                new ShootCG(this, () -> ShootingCalculations.calculateVelocity(hubLimelight.getDistance()), false));
+        ;
 
-        commanderXbox.getBBtn().whileHeld(new ParallelCommandGroup(inverseIntakeCMD, inverseTransportCMD));
+        commanderXbox.getBBtn().whileHeld(new ParallelCommandGroup(inverseIntakeCMD, inverseTransportCMD,
+                new MoveMovableSubsystem(loaderSS, () -> 0.7)));
         //        commanderXbox.getXBtn().whileHeld(new LoaderCMD)
         //        climbCMD.withInterrupt(commanderXbox::getXButton);
         commanderXbox.getABtn().whenPressed(new InstantCommand(() -> {
@@ -153,7 +177,7 @@ public class RobotContainer {
         SmartDashboard.putNumber("ShootCGa/velocity", 0);
         SmartDashboard.putData("ShootCGa/ShootCGa", new ShootCG(this,
                 () -> SmartDashboard.getNumber("ShootCGa/velocity", 0), true));
-        dashboardController.addNumber("limelight/distance", () -> limelight.getDistance());
+        dashboardController.addNumber("limelight/distance", () -> hubLimelight.getDistance());
     }
 
     public void periodic() {
@@ -167,7 +191,7 @@ public class RobotContainer {
                 userBtnPressed = false;
         } else if(RobotController.getUserButton()) {
             userBtnPressed = true;
-            limelight.setLedMode(limelight.getLedMode() == LedMode.off ? LedMode.on : LedMode.off);
+            hubLimelight.setLedMode(hubLimelight.getLedMode() == LedMode.off ? LedMode.on : LedMode.off);
         }
         //        if(driverXbox.getBButton())
         //            loaderSS.move(LoaderConstants.POWER);
