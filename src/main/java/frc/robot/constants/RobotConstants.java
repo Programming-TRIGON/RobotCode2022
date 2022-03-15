@@ -40,7 +40,7 @@ public class RobotConstants {
     }
 
     public static class VisionConstants {
-        public static final PIDCoefs HUB_TTT_COEFS = LOCAL_CONSTANTS.localSwerveConstants.turnToTargetCoefs;
+        public static final PIDCoefs HUB_TURN_TO_TARGET_COEFS = LOCAL_CONSTANTS.localSwerveConstants.turnToTargetCoefs;
         public static final PIDCoefs DRIVE_SETTINGS = LOCAL_CONSTANTS.localSwerveConstants.driveToTargetCoefs;
         public static final double DISTANCE_POWER = 0.2;
         public static final double DISTANCE_TOLERANCE = 0.2;

@@ -15,7 +15,8 @@ public class BackupAutoCG extends SequentialCommandGroup {
                 new InstantCommand(robotContainer.swerveSS::resetGyro),
                 new InstantCommand(() -> robotContainer.intakeOpenerSS.setState(true)),
                 new WaitCommand(1),
-                new SupplierDriveCMD(robotContainer.swerveSS, () -> 0.0, () -> 0.35, () -> 0.0, false).alongWith(
+                new SupplierDriveCMD(robotContainer.swerveSS, () -> 0.0, () -> 0.35, () -> 0.0, false)
+                        .alongWith(
                                 new ParallelCommandGroup(
                                         new MoveMovableSubsystem(
                                                 robotContainer.intakeSS,

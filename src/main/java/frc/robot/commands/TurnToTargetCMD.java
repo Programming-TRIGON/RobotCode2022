@@ -12,11 +12,7 @@ import frc.robot.utilities.pid.TrigonPIDController;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
-/**
- * This is just template for a subsystem turn to target command. It will
- * probably be changed according the game and the robot.
- */
-public class GenericTurnToTargetCMD extends CommandBase {
+public class TurnToTargetCMD extends CommandBase {
     private final SwerveSS swerveSS;
     private final DoubleSupplier measurement;
     private final BooleanSupplier inSight;
@@ -24,7 +20,7 @@ public class GenericTurnToTargetCMD extends CommandBase {
     private final PIDController rotationPIDController;
     private double lastTimeSeenTarget;
 
-    public GenericTurnToTargetCMD(
+    public TurnToTargetCMD(
             SwerveSS swerveSS, DoubleSupplier measurement, BooleanSupplier inSight, double setpoint, PIDCoefs coefs,
             double timeout) {
         this.swerveSS = swerveSS;
