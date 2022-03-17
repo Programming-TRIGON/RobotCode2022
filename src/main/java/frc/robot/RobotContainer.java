@@ -188,9 +188,9 @@ public class RobotContainer {
 
     private void runClimber() {
         if(driverXbox.getRightTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND)
-            new ClimbCMD(climberSS, ClimberConstants.MAX_LEFT_POSE, ClimberConstants.MAX__RIGHT_POSITION).schedule();
+            new ClimbCMD(climberSS, ClimberConstants.MAX_LEFT_POSITION, ClimberConstants.MAX_RIGHT_POSITION).schedule();
         else if(driverXbox.getLeftTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND)
-            new ClimbCMD(climberSS, -ClimberConstants.MAX_LEFT_POSE, -ClimberConstants.MAX__RIGHT_POSITION).schedule();
+            new ClimbCMD(climberSS, -ClimberConstants.MAX_LEFT_POSITION, -ClimberConstants.MAX_RIGHT_POSITION).schedule();
         else if(secondaryXbox.getPOV() == 270)
             new ClimbCMD(climberSS, 0, 0).schedule();
 

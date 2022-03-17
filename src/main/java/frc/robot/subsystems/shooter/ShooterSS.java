@@ -12,15 +12,6 @@ import frc.robot.utilities.pid.PIDFTalonSRX;
 
 public class ShooterSS extends SubsystemBase implements PIDFSubsystem, CharacterizableSubsystem {
     private final PIDFTalonSRX masterMotor;
-
-    public double getDistanceToCalculate() {
-        return distanceToCalculate;
-    }
-
-    public void setDistanceToCalculate(double distanceToCalculate) {
-        this.distanceToCalculate = distanceToCalculate;
-    }
-
     private double distanceToCalculate;
 
     public ShooterSS() {
@@ -85,6 +76,14 @@ public class ShooterSS extends SubsystemBase implements PIDFSubsystem, Character
     @Override
     public CharacterizationConstants getCharacterizationConstants() {
         return ShooterConstants.CHARACTERIZATION_CONSTANTS;
+    }
+
+    public double getDistanceToCalculate() {
+        return distanceToCalculate;
+    }
+
+    public void setDistanceToCalculate(double distanceToCalculate) {
+        this.distanceToCalculate = distanceToCalculate;
     }
 
     /**

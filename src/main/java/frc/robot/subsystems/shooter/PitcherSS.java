@@ -80,9 +80,7 @@ public class PitcherSS extends SubsystemBase implements TestableSubsystem, PIDFS
         builder.setSmartDashboardType("List");
 
         builder.addDoubleProperty("Stats/Angle", this::getAngle, null);
-
         builder.addDoubleProperty("Stats/setpoint", this::getSetpoint, this::setSetpoint);
-
         builder.addBooleanProperty("Reset Encoder", () -> false, (x) -> {
             if(x)
                 resetEncoder();
