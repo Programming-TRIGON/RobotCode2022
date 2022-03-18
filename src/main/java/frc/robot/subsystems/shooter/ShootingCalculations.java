@@ -21,6 +21,7 @@ public class ShootingCalculations {
      * Calculates the optimal angle of the pitcher
      * based on the zone the robot is in.
      *
+     * @param y the value on the y-axis that the limelight sees the target
      * @return target angle of the pitcher
      */
     public static double calculateAngle(double y) {
@@ -50,9 +51,9 @@ public class ShootingCalculations {
             }
         }
 
-        double deltaV = waypoint1.getAngle() - waypoint0.getAngle();
+        double deltaA = waypoint1.getAngle() - waypoint0.getAngle();
         double deltaD = waypoint1.getDistance() - waypoint0.getDistance();
-        double slope = deltaV / deltaD;
+        double slope = deltaA / deltaD;
         double intercept = waypoint0.getAngle() - slope * waypoint0.getDistance();
 
         return slope * distance + intercept;

@@ -44,7 +44,6 @@ public interface PIDConfigurable extends Savable {
     double getDeltaError();
 
     default boolean atSetpoint() {
-        //        return Math.abs(getError()) <= getTolerance();
         return Math.abs(getError()) <= getTolerance() &&
                 Math.abs(getDeltaError()) <= getDeltaTolerance();
     }
