@@ -146,6 +146,15 @@ public class SwerveSS extends SubsystemBase implements CharacterizableSubsystem 
                Rotation2d.fromDegrees(angle);
     }
 
+    /**
+     * sets the current angle of the robot, CCW+
+     *
+     * @param angle the current angle of the robot
+     */
+    public void setAngle(double angle) {
+        gyro.setYaw(angle);
+    }
+
     @Override
     public void move(double power) {
         drive(0, 0, power, false, true);

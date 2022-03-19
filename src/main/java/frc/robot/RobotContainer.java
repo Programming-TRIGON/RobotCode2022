@@ -28,7 +28,6 @@ import frc.robot.subsystems.swerve.SwerveSS;
 import frc.robot.subsystems.transporter.TransporterSS;
 import frc.robot.utilities.DashboardController;
 import frc.robot.vision.CamMode;
-import frc.robot.vision.LedMode;
 import frc.robot.vision.Limelight;
 import org.photonvision.PhotonCamera;
 
@@ -160,8 +159,10 @@ public class RobotContainer {
         commanderXbox.getXBtn().whileHeld(new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER));
         commanderXbox.getABtn().whenPressed(new InstantCommand(() -> setEndgame(!isEndgame())));
 
-        userBtn.whenPressed(new RunWhenDisabledCommand(
-                () -> hubLimelight.setLedMode(hubLimelight.getLedMode() == LedMode.off ? LedMode.on : LedMode.off)));
+        //        userBtn.whenPressed(new RunWhenDisabledCommand(
+        //                () -> hubLimelight.setLedMode(hubLimelight.getLedMode() == LedMode.off ? LedMode.on :
+        //                LedMode.off)));
+        userBtn.whenPressed(new RunWhenDisabledCommand(swerveSS::resetGyro));
     }
 
     /**
