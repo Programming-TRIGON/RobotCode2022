@@ -51,6 +51,6 @@ public class BackupAutoCG extends SequentialCommandGroup {
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
-        robotContainer.swerveSS.setAngle(startingAngle);
+        robotContainer.swerveSS.setAngle(startingAngle + robotContainer.swerveSS.getAngle().getDegrees());
     }
 }
