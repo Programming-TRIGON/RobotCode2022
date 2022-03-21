@@ -134,7 +134,7 @@ public class RobotConstants {
         public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
         public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
                 0.4, 0.2, 3, 5, 2.5, false);
-        public static final double TRANSPORTER_WAIT_TIME = 0.2;
+        public static final double TRANSPORTER_WAIT_TIME = 0.8;
     }
 
     public static class ClimberConstants {
@@ -158,7 +158,9 @@ public class RobotConstants {
 
     public static class IntakeConstants {
         public static final TrigonTalonSRX MOTOR = IntakeComponents.MOTOR;
-        public static final double POWER = 0.8;
+        public static final double POWER = 0.75;
+
+        public static final PIDCoefs ROTATION_COEFS = LOCAL_CONSTANTS.localIntakeConstants.rotationCoefs;
     }
 
     public static class IntakeOpenerConstants {
@@ -178,6 +180,6 @@ public class RobotConstants {
     public static class LoaderConstants {
         public static final TrigonTalonSRX MOTOR = LoaderComponents.MOTOR;
         //TODO: set to correct power
-        public static final double POWER = 0.4;
+        public static final double POWER = 0.7;
     }
 }

@@ -113,7 +113,7 @@ public class RobotComponents {
             public static final TrigonTalonSRX ANGLE_ENCODER = new TrigonTalonSRX(
                     CAN.Swerve.REAR_RIGHT_ANGLE_ENCODER_ID, ANGLE_ENCODER_CONFIG.withCurrentLimit(
                     new SupplyCurrentLimitConfiguration(
-                            true, 0, 23, 0.1
+                            true, 0, 40, 0.1
                     )
             ));
             public static final PIDFTalonFX ANGLE_MOTOR = new PIDFTalonFX(
@@ -177,8 +177,6 @@ public class RobotComponents {
                 inverted(false).
                 withOpenLoopRampRate(0.5).
                 withClosedLoopRampRate(0.5).
-                withClosedLoop(
-                        RobotConstants.LOCAL_CONSTANTS.localIntakeOpenerConstants.pidfCoefs, ControlMode.Position).
                 withCurrentLimit(new SupplyCurrentLimitConfiguration(
                         true, 0.4, 8, 0.5
                 )).

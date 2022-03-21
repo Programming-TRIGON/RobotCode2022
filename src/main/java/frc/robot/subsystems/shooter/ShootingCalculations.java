@@ -8,9 +8,9 @@ import java.util.List;
 public class ShootingCalculations {
     //TODO: Set zone limits and coefs
     private static final ArrayList<ShooterWaypoint> SHOOTER_WAYPOINTS = new ArrayList<ShooterWaypoint>(List.of(
-            new ShooterWaypoint(0.744, 7, 2700),
-            new ShooterWaypoint(1.11, 9, 3000),
-            new ShooterWaypoint(1.98, 11, 3000),
+            new ShooterWaypoint(0.75, 7, 2700),
+            new ShooterWaypoint(1.13, 9, 2900),
+            new ShooterWaypoint(1.98, 11, 3250),
             new ShooterWaypoint(2.75, 19, 3200),
             new ShooterWaypoint(3.1, 20, 3400),
             new ShooterWaypoint(4.1, 20, 3800),
@@ -79,7 +79,7 @@ public class ShootingCalculations {
 
         // In ShooterZone we sort the shooter waypoints,
         // so we can use it as a sorted array from closest to farthest.
-        for(int i = 1; SHOOTER_WAYPOINTS.get(i).getDistance() < distance; i++) {
+        for(int i = 1; i < SHOOTER_WAYPOINTS.size() && SHOOTER_WAYPOINTS.get(i).getDistance() < distance; i++) {
             // If the distance is bigger than only the max point,
             // make a slope using the last two points.
             if(i + 1 >= SHOOTER_WAYPOINTS.size()) {
@@ -126,7 +126,7 @@ public class ShootingCalculations {
 
         // In ShooterZone we sort the shooter waypoints,
         // so we can use it as a sorted array from closest to farthest.
-        for(int i = 1; SHOOTER_WAYPOINTS.get(i).getDistance() < distance; i++) {
+        for(int i = 1; i < SHOOTER_WAYPOINTS.size() && SHOOTER_WAYPOINTS.get(i).getDistance() < distance; i++) {
             // If the distance is bigger than only the max point,
             // make a slope using the last two points.
             if(i + 1 >= SHOOTER_WAYPOINTS.size()) {

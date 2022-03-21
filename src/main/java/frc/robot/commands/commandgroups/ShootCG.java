@@ -2,6 +2,7 @@ package frc.robot.commands.commandgroups;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.RobotContainer;
@@ -22,7 +23,7 @@ public class ShootCG extends ParallelCommandGroup {
                 robotContainer.swerveSS,
                 () -> -robotContainer.hubLimelight.getTx(),
                 robotContainer.hubLimelight::getTv,
-                0,
+                () -> -1.5 / ShootingCalculations.calculateDistance(robotContainer.hubLimelight.getTy()),
                 RobotConstants.VisionConstants.HUB_TTT_COEFS,
                 1);
         PIDCommand shooterCMD = new PIDCommand(
@@ -42,14 +43,26 @@ public class ShootCG extends ParallelCommandGroup {
                 shooterCMD,
                 pitcherCMD,
                 turnToTargetCMD,
-                new WaitUntilCommand(
-                        () -> shooterCMD.atSetpoint() && pitcherCMD.atSetpoint() && turnToTargetCMD.atSetpoint()
-                ).andThen(
+                new WaitCommand(0.3).andThen(
                         new ParallelCommandGroup(
-                                new MoveMovableSubsystem(robotContainer.loaderSS, () -> LoaderConstants.POWER),
-                                new WaitCommand(RobotConstants.ShooterConstants.TRANSPORTER_WAIT_TIME).andThen(
-                                        new MoveMovableSubsystem(
-                                                robotContainer.transporterSS, () -> TransporterConstants.POWER)))));
+                                new WaitUntilCommand(
+                                        () -> shooterCMD.atSetpoint() && robotContainer.shooterSS.getSetpoint() > 0),
+                                new WaitUntilCommand(turnToTargetCMD::atSetpoint)
+                        ).andThen(
+                                new ParallelCommandGroup(
+                                        new MoveMovableSubsystem(robotContainer.loaderSS, () -> LoaderConstants.POWER),
+                                        new WaitCommand(RobotConstants.ShooterConstants.TRANSPORTER_WAIT_TIME).andThen(
+                                                new SequentialCommandGroup(
+                                                        new ParallelCommandGroup(
+                                                                new WaitUntilCommand(
+                                                                        () -> shooterCMD.atSetpoint() && robotContainer.shooterSS.getSetpoint() > 0),
+                                                                new WaitUntilCommand(turnToTargetCMD::atSetpoint)),
+                                                        new MoveMovableSubsystem(
+                                                                robotContainer.transporterSS,
+                                                                () -> TransporterConstants.POWER)
+                                                ))))
+
+                ));
     }
 
     @Override
