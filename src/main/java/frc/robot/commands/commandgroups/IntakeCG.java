@@ -1,8 +1,10 @@
-package frc.robot.commands;
+package frc.robot.commands.commandgroups;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.RobotContainer;
+import frc.robot.commands.GoToTargetCMD;
+import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.constants.RobotConstants;
 
 public class IntakeCG extends ParallelCommandGroup {

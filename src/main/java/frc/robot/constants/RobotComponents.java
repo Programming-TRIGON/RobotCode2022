@@ -8,6 +8,7 @@ import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
+import frc.robot.components.TrigonTalonFX;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotMap.CAN;
 import frc.robot.constants.RobotMap.PWM;
@@ -181,8 +182,7 @@ public class RobotComponents {
                         true, 0.4, 8, 0.5
                 )).
                 withVoltageCompSaturation(12);
-        public static TrigonTalonSRX MOTOR = (TrigonTalonSRX) SwerveComponents.FrontRight.ANGLE_ENCODER.config(
-                MOTOR_CONFIG);
+        public static TrigonTalonFX MOTOR = new TrigonTalonFX(CAN.IntakeOpener.MOTOR_ID, MOTOR_CONFIG);
     }
 
     protected static class PitcherComponents {

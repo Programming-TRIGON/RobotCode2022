@@ -66,7 +66,7 @@ public class GenericTurnToTargetCMD extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > timeout);
+        return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > timeout) || atSetpoint();
     }
 
     public boolean atSetpoint() {

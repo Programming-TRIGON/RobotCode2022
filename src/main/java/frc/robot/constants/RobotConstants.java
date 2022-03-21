@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
+import frc.robot.components.TrigonTalonFX;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotComponents.*;
 import frc.robot.utilities.JsonHandler;
@@ -164,7 +165,7 @@ public class RobotConstants {
     }
 
     public static class IntakeOpenerConstants {
-        public static final TrigonTalonSRX MOTOR = IntakeOpenerComponents.MOTOR;
+        public static final TrigonTalonFX MOTOR = IntakeOpenerComponents.MOTOR;
         public static final double OPENING_POWER = 0.3;
         public static final double CLOSING_POWER = 0.4;
     }
