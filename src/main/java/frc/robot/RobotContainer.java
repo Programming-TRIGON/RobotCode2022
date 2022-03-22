@@ -32,7 +32,7 @@ import frc.robot.vision.Limelight;
 public class RobotContainer {
     private final DashboardController dashboardController;
     private final TrigonXboxController driverXbox;
-    private final TrigonXboxController secondaryXbox;
+    private final TrigonXboxController operatorXbox;
     public Limelight hubLimelight;
     public Limelight cargoLimelight;
 
@@ -64,7 +64,7 @@ public class RobotContainer {
                 DriverConstants.XBOX_PORT,
                 DriverConstants.CONTROLLER_DEADBAND,
                 DriverConstants.SQUARED_CONTROLLER_DRIVING);
-        secondaryXbox = new TrigonXboxController(
+        operatorXbox = new TrigonXboxController(
                 CommanderConstants.XBOX_PORT,
                 CommanderConstants.CONTROLLER_DEADBAND,
                 CommanderConstants.SQUARED_CONTROLLER_DRIVING);
@@ -79,7 +79,14 @@ public class RobotContainer {
 
         initializeSubsystems();
         initializeCommands();
-        bindCommands();
+        bindDriverCommands();
+        bindOperatorCommands();
+
+        //        userBtn.whenPressed(new RunWhenDisabledCommand(
+        //                () -> hubLimelight.setLedMode(hubLimelight.getLedMode() == LedMode.off ? LedMode.on :
+        //                LedMode.off)));
+        userBtn.whenPressed(new RunWhenDisabledCommand(swerveSS::resetGyro));
+
         putData();
     }
 
@@ -126,10 +133,9 @@ public class RobotContainer {
         shootCG = new ShootCG(this);
     }
 
-    private void bindCommands() {
+    private void bindDriverCommands() {
         swerveSS.setDefaultCommand(driveWithXboxCMD);
-
-        // Driver's Controller
+        
         driverXbox.getABtn()
                 .whileHeld(new TurnToTargetCMD(swerveSS, () -> -hubLimelight.getTx(), hubLimelight::getTv,
                         () -> -1.5 / ShootingCalculations.calculateDistance(hubLimelight.getTy()),
@@ -151,19 +157,15 @@ public class RobotContainer {
                                         0.4)))
         );
         driverXbox.getRightBumperBtn().whileHeld(new MoveMovableSubsystem(loaderSS, () -> LoaderConstants.POWER));
+    }
 
-        // Secondary Controller
-        secondaryXbox.getABtn().whenPressed(new InstantCommand(() -> setEndgame(!isEndgame())));
-        secondaryXbox.getBBtn().whileHeld(new ParallelCommandGroup(
+    private void bindOperatorCommands() {
+        operatorXbox.getABtn().whenPressed(new InstantCommand(() -> setEndgame(!isEndgame())));
+        operatorXbox.getBBtn().whileHeld(new ParallelCommandGroup(
                 new MoveMovableSubsystem(intakeSS, () -> -IntakeConstants.POWER),
                 new MoveMovableSubsystem(transporterSS, () -> -TransporterConstants.POWER),
                 new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER)));
-        secondaryXbox.getXBtn().whileHeld(new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER));
-
-        //        userBtn.whenPressed(new RunWhenDisabledCommand(
-        //                () -> hubLimelight.setLedMode(hubLimelight.getLedMode() == LedMode.off ? LedMode.on :
-        //                LedMode.off)));
-        userBtn.whenPressed(new RunWhenDisabledCommand(swerveSS::resetGyro));
+        operatorXbox.getXBtn().whileHeld(new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER));
     }
 
     /**
@@ -193,23 +195,23 @@ public class RobotContainer {
         else if(driverXbox.getLeftTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND)
             new ClimbCMD(
                     climberSS, -ClimberConstants.MAX_LEFT_POSITION, -ClimberConstants.MAX_RIGHT_POSITION).schedule();
-        else if(secondaryXbox.getPOV() == 270)
+        else if(operatorXbox.getPOV() == 270)
             new ClimbCMD(climberSS, 0, 0).schedule();
 
-        if(secondaryXbox.getYButton()) {
-            if(secondaryXbox.getRightBumper())
+        if(operatorXbox.getYButton()) {
+            if(operatorXbox.getRightBumper())
                 climberSS.moveRight(-ClimberConstants.OVERRIDDEN_POWER);
-            if(secondaryXbox.getLeftBumper())
+            if(operatorXbox.getLeftBumper())
                 climberSS.moveLeft(-ClimberConstants.OVERRIDDEN_POWER);
         } else {
-            if(secondaryXbox.getRightBumper())
+            if(operatorXbox.getRightBumper())
                 climberSS.moveRight(ClimberConstants.OVERRIDDEN_POWER);
-            if(secondaryXbox.getLeftBumper())
+            if(operatorXbox.getLeftBumper())
                 climberSS.moveLeft(ClimberConstants.OVERRIDDEN_POWER);
         }
-        if(!secondaryXbox.getRightBumper())
+        if(!operatorXbox.getRightBumper())
             climberSS.moveRight(0);
-        if(!secondaryXbox.getLeftBumper())
+        if(!operatorXbox.getLeftBumper())
             climberSS.moveLeft(0);
     }
 
