@@ -41,12 +41,7 @@ public class RobotConstants {
     }
 
     public static class VisionConstants {
-        public static final PIDCoefs HUB_TTT_COEFS = LOCAL_CONSTANTS.localSwerveConstants.turnToTargetCoefs;
-        public static final PIDCoefs DRIVE_SETTINGS = LOCAL_CONSTANTS.localSwerveConstants.driveToTargetCoefs;
-        public static final double DISTANCE_POWER = 0.2;
-        public static final double DISTANCE_TOLERANCE = 0.2;
-        public static final double ANGLE_TOLERANCE = 0.15;
-        public static final double TARGET_TIME_OUT = 0.1;
+        public static final PIDCoefs HUB_TURN_TO_TARGET_COEFS = LOCAL_CONSTANTS.localSwerveConstants.turnToTargetCoefs;
     }
 
     public static class SwerveConstants {
@@ -108,10 +103,6 @@ public class RobotConstants {
                 0.2, 0.1, 3, 2, 5, false);
     }
 
-    public static class LedConstants {
-        public static final Spark CONTROLLER = LEDComponents.CONTROLLER;
-    }
-
     public static class DriverConstants {
         public static final boolean SQUARED_CONTROLLER_DRIVING = true;
         public static final double SPEED_DIVIDER = 1;
@@ -138,16 +129,18 @@ public class RobotConstants {
         public static final double TRANSPORTER_WAIT_TIME = 0.8;
     }
 
-    public static class ClimberConstants {
-        public static final PIDFTalonFX LEFT_MOTOR = ClimberComponents.LEFT_MOTOR;
-        public static final PIDFTalonFX RIGHT_MOTOR = ClimberComponents.RIGHT_MOTOR;
-        public static final int MAX__RIGHT_POSITION = 106133; // in ticks
-        public static final int MIN__RIGHT_POSITION = -102133; // in ticks
-        public static final int MAX_LEFT_POSE = 154222; // in ticks
-        public static final int MIN_LEFT_POSE = -159222; // in ticks
-        public static final int POSITION_TOLERANCE = 10000; // in ticks
-        public static final double TRIGGER_DEADBAND = 0.6;
-        public static final double OVERRIDDEN_POWER = 0.5;
+    public static class PitcherConstants {
+        public static final PIDFTalonSRX MOTOR = PitcherComponents.MOTOR;
+        public static final double GEAR_RATIO = 10 / 1;
+        public static final double MAX_ANGLE = 20; // in degrees
+        public static final LocalConstants.LocalPitcherConstants LOCAL_PITCHER_CONSTANTS =
+                LOCAL_CONSTANTS.localPitcherConstants;
+    }
+
+    public static class LoaderConstants {
+        public static final TrigonTalonSRX MOTOR = LoaderComponents.MOTOR;
+        //TODO: set to correct power
+        public static final double POWER = 0.7;
     }
 
     public static class TransporterConstants {
@@ -170,17 +163,19 @@ public class RobotConstants {
         public static final double CLOSING_POWER = 0.4;
     }
 
-    public static class PitcherConstants {
-        public static final PIDFTalonSRX MOTOR = PitcherComponents.MOTOR;
-        public static final double GEAR_RATIO = 10 / 1;
-        public static final double MAX_ANGLE = 20; // in degrees
-        public static final LocalConstants.LocalPitcherConstants LOCAL_PITCHER_CONSTANTS =
-                LOCAL_CONSTANTS.localPitcherConstants;
+    public static class ClimberConstants {
+        public static final PIDFTalonFX LEFT_MOTOR = ClimberComponents.LEFT_MOTOR;
+        public static final PIDFTalonFX RIGHT_MOTOR = ClimberComponents.RIGHT_MOTOR;
+        public static final int MAX_RIGHT_POSITION = 106133; // in ticks
+        public static final int MIN_RIGHT_POSITION = -102133; // in ticks
+        public static final int MAX_LEFT_POSITION = 154222; // in ticks
+        public static final int MIN_LEFT_POSITION = -159222; // in ticks
+        public static final int POSITION_TOLERANCE = 10000; // in ticks
+        public static final double TRIGGER_DEADBAND = 0.6;
+        public static final double OVERRIDDEN_POWER = 0.5;
     }
 
-    public static class LoaderConstants {
-        public static final TrigonTalonSRX MOTOR = LoaderComponents.MOTOR;
-        //TODO: set to correct power
-        public static final double POWER = 0.7;
+    public static class LedConstants {
+        public static final Spark CONTROLLER = LEDComponents.CONTROLLER;
     }
 }

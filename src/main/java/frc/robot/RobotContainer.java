@@ -6,13 +6,12 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Button;
-import frc.robot.commands.GenericTurnToTargetCMD;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.RunWhenDisabledCommand;
+import frc.robot.commands.TurnToTargetCMD;
 import frc.robot.commands.commandgroups.IntakeCG;
 import frc.robot.commands.commandgroups.ShootCG;
 import frc.robot.components.TrigonXboxController;
-import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.*;
 import frc.robot.subsystems.climber.ClimbCMD;
 import frc.robot.subsystems.climber.ClimberSS;
@@ -33,7 +32,7 @@ import frc.robot.vision.Limelight;
 public class RobotContainer {
     private final DashboardController dashboardController;
     private final TrigonXboxController driverXbox;
-    private final TrigonXboxController commanderXbox;
+    private final TrigonXboxController operatorXbox;
     public Limelight hubLimelight;
     public Limelight cargoLimelight;
 
@@ -65,7 +64,7 @@ public class RobotContainer {
                 DriverConstants.XBOX_PORT,
                 DriverConstants.CONTROLLER_DEADBAND,
                 DriverConstants.SQUARED_CONTROLLER_DRIVING);
-        commanderXbox = new TrigonXboxController(
+        operatorXbox = new TrigonXboxController(
                 CommanderConstants.XBOX_PORT,
                 CommanderConstants.CONTROLLER_DEADBAND,
                 CommanderConstants.SQUARED_CONTROLLER_DRIVING);
@@ -80,7 +79,14 @@ public class RobotContainer {
 
         initializeSubsystems();
         initializeCommands();
-        bindCommands();
+        bindDriverCommands();
+        bindOperatorCommands();
+
+        //        userBtn.whenPressed(new RunWhenDisabledCommand(
+        //                () -> hubLimelight.setLedMode(hubLimelight.getLedMode() == LedMode.off ? LedMode.on :
+        //                LedMode.off)));
+        userBtn.whenPressed(new RunWhenDisabledCommand(swerveSS::resetGyro));
+
         putData();
     }
 
@@ -125,12 +131,18 @@ public class RobotContainer {
                           DriverConstants.ROTATION_SPEED_DIVIDER)),
                 true);
         shootCG = new ShootCG(this);
-        SmartDashboard.putData("shootcgg", shootCG);
     }
 
-    private void bindCommands() {
+    private void bindDriverCommands() {
         swerveSS.setDefaultCommand(driveWithXboxCMD);
-
+        
+        driverXbox.getABtn()
+                .whileHeld(new TurnToTargetCMD(swerveSS, () -> -hubLimelight.getTx(), hubLimelight::getTv,
+                        () -> -1.5 / ShootingCalculations.calculateDistance(hubLimelight.getTy()),
+                        VisionConstants.HUB_TURN_TO_TARGET_COEFS,
+                        1));
+        driverXbox.getXBtn().whileHeld(new IntakeCG(this));
+        driverXbox.getBBtn().whileHeld(shootCG);
         driverXbox.getYBtn().whenPressed(new InstantCommand(swerveSS::resetGyro));
         driverXbox.getLeftBumperBtn().whenPressed(new InstantCommand(() -> intakeOpenerSS.setState(true)));
         driverXbox.getLeftBumperBtn().whileHeld(
@@ -144,26 +156,16 @@ public class RobotContainer {
                                 .andThen(new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER).withTimeout(
                                         0.4)))
         );
-        driverXbox.getBBtn().whileHeld(shootCG);
         driverXbox.getRightBumperBtn().whileHeld(new MoveMovableSubsystem(loaderSS, () -> LoaderConstants.POWER));
-        driverXbox.getABtn()
-                .whileHeld(new GenericTurnToTargetCMD(swerveSS, () -> -hubLimelight.getTx(), hubLimelight::getTv,
-                        () -> -1.5 / ShootingCalculations.calculateDistance(hubLimelight.getTy()),
-                        RobotConstants.VisionConstants.HUB_TTT_COEFS,
-                        1));
-        driverXbox.getXBtn().whileHeld(new IntakeCG(this));
+    }
 
-        commanderXbox.getBBtn().whileHeld(new ParallelCommandGroup(
+    private void bindOperatorCommands() {
+        operatorXbox.getABtn().whenPressed(new InstantCommand(() -> setEndgame(!isEndgame())));
+        operatorXbox.getBBtn().whileHeld(new ParallelCommandGroup(
                 new MoveMovableSubsystem(intakeSS, () -> -IntakeConstants.POWER),
                 new MoveMovableSubsystem(transporterSS, () -> -TransporterConstants.POWER),
                 new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER)));
-        commanderXbox.getXBtn().whileHeld(new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER));
-        commanderXbox.getABtn().whenPressed(new InstantCommand(() -> setEndgame(!isEndgame())));
-
-        //        userBtn.whenPressed(new RunWhenDisabledCommand(
-        //                () -> hubLimelight.setLedMode(hubLimelight.getLedMode() == LedMode.off ? LedMode.on :
-        //                LedMode.off)));
-        userBtn.whenPressed(new RunWhenDisabledCommand(swerveSS::resetGyro));
+        operatorXbox.getXBtn().whileHeld(new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER));
     }
 
     /**
@@ -174,6 +176,7 @@ public class RobotContainer {
         SmartDashboard.putData("Pitcher", pitcherSS);
         SmartDashboard.putData("Climber", climberSS);
         SmartDashboard.putData("Shooter", shooterSS);
+        SmartDashboard.putData("ShootCG", shootCG);
         dashboardController.addNumber(
                 "hubLimelight/distance", () -> ShootingCalculations.calculateDistance(hubLimelight.getTy()));
     }
@@ -188,26 +191,27 @@ public class RobotContainer {
 
     private void runClimber() {
         if(driverXbox.getRightTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND)
-            new ClimbCMD(climberSS, ClimberConstants.MAX_LEFT_POSE, ClimberConstants.MAX__RIGHT_POSITION).schedule();
+            new ClimbCMD(climberSS, ClimberConstants.MAX_LEFT_POSITION, ClimberConstants.MAX_RIGHT_POSITION).schedule();
         else if(driverXbox.getLeftTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND)
-            new ClimbCMD(climberSS, -ClimberConstants.MAX_LEFT_POSE, -ClimberConstants.MAX__RIGHT_POSITION).schedule();
-        else if(commanderXbox.getPOV() == 270)
+            new ClimbCMD(
+                    climberSS, -ClimberConstants.MAX_LEFT_POSITION, -ClimberConstants.MAX_RIGHT_POSITION).schedule();
+        else if(operatorXbox.getPOV() == 270)
             new ClimbCMD(climberSS, 0, 0).schedule();
 
-        if(commanderXbox.getYButton()) {
-            if(commanderXbox.getRightBumper())
+        if(operatorXbox.getYButton()) {
+            if(operatorXbox.getRightBumper())
                 climberSS.moveRight(-ClimberConstants.OVERRIDDEN_POWER);
-            if(commanderXbox.getLeftBumper())
+            if(operatorXbox.getLeftBumper())
                 climberSS.moveLeft(-ClimberConstants.OVERRIDDEN_POWER);
         } else {
-            if(commanderXbox.getRightBumper())
+            if(operatorXbox.getRightBumper())
                 climberSS.moveRight(ClimberConstants.OVERRIDDEN_POWER);
-            if(commanderXbox.getLeftBumper())
+            if(operatorXbox.getLeftBumper())
                 climberSS.moveLeft(ClimberConstants.OVERRIDDEN_POWER);
         }
-        if(!commanderXbox.getRightBumper())
+        if(!operatorXbox.getRightBumper())
             climberSS.moveRight(0);
-        if(!commanderXbox.getLeftBumper())
+        if(!operatorXbox.getLeftBumper())
             climberSS.moveLeft(0);
     }
 

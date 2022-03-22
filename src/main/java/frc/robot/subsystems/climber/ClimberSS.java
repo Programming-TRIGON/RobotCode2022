@@ -5,6 +5,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.RobotConstants.ClimberConstants;
 import frc.robot.subsystems.OverridableSubsystem;
+import frc.robot.subsystems.PIDFSubsystem;
 import frc.robot.utilities.pid.PIDFTalonFX;
 
 public class ClimberSS extends OverridableSubsystem {
@@ -25,8 +26,8 @@ public class ClimberSS extends OverridableSubsystem {
      * @param setpoint desired position in ticks
      */
     public void setSetpoint(double... setpoint) {
-        setpoint[0] = MathUtil.clamp(setpoint[0], 0, ClimberConstants.MAX_LEFT_POSE);
-        setpoint[1] = MathUtil.clamp(setpoint[1], 0, ClimberConstants.MAX__RIGHT_POSITION);
+        setpoint[0] = MathUtil.clamp(setpoint[0], 0, ClimberConstants.MAX_LEFT_POSITION);
+        setpoint[1] = MathUtil.clamp(setpoint[1], 0, ClimberConstants.MAX_RIGHT_POSITION);
 
         leftMotor.setSetpoint(setpoint[0]);
         rightMotor.setSetpoint(setpoint[1]);
@@ -77,18 +78,18 @@ public class ClimberSS extends OverridableSubsystem {
     }
 
     public void moveRight(double power) {
-        if(getRightPosition() >= ClimberConstants.MAX__RIGHT_POSITION
+        if(getRightPosition() >= ClimberConstants.MAX_RIGHT_POSITION
                 - ClimberConstants.POSITION_TOLERANCE ||
-                getRightPosition() <= -ClimberConstants.MAX__RIGHT_POSITION
+                getRightPosition() <= -ClimberConstants.MAX_RIGHT_POSITION
                         + ClimberConstants.POSITION_TOLERANCE)
             power = 0;
         rightMotor.set(power);
     }
 
     public void moveLeft(double power) {
-        if(getLeftPosition() >= ClimberConstants.MAX_LEFT_POSE
+        if(getLeftPosition() >= ClimberConstants.MAX_LEFT_POSITION
                 - ClimberConstants.POSITION_TOLERANCE ||
-                getLeftPosition() <= -ClimberConstants.MAX_LEFT_POSE
+                getLeftPosition() <= -ClimberConstants.MAX_LEFT_POSITION
                         + ClimberConstants.POSITION_TOLERANCE)
             power = 0;
         leftMotor.set(power);

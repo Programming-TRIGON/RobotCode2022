@@ -4,15 +4,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ClimbCMD extends CommandBase {
     private final ClimberSS climberSS;
-    private int posLEft;
-    private int posRight;
+    private final int leftPosition;
+    private final int rightPosition;
 
-    public ClimbCMD(ClimberSS climberSS, int poseLeft, int poseRight) {
+    public ClimbCMD(ClimberSS climberSS, int leftPosition, int rightPosition) {
         this.climberSS = climberSS;
-        this.posLEft = poseLeft;
-        this.posRight = poseRight;
+        this.leftPosition = leftPosition;
+        this.rightPosition = rightPosition;
 
-        addRequirements();
+        addRequirements(climberSS);
     }
 
     public void schedule(double poseLeft, double poseRight) {
@@ -20,7 +20,7 @@ public class ClimbCMD extends CommandBase {
     }
 
     public void initialize() {
-        climberSS.setSetpoint(posLEft, posRight);
+        climberSS.setSetpoint(leftPosition, rightPosition);
     }
 
     @Override

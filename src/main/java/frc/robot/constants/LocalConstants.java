@@ -10,18 +10,24 @@ public class LocalConstants {
     public LocalSwerveConstants localSwerveConstants;
     @SerializedName("Shooter")
     public LocalShooterConstants localShooterConstants;
-    @SerializedName("Intake")
-    public LocalIntakeConstants localIntakeConstants;
     @SerializedName("Pitcher")
     public LocalPitcherConstants localPitcherConstants;
+    @SerializedName("Loader")
+    public LocalLoaderConstants localLoaderConstants;
+    @SerializedName("IntakeOpener")
+    public LocalIntakeOpenerConstants localIntakeOpenerConstants;
+    @SerializedName("Intake")
+    public LocalIntakeConstants localIntakeConstants;
     @SerializedName("Climber")
     public LocalClimberConstants localClimberConstants;
 
     public LocalConstants() {
         localSwerveConstants = new LocalSwerveConstants();
         localShooterConstants = new LocalShooterConstants();
-        localIntakeConstants = new LocalIntakeConstants();
         localPitcherConstants = new LocalPitcherConstants();
+        localLoaderConstants = new LocalLoaderConstants();
+        localIntakeOpenerConstants = new LocalIntakeOpenerConstants();
+        localIntakeConstants = new LocalIntakeConstants();
         localClimberConstants = new LocalClimberConstants();
     }
 
@@ -29,46 +35,7 @@ public class LocalConstants {
         JsonHandler.write(this);
     }
 
-    public static class LocalPitcherConstants {
-        PIDFCoefs pidfCoefs;
-        public int encoderOffset;
-
-        public LocalPitcherConstants() {
-            pidfCoefs = new PIDFCoefs();
-        }
-    }
-
-    public static class LocalIntakeConstants {
-        PIDCoefs rotationCoefs;
-
-        public LocalIntakeConstants() {
-            rotationCoefs = new PIDCoefs();
-        }
-    }
-
-    public static class LocalClimberConstants {
-        PIDFCoefs pidfCoefs;
-
-        public LocalClimberConstants() {
-            pidfCoefs = new PIDFCoefs();
-        }
-    }
-
     public static class LocalSwerveConstants {
-        PIDCoefs turnToTargetCoefs;
-        PIDCoefs driveToTargetCoefs;
-        LocalSwerveModules modules;
-
-        public LocalSwerveConstants() {
-            turnToTargetCoefs = new PIDCoefs();
-            driveToTargetCoefs = new PIDCoefs();
-            modules = new LocalSwerveModules();
-            modules.frontRightModuleConstants = new LocalSwerveModules.LocalSwerveModuleConstants();
-            modules.frontLeftModuleConstants = new LocalSwerveModules.LocalSwerveModuleConstants();
-            modules.rearRightModuleConstants = new LocalSwerveModules.LocalSwerveModuleConstants();
-            modules.rearLeftModuleConstants = new LocalSwerveModules.LocalSwerveModuleConstants();
-        }
-
         public static class LocalSwerveModules {
             @SerializedName("frontRight")
             public LocalSwerveModuleConstants frontRightModuleConstants;
@@ -92,12 +59,67 @@ public class LocalConstants {
                 }
             }
         }
+
+        PIDCoefs turnToTargetCoefs;
+        PIDCoefs driveToTargetCoefs;
+        LocalSwerveModules modules;
+
+        public LocalSwerveConstants() {
+            turnToTargetCoefs = new PIDCoefs();
+            driveToTargetCoefs = new PIDCoefs();
+            modules = new LocalSwerveModules();
+            modules.frontRightModuleConstants = new LocalSwerveModules.LocalSwerveModuleConstants();
+            modules.frontLeftModuleConstants = new LocalSwerveModules.LocalSwerveModuleConstants();
+            modules.rearRightModuleConstants = new LocalSwerveModules.LocalSwerveModuleConstants();
+            modules.rearLeftModuleConstants = new LocalSwerveModules.LocalSwerveModuleConstants();
+        }
     }
 
     public static class LocalShooterConstants {
         PIDFCoefs pidfCoefs;
 
         public LocalShooterConstants() {
+            pidfCoefs = new PIDFCoefs();
+        }
+    }
+
+    public static class LocalPitcherConstants {
+        PIDFCoefs pidfCoefs;
+        public int encoderOffset;
+
+        public LocalPitcherConstants() {
+            pidfCoefs = new PIDFCoefs();
+        }
+    }
+
+    public static class LocalLoaderConstants {
+        PIDFCoefs pidfCoefs;
+
+        public LocalLoaderConstants() {
+            pidfCoefs = new PIDFCoefs();
+        }
+    }
+
+    public static class LocalIntakeOpenerConstants {
+        PIDFCoefs pidfCoefs;
+
+        public LocalIntakeOpenerConstants() {
+            pidfCoefs = new PIDFCoefs();
+        }
+    }
+    
+    public static class LocalIntakeConstants {
+        PIDCoefs rotationCoefs;
+
+        public LocalIntakeConstants() {
+            rotationCoefs = new PIDCoefs();
+        }
+    }
+
+    public static class LocalClimberConstants {
+        PIDFCoefs pidfCoefs;
+
+        public LocalClimberConstants() {
             pidfCoefs = new PIDFCoefs();
         }
     }
