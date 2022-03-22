@@ -16,6 +16,8 @@ public class LocalConstants {
     public LocalLoaderConstants localLoaderConstants;
     @SerializedName("IntakeOpener")
     public LocalIntakeOpenerConstants localIntakeOpenerConstants;
+    @SerializedName("Intake")
+    public LocalIntakeConstants localIntakeConstants;
     @SerializedName("Climber")
     public LocalClimberConstants localClimberConstants;
 
@@ -25,6 +27,7 @@ public class LocalConstants {
         localPitcherConstants = new LocalPitcherConstants();
         localLoaderConstants = new LocalLoaderConstants();
         localIntakeOpenerConstants = new LocalIntakeOpenerConstants();
+        localIntakeConstants = new LocalIntakeConstants();
         localClimberConstants = new LocalClimberConstants();
     }
 
@@ -102,6 +105,14 @@ public class LocalConstants {
 
         public LocalIntakeOpenerConstants() {
             pidfCoefs = new PIDFCoefs();
+        }
+    }
+    
+    public static class LocalIntakeConstants {
+        PIDCoefs rotationCoefs;
+
+        public LocalIntakeConstants() {
+            rotationCoefs = new PIDCoefs();
         }
     }
 

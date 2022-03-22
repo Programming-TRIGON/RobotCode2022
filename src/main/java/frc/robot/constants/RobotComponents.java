@@ -8,6 +8,7 @@ import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
+import frc.robot.components.TrigonTalonFX;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotMap.CAN;
 import frc.robot.constants.RobotMap.PWM;
@@ -174,14 +175,11 @@ public class RobotComponents {
                 inverted(false).
                 withOpenLoopRampRate(0.5).
                 withClosedLoopRampRate(0.5).
-                withClosedLoop(
-                        RobotConstants.LOCAL_CONSTANTS.localIntakeOpenerConstants.pidfCoefs, ControlMode.Position).
                 withCurrentLimit(new SupplyCurrentLimitConfiguration(
                         true, 0.4, 8, 0.5
                 )).
                 withVoltageCompSaturation(12);
-        public static TrigonTalonSRX MOTOR = (TrigonTalonSRX) SwerveComponents.FrontRight.ANGLE_ENCODER.config(
-                MOTOR_CONFIG);
+        public static TrigonTalonFX MOTOR = new TrigonTalonFX(CAN.IntakeOpener.MOTOR_ID, MOTOR_CONFIG);
     }
 
     protected static class PitcherComponents {
@@ -202,13 +200,12 @@ public class RobotComponents {
                 SwerveComponents.RearRight.ANGLE_ENCODER.getConfig()).
                 brake().
                 inverted(true).
-                withVoltageCompSaturation(12);
-        public static final TrigonTalonSRX MOTOR = (TrigonTalonSRX) SwerveComponents.RearRight.ANGLE_ENCODER.config(
-                MOTOR_CONFIG.withCurrentLimit(
+                withVoltageCompSaturation(12).
+                withCurrentLimit(
                         new SupplyCurrentLimitConfiguration(
-                                true, 0, 23, 0.1
-                        )
-                )
+                                true, 0, 23, 0.1));
+        public static final TrigonTalonSRX MOTOR = (TrigonTalonSRX) SwerveComponents.RearRight.ANGLE_ENCODER.config(
+                MOTOR_CONFIG
         );
     }
 }

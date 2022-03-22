@@ -10,10 +10,13 @@ public class TrigonPIDController extends PIDController implements PIDConfigurabl
 
     public TrigonPIDController(PIDCoefs coefs) {
         super(coefs.getKP(), coefs.getKI(), coefs.getKD());
-        this.setTolerance(coefs.getTolerance(), coefs.getDeltaTolerance());
 
         remotePidCoefs = coefs;
         pidCoefs = new PIDCoefs(getRemoteCoefs());
+
+        setTolerance(coefs.getTolerance());
+        setDeltaTolerance(coefs.getDeltaTolerance());
+
         isTuning = false;
     }
 
@@ -79,15 +82,20 @@ public class TrigonPIDController extends PIDController implements PIDConfigurabl
     }
 
     @Override
-    public void setTolerance(double tolerance) {
+    public void
+    setTolerance(double tolerance) {
         pidCoefs.setTolerance(tolerance);
-        super.setTolerance(tolerance);
+        if(pidCoefs.getDeltaTolerance() == 0)
+            super.setTolerance(tolerance);
+        else
+            setTolerance(tolerance, pidCoefs.getDeltaTolerance());
     }
 
     @Override
     public void setDeltaTolerance(double deltaTolerance) {
         pidCoefs.setDeltaTolerance(deltaTolerance);
-        super.setTolerance(pidCoefs.getTolerance(), deltaTolerance);
+        if(deltaTolerance != 0)
+            super.setTolerance(pidCoefs.getTolerance(), deltaTolerance);
     }
 
     @Override

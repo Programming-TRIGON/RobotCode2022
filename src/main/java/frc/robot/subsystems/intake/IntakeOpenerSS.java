@@ -2,12 +2,12 @@ package frc.robot.subsystems.intake;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.components.TrigonTalonSRX;
+import frc.robot.components.TrigonTalonFX;
 import frc.robot.constants.RobotConstants.IntakeOpenerConstants;
 import frc.robot.subsystems.OverridableSubsystem;
 
 public class IntakeOpenerSS extends OverridableSubsystem {
-    private final TrigonTalonSRX motor;
+    private final TrigonTalonFX motor;
 
     public IntakeOpenerSS() {
         motor = IntakeOpenerConstants.MOTOR;

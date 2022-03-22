@@ -39,9 +39,6 @@ public class ShooterSS extends SubsystemBase implements PIDFSubsystem, Character
 
     @Override
     public boolean atSetpoint() {
-        SmartDashboard.putBoolean(
-                "shoot/shooter at setpoint", Math.abs(masterMotor.getError()) <= masterMotor.getTolerance() && Math.abs(
-                        masterMotor.getDeltaError()) <= 5);
         return Math.abs(masterMotor.getError()) <= masterMotor.getTolerance() && Math.abs(
                 masterMotor.getDeltaError()) <= 5;
     }
@@ -61,6 +58,18 @@ public class ShooterSS extends SubsystemBase implements PIDFSubsystem, Character
         return Conversions.falconToRPM(masterMotor.getSelectedSensorVelocity());
     }
 
+    public double getDistanceToCalculate() {
+        return distanceToCalculate;
+    }
+
+    public void setDistanceToCalculate(double distanceToCalculate) {
+        this.distanceToCalculate = distanceToCalculate;
+    }
+
+    public double getError() {
+        return masterMotor.getError();
+    }
+
     /**
      * sets the feedforward for all the different components of the subsystem
      *
@@ -76,14 +85,6 @@ public class ShooterSS extends SubsystemBase implements PIDFSubsystem, Character
     @Override
     public CharacterizationConstants getCharacterizationConstants() {
         return ShooterConstants.CHARACTERIZATION_CONSTANTS;
-    }
-
-    public double getDistanceToCalculate() {
-        return distanceToCalculate;
-    }
-
-    public void setDistanceToCalculate(double distanceToCalculate) {
-        this.distanceToCalculate = distanceToCalculate;
     }
 
     /**

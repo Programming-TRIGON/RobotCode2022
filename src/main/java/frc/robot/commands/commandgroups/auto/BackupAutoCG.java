@@ -1,4 +1,4 @@
-package frc.robot.commands.commandgroups;
+package frc.robot.commands.commandgroups.auto;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.commands.MoveMovableSubsystem;
+import frc.robot.commands.commandgroups.ShootCG;
 import frc.robot.constants.RobotConstants;
 import frc.robot.subsystems.swerve.SupplierDriveCMD;
 

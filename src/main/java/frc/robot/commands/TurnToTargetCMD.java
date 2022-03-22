@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,19 +16,22 @@ public class TurnToTargetCMD extends CommandBase {
     private final DoubleSupplier measurement;
     private final BooleanSupplier inSight;
     private final double timeout;
-    private final PIDController rotationPIDController;
+    private final TrigonPIDController rotationPIDController;
+    private final DoubleSupplier setpoint;
     private double lastTimeSeenTarget;
+    private boolean running;
 
     public TurnToTargetCMD(
-            SwerveSS swerveSS, DoubleSupplier measurement, BooleanSupplier inSight, double setpoint, PIDCoefs coefs,
+            SwerveSS swerveSS, DoubleSupplier measurement, BooleanSupplier inSight, DoubleSupplier setpoint,
+            PIDCoefs coefs,
             double timeout) {
         this.swerveSS = swerveSS;
         this.measurement = measurement;
         this.inSight = inSight;
         this.timeout = timeout;
+        this.setpoint = setpoint;
 
         rotationPIDController = new TrigonPIDController(coefs);
-        rotationPIDController.setSetpoint(setpoint);
 
         addRequirements(swerveSS);
     }
@@ -38,10 +40,12 @@ public class TurnToTargetCMD extends CommandBase {
     public void initialize() {
         rotationPIDController.reset();
         lastTimeSeenTarget = Timer.getFPGATimestamp();
+        running = true;
     }
 
     @Override
     public void execute() {
+        rotationPIDController.setSetpoint(setpoint.getAsDouble());
         if(inSight.getAsBoolean()) {
             swerveSS.move(rotationPIDController.calculate(measurement.getAsDouble()));
             lastTimeSeenTarget = Timer.getFPGATimestamp();
@@ -53,11 +57,12 @@ public class TurnToTargetCMD extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         swerveSS.stopMoving();
+        running = false;
     }
 
     @Override
     public boolean isFinished() {
-        return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > timeout);
+        return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > timeout) || atSetpoint();
     }
 
     public boolean atSetpoint() {
@@ -68,11 +73,12 @@ public class TurnToTargetCMD extends CommandBase {
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("List");
 
-        builder.addBooleanProperty("Running", this::isScheduled, (x) -> {
+        builder.addBooleanProperty("Running", () -> running, (x) -> {
             if(x)
                 schedule();
         });
-        builder.addDoubleProperty("error", rotationPIDController::getPositionError, null);
+        builder.addDoubleProperty(
+                "error", () -> Math.abs(rotationPIDController.getSetpoint() - measurement.getAsDouble()), null);
     }
 
     public void putOnDashboard(String entry) {

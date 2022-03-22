@@ -4,7 +4,7 @@
 			"kP": 0.2,
 			"kI": 0.5,
 			"kD": 0.0,
-			"tolerance": 0.0,
+			"tolerance": 1.0,
 			"deltaTolerance": 0.0
 		},
 		"driveToTargetCoefs": {
@@ -103,23 +103,21 @@
 	},
 	"Shooter": {
 		"pidfCoefs": {
-			"kV": 0.0466488,
-			"kS": 0.0269,
+			"kV": 0.0473,
+			"kS": 0.0617,
 			"kP": 0.0,
 			"kI": 1.0E-4,
-			"kD": 0.5,
-			"tolerance": 5.0,
+			"kD": 0.0,
+			"tolerance": 10.0,
 			"deltaTolerance": 0.0
 		}
 	},
-	"IntakeOpener": {
-		"pidfCoefs": {
-			"kV": 0.0,
-			"kS": 0.0,
-			"kP": 0.0,
-			"kI": 0.0,
+	"Intake": {
+		"rotationCoefs": {
+			"kP": 0.15,
+			"kI": 0.43,
 			"kD": 0.0,
-			"tolerance": 0.0,
+			"tolerance": 1.0,
 			"deltaTolerance": 0.0
 		}
 	},
@@ -133,18 +131,7 @@
 			"tolerance": 8.0,
 			"deltaTolerance": 0.0
 		},
-		"encoderOffset": -3474
-	},
-	"Loader": {
-		"pidfCoefs": {
-			"kV": 0.0,
-			"kS": 0.0,
-			"kP": 0.0,
-			"kI": 0.0,
-			"kD": 0.0,
-			"tolerance": 0.0,
-			"deltaTolerance": 0.0
-		}
+		"encoderOffset": -3403
 	},
 	"Climber": {
 		"pidfCoefs": {

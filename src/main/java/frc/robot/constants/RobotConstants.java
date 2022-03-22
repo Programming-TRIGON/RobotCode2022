@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
+import frc.robot.components.TrigonTalonFX;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotComponents.*;
 import frc.robot.utilities.JsonHandler;
@@ -125,7 +126,7 @@ public class RobotConstants {
         public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
         public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
                 0.4, 0.2, 3, 5, 2.5, false);
-        public static final double TRANSPORTER_WAIT_TIME = 0.2;
+        public static final double TRANSPORTER_WAIT_TIME = 0.8;
     }
 
     public static class PitcherConstants {
@@ -139,7 +140,7 @@ public class RobotConstants {
     public static class LoaderConstants {
         public static final TrigonTalonSRX MOTOR = LoaderComponents.MOTOR;
         //TODO: set to correct power
-        public static final double POWER = 0.4;
+        public static final double POWER = 0.7;
     }
 
     public static class TransporterConstants {
@@ -151,11 +152,13 @@ public class RobotConstants {
 
     public static class IntakeConstants {
         public static final TrigonTalonSRX MOTOR = IntakeComponents.MOTOR;
-        public static final double POWER = 0.8;
+        public static final double POWER = 0.75;
+
+        public static final PIDCoefs ROTATION_COEFS = LOCAL_CONSTANTS.localIntakeConstants.rotationCoefs;
     }
 
     public static class IntakeOpenerConstants {
-        public static final TrigonTalonSRX MOTOR = IntakeOpenerComponents.MOTOR;
+        public static final TrigonTalonFX MOTOR = IntakeOpenerComponents.MOTOR;
         public static final double OPENING_POWER = 0.3;
         public static final double CLOSING_POWER = 0.4;
     }

@@ -1,16 +1,16 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.robot.commands.commandgroups.BackupAutoCG;
+import frc.robot.commands.commandgroups.auto.SimpleAutoCG;
 
 public class Robot extends TimedRobot {
     private RobotContainer robotContainer;
-    private BackupAutoCG backupAutoCG;
+    private SimpleAutoCG simpleAutoCG;
 
     @Override
     public void robotInit() {
         robotContainer = new RobotContainer();
-        backupAutoCG = new BackupAutoCG(robotContainer);
+        simpleAutoCG = new SimpleAutoCG(robotContainer);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        backupAutoCG.schedule();
+        simpleAutoCG.schedule();
         robotContainer.climberSS.resetEncoders();
     }
 
@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        backupAutoCG.cancel();
+        simpleAutoCG.cancel();
         robotContainer.setEndgame(false);
     }
 
