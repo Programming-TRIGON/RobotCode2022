@@ -36,7 +36,6 @@ public class GenericTurnToTargetCMD extends CommandBase {
         this.setpoint = setpoint;
 
         rotationPIDController = new TrigonPIDController(coefs);
-
         addRequirements(swerveSS);
     }
 
@@ -66,7 +65,7 @@ public class GenericTurnToTargetCMD extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > timeout) || atSetpoint();
+        return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > timeout);
     }
 
     public boolean atSetpoint() {

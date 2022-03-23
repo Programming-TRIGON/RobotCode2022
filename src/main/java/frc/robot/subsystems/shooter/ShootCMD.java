@@ -8,6 +8,7 @@ public class ShootCMD extends CommandBase {
     private final ShooterSS shooterSS;
     private final DoubleSupplier setpoint;
     private boolean wasAtSetpoint;
+
     private double ballsShot;
     private boolean isShootingBall;
     private static final double TOLERANCE = 0.1;
@@ -30,13 +31,13 @@ public class ShootCMD extends CommandBase {
     public void execute() {
         shooterSS.setSetpoint(setpoint.getAsDouble());
 
-        wasAtSetpoint = wasAtSetpoint || shooterSS.atSetpoint();
+        wasAtSetpoint = wasAtSetpoint || (shooterSS.atSetpoint() && shooterSS.getSetpoint() > 0);
         if(!isShootingBall && wasAtSetpoint && shooterSS.getError() > setpoint.getAsDouble() * TOLERANCE) {
             isShootingBall = true;
-            ballsShot++;
         }
         if(isShootingBall && shooterSS.getError() < setpoint.getAsDouble() * TOLERANCE) {
             isShootingBall = false;
+            ballsShot++;
         }
     }
 
@@ -48,5 +49,13 @@ public class ShootCMD extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         shooterSS.stopMoving();
+    }
+
+    public boolean atSetpoint() {
+        return shooterSS.atSetpoint() && shooterSS.getSetpoint() > 0;
+    }
+
+    public double getBallsShot() {
+        return ballsShot;
     }
 }

@@ -38,7 +38,6 @@ public class ShooterSS extends SubsystemBase implements PIDFSubsystem, Character
      */
     @Override
     public void setSetpoint(double setpoint) {
-        masterMotor.setIntegralAccumulator(0);
         masterMotor.setSetpoint(Conversions.RPMToFalcon(setpoint));
     }
 

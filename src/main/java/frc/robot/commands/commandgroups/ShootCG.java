@@ -1,10 +1,7 @@
 package frc.robot.commands.commandgroups;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
 import frc.robot.commands.GenericTurnToTargetCMD;
 import frc.robot.commands.MoveMovableSubsystem;
@@ -12,11 +9,14 @@ import frc.robot.commands.PIDCommand;
 import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.LoaderConstants;
 import frc.robot.constants.RobotConstants.TransporterConstants;
+import frc.robot.constants.RobotConstants.VisionConstants;
+import frc.robot.subsystems.shooter.ShootCMD;
 import frc.robot.subsystems.shooter.ShootingCalculations;
 
 public class ShootCG extends ParallelCommandGroup {
     GenericTurnToTargetCMD ttt;
-    PIDCommand shooter, pitcher;
+    PIDCommand pitcher;
+    ShootCMD shooter;
 
     public ShootCG(RobotContainer robotContainer) {
         GenericTurnToTargetCMD turnToTargetCMD = new GenericTurnToTargetCMD(
@@ -24,9 +24,9 @@ public class ShootCG extends ParallelCommandGroup {
                 () -> -robotContainer.hubLimelight.getTx(),
                 robotContainer.hubLimelight::getTv,
                 () -> -1.5 / ShootingCalculations.calculateDistance(robotContainer.hubLimelight.getTy()),
-                RobotConstants.VisionConstants.HUB_TTT_COEFS,
+                VisionConstants.HUB_TTT_COEFS,
                 1);
-        PIDCommand shooterCMD = new PIDCommand(
+        ShootCMD shootCMD = new ShootCMD(
                 robotContainer.shooterSS,
                 () -> ShootingCalculations.calculateVelocity(robotContainer.hubLimelight.getTy()));
         PIDCommand pitcherCMD = new PIDCommand(
@@ -34,41 +34,50 @@ public class ShootCG extends ParallelCommandGroup {
                 () -> ShootingCalculations.calculateAngle(robotContainer.hubLimelight.getTy()));
 
         ttt = turnToTargetCMD;
-        shooter = shooterCMD;
+        shooter = shootCMD;
         pitcher = pitcherCMD;
 
         turnToTargetCMD.putOnDashboard("ShootCG/TTTCMD");
 
         addCommands(
-                shooterCMD,
-                pitcherCMD,
-                turnToTargetCMD,
-                new WaitCommand(0.3).andThen(
-                        new ParallelCommandGroup(
-                                new WaitUntilCommand(
-                                        () -> shooterCMD.atSetpoint() && robotContainer.shooterSS.getSetpoint() > 0),
-                                new WaitUntilCommand(turnToTargetCMD::atSetpoint)
-                        ).andThen(
+                shootCMD,
+                new ParallelCommandGroup(
+                        pitcherCMD,
+                        new SequentialCommandGroup(
+                                new ParallelRaceGroup(
+                                        turnToTargetCMD,
+                                        new SequentialCommandGroup(
+                                                new WaitCommand(0.5),
+                                                new WaitUntilCommand(
+                                                        () -> shootCMD.atSetpoint() && turnToTargetCMD.atSetpoint())
+                                        )),
                                 new ParallelCommandGroup(
-                                        new MoveMovableSubsystem(robotContainer.loaderSS, () -> LoaderConstants.POWER),
-                                        new WaitCommand(RobotConstants.ShooterConstants.TRANSPORTER_WAIT_TIME).andThen(
-                                                new SequentialCommandGroup(
-                                                        new ParallelCommandGroup(
-                                                                new WaitUntilCommand(
-                                                                        () -> shooterCMD.atSetpoint() && robotContainer.shooterSS.getSetpoint() > 0),
-                                                                new WaitUntilCommand(turnToTargetCMD::atSetpoint)),
-                                                        new MoveMovableSubsystem(
-                                                                robotContainer.transporterSS,
-                                                                () -> TransporterConstants.POWER)
-                                                ))))
+                                        new MoveMovableSubsystem(
+                                                robotContainer.loaderSS, () -> LoaderConstants.POWER),
+                                        new SequentialCommandGroup(
+                                                new ParallelRaceGroup(
+                                                        new WaitUntilCommand(
+                                                                () -> shootCMD.getBallsShot() >= 1),
+                                                        new WaitCommand(
+                                                                RobotConstants.ShooterConstants.TRANSPORTER_WAIT_TIME),
+                                                        new WaitCommand(0)
+                                                ),
+                                                new WaitUntilCommand(shootCMD::atSetpoint),
+                                                new MoveMovableSubsystem(
+                                                        robotContainer.transporterSS,
+                                                        () -> TransporterConstants.POWER))))));
+    }
 
-                ));
+    @Override
+    public boolean isFinished() {
+        return shooter.isFinished();
     }
 
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.addBooleanProperty("ttt", ttt::atSetpoint, null);
         builder.addBooleanProperty("shooter", shooter::atSetpoint, null);
+        builder.addDoubleProperty("balls", shooter::getBallsShot, null);
         builder.addBooleanProperty("pitcher", pitcher::atSetpoint, null);
     }
 }
