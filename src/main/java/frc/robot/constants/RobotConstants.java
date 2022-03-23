@@ -5,7 +5,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.components.Pigeon;
-import frc.robot.components.TrigonTalonFX;
 import frc.robot.components.TrigonTalonSRX;
 import frc.robot.constants.RobotComponents.*;
 import frc.robot.utilities.JsonHandler;
@@ -135,17 +134,14 @@ public class RobotConstants {
         public static final PIDFTalonSRX RIGHT_MOTOR = ShooterComponents.RIGHT_MOTOR;
         public static final CharacterizationConstants CHARACTERIZATION_CONSTANTS = new CharacterizationConstants(
                 0.4, 0.2, 3, 5, 2.5, false);
-        public static final double TRANSPORTER_WAIT_TIME = 0.8;
+        public static final double TRANSPORTER_WAIT_TIME = 10;
     }
 
     public static class ClimberConstants {
         public static final PIDFTalonFX LEFT_MOTOR = ClimberComponents.LEFT_MOTOR;
         public static final PIDFTalonFX RIGHT_MOTOR = ClimberComponents.RIGHT_MOTOR;
-        public static final int MAX__RIGHT_POSITION = 106133; // in ticks
-        public static final int MIN__RIGHT_POSITION = -102133; // in ticks
-        public static final int MAX_LEFT_POSE = 154222; // in ticks
-        public static final int MIN_LEFT_POSE = -159222; // in ticks
-        public static final int POSITION_TOLERANCE = 10000; // in ticks
+        public static final int MAX_RIGHT_POSITION = 106133; // in ticks
+        public static final int MAX_LEFT_POSITION = 154222; // in ticks
         public static final double TRIGGER_DEADBAND = 0.6;
         public static final double OVERRIDDEN_POWER = 0.5;
     }
@@ -165,8 +161,8 @@ public class RobotConstants {
     }
 
     public static class IntakeOpenerConstants {
-        public static final TrigonTalonFX MOTOR = IntakeOpenerComponents.MOTOR;
-        public static final double OPENING_POWER = 0.3;
+        public static final TrigonTalonSRX MOTOR = IntakeOpenerComponents.MOTOR;
+        public static final double OPENING_POWER = 0.2;
         public static final double CLOSING_POWER = 0.4;
     }
 

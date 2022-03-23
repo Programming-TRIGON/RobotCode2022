@@ -15,6 +15,11 @@ public class ClimberSS extends OverridableSubsystem {
         leftMotor = ClimberConstants.LEFT_MOTOR;
         rightMotor = ClimberConstants.RIGHT_MOTOR;
 
+        leftMotor.configMaxIntegralAccumulator(0, 430000);
+        leftMotor.configClosedLoopPeakOutput(0, 0.8);
+        rightMotor.configMaxIntegralAccumulator(0, 430000);
+        rightMotor.configClosedLoopPeakOutput(0, 0.8);
+
         resetEncoders();
 
         SmartDashboard.putData("Climber/left motor", leftMotor);
@@ -25,8 +30,8 @@ public class ClimberSS extends OverridableSubsystem {
      * @param setpoint desired position in ticks
      */
     public void setSetpoint(double... setpoint) {
-        setpoint[0] = MathUtil.clamp(setpoint[0], 0, ClimberConstants.MAX_LEFT_POSE);
-        setpoint[1] = MathUtil.clamp(setpoint[1], 0, ClimberConstants.MAX__RIGHT_POSITION);
+        setpoint[0] = MathUtil.clamp(setpoint[0], 0, ClimberConstants.MAX_LEFT_POSITION);
+        setpoint[1] = MathUtil.clamp(setpoint[1], 0, ClimberConstants.MAX_RIGHT_POSITION);
 
         leftMotor.setSetpoint(setpoint[0]);
         rightMotor.setSetpoint(setpoint[1]);
@@ -77,20 +82,20 @@ public class ClimberSS extends OverridableSubsystem {
     }
 
     public void moveRight(double power) {
-        if(getRightPosition() >= ClimberConstants.MAX__RIGHT_POSITION
-                - ClimberConstants.POSITION_TOLERANCE ||
-                getRightPosition() <= -ClimberConstants.MAX__RIGHT_POSITION
-                        + ClimberConstants.POSITION_TOLERANCE)
-            power = 0;
+        //        if(getRightPosition() >= ClimberConstants.MAX__RIGHT_POSITION
+        //                - ClimberConstants.POSITION_TOLERANCE ||
+        //                getRightPosition() <= -ClimberConstants.MAX__RIGHT_POSITION
+        //                        + ClimberConstants.POSITION_TOLERANCE)
+        //            power = 0;
         rightMotor.set(power);
     }
 
     public void moveLeft(double power) {
-        if(getLeftPosition() >= ClimberConstants.MAX_LEFT_POSE
-                - ClimberConstants.POSITION_TOLERANCE ||
-                getLeftPosition() <= -ClimberConstants.MAX_LEFT_POSE
-                        + ClimberConstants.POSITION_TOLERANCE)
-            power = 0;
+        //        if(getLeftPosition() >= ClimberConstants.MAX_LEFT_POSE
+        //                - ClimberConstants.POSITION_TOLERANCE ||
+        //                getLeftPosition() <= -ClimberConstants.MAX_LEFT_POSE
+        //                        + ClimberConstants.POSITION_TOLERANCE)
+        //            power = 0;
         leftMotor.set(power);
     }
 
@@ -98,5 +103,7 @@ public class ClimberSS extends OverridableSubsystem {
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("List");
         builder.addBooleanProperty("Reset Encoders", () -> false, (x) -> resetEncoders());
+        builder.addDoubleProperty("left setpoint", leftMotor::getSetpoint, leftMotor::setSetpoint);
+        builder.addDoubleProperty("right setpoint", rightMotor::getSetpoint, rightMotor::setSetpoint);
     }
 }
