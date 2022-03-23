@@ -60,6 +60,7 @@ public class ShootCG extends ParallelCommandGroup {
                                                                 () -> shootCMD.getBallsShot() >= 1),
                                                         new WaitCommand(
                                                                 RobotConstants.ShooterConstants.TRANSPORTER_WAIT_TIME),
+                                                        // this is dumb but keep it for now
                                                         new WaitCommand(0)
                                                 ),
                                                 new WaitUntilCommand(shootCMD::atSetpoint),
