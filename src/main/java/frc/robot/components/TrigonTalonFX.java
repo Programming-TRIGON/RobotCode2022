@@ -1,6 +1,10 @@
 package frc.robot.components;
 
+import com.ctre.phoenix.ErrorCode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import frc.robot.constants.RobotConstants;
+import frc.robot.utilities.CTREUtil;
 import frc.robot.utilities.ConfigurableTalon;
 import frc.robot.utilities.MotorConfig;
 
@@ -36,5 +40,10 @@ public class TrigonTalonFX extends WPI_TalonFX implements ConfigurableTalon {
     @Override
     public MotorConfig getConfig() {
         return config;
+    }
+
+    public ErrorCode ce_configStatorCurrentLimit(StatorCurrentLimitConfiguration statorCurrentLimit) {
+        return CTREUtil.checkError(
+                () -> configStatorCurrentLimit(statorCurrentLimit, RobotConstants.DEFAULT_CAN_TIMEOUT));
     }
 }
