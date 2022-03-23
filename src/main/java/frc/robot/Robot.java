@@ -1,16 +1,29 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.robot.commands.commandgroups.auto.SimpleAutoCG;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.commandgroups.auto.*;
 
 public class Robot extends TimedRobot {
     private RobotContainer robotContainer;
+    private SendableChooser<Command> autoChooser;
     private SimpleAutoCG simpleAutoCG;
 
     @Override
     public void robotInit() {
         robotContainer = new RobotContainer();
-        simpleAutoCG = new SimpleAutoCG(robotContainer);
+        autoChooser = new SendableChooser<>();
+
+        autoChooser.setDefaultOption("Simple Auto", new SimpleAutoCG(robotContainer));
+        autoChooser.addOption("Backup Auto", new BackupAutoCG(robotContainer));
+        autoChooser.addOption("Left Stealing Auto", new StealingAutoCG(robotContainer, () -> true));
+        autoChooser.addOption("Right Stealing Auto", new StealingAutoCG(robotContainer, () -> false));
+        autoChooser.addOption("Three Ball Normal Auto", new ThreeBallAutoCG(robotContainer));
+        autoChooser.addOption("Four Ball Stealing Auto", new FourBallStealingAutoCG(robotContainer));
+
+        SmartDashboard.putData(autoChooser);
     }
 
     @Override
@@ -20,7 +33,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        simpleAutoCG.schedule();
+        robotContainer.setCargoLimelightPipeline();
+        autoChooser.getSelected().schedule();
         robotContainer.climberSS.resetEncoders();
     }
 
@@ -30,7 +44,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        simpleAutoCG.cancel();
+        robotContainer.setCargoLimelightPipeline();
+        autoChooser.getSelected().cancel();
         robotContainer.setEndgame(false);
     }
 

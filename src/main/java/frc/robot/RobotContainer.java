@@ -1,18 +1,18 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.Button;
-import frc.robot.commands.GenericTurnToTargetCMD;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.RunWhenDisabledCommand;
 import frc.robot.commands.commandgroups.IntakeCG;
 import frc.robot.commands.commandgroups.ShootCG;
+import frc.robot.commands.commandgroups.ShootFromCloseCG;
 import frc.robot.components.TrigonXboxController;
-import frc.robot.constants.RobotConstants;
 import frc.robot.constants.RobotConstants.*;
 import frc.robot.subsystems.climber.ClimbCMD;
 import frc.robot.subsystems.climber.ClimberSS;
@@ -71,8 +71,8 @@ public class RobotContainer {
                 CommanderConstants.SQUARED_CONTROLLER_DRIVING);
 
         cargoLimelight = new Limelight("limelight-cargo");
-        //cargoLimelight.setPipeline(DriverStation.getAlliance().equals(DriverStation.Alliance.Blue) ? 0 : 1);
-        cargoLimelight.setCamMode(CamMode.vision);
+        setCargoLimelightPipeline();
+
         hubLimelight = new Limelight("limelight-hub");
         hubLimelight.setCamMode(CamMode.vision);
 
@@ -142,17 +142,22 @@ public class RobotContainer {
                         new InstantCommand(() -> intakeOpenerSS.setState(false)),
                         new MoveMovableSubsystem(intakeSS, () -> IntakeConstants.POWER).withTimeout(0.4)
                                 .andThen(new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER).withTimeout(
-                                        0.4)))
+                                        0.2)))
         );
         driverXbox.getBBtn().whileHeld(shootCG);
         driverXbox.getRightBumperBtn().whileHeld(new MoveMovableSubsystem(loaderSS, () -> LoaderConstants.POWER));
         driverXbox.getABtn()
-                .whileHeld(new GenericTurnToTargetCMD(swerveSS, () -> -hubLimelight.getTx(), hubLimelight::getTv,
-                        () -> -1.5 / ShootingCalculations.calculateDistance(hubLimelight.getTy()),
-                        RobotConstants.VisionConstants.HUB_TTT_COEFS,
-                        1));
-        driverXbox.getXBtn().whileHeld(new IntakeCG(this));
-
+                .whileHeld(new ShootFromCloseCG(this));
+        driverXbox.getXBtn().whileHeld(new IntakeCG(this))
+                .whenReleased(new MoveMovableSubsystem(intakeSS, () -> IntakeConstants.POWER).withTimeout(0.4)
+                        .andThen(new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER).withTimeout(
+                                0.2)).andThen().andThen(new InstantCommand(() -> intakeOpenerSS.setState(false))));
+        Button rightTrigger = new Button(() -> driverXbox.getRightTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND);
+        Button leftTrigger = new Button(() -> driverXbox.getLeftTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND);
+        rightTrigger.whileHeld(
+                new ClimbCMD(climberSS, ClimberConstants.MAX_LEFT_POSITION, ClimberConstants.MAX_RIGHT_POSITION));
+        leftTrigger.whileHeld(
+                new ClimbCMD(climberSS, 0, 0));
         commanderXbox.getBBtn().whileHeld(new ParallelCommandGroup(
                 new MoveMovableSubsystem(intakeSS, () -> -IntakeConstants.POWER),
                 new MoveMovableSubsystem(transporterSS, () -> -TransporterConstants.POWER),
@@ -188,9 +193,10 @@ public class RobotContainer {
 
     private void runClimber() {
         if(driverXbox.getRightTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND)
-            new ClimbCMD(climberSS, ClimberConstants.MAX_LEFT_POSE, ClimberConstants.MAX__RIGHT_POSITION).schedule();
+            new ClimbCMD(climberSS, ClimberConstants.MAX_LEFT_POSITION, ClimberConstants.MAX_RIGHT_POSITION).schedule();
         else if(driverXbox.getLeftTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND)
-            new ClimbCMD(climberSS, -ClimberConstants.MAX_LEFT_POSE, -ClimberConstants.MAX__RIGHT_POSITION).schedule();
+            new ClimbCMD(
+                    climberSS, -ClimberConstants.MAX_LEFT_POSITION, -ClimberConstants.MAX_RIGHT_POSITION).schedule();
         else if(commanderXbox.getPOV() == 270)
             new ClimbCMD(climberSS, 0, 0).schedule();
 
@@ -217,5 +223,10 @@ public class RobotContainer {
 
     public void setEndgame(boolean endgame) {
         this.endgame = endgame;
+    }
+
+    public void setCargoLimelightPipeline() {
+        cargoLimelight.setPipeline(DriverStation.getAlliance().equals(DriverStation.Alliance.Red) ? 0 : 1);
+        cargoLimelight.setCamMode(CamMode.vision);
     }
 }
