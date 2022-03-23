@@ -115,7 +115,7 @@
 	"Intake": {
 		"rotationCoefs": {
 			"kP": 0.15,
-			"kI": 0.43,
+			"kI": 0.0,
 			"kD": 0.0,
 			"tolerance": 1.0,
 			"deltaTolerance": 0.0
@@ -137,8 +137,8 @@
 		"pidfCoefs": {
 			"kV": 0.0,
 			"kS": 0.0,
-			"kP": 0.0,
-			"kI": 0.0,
+			"kP": 0.02,
+			"kI": 1.0E-4,
 			"kD": 0.0,
 			"tolerance": 0.0,
 			"deltaTolerance": 0.0
