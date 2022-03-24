@@ -23,7 +23,7 @@ public class ShootCG extends ParallelCommandGroup {
                 robotContainer.swerveSS,
                 () -> -robotContainer.hubLimelight.getTx(),
                 robotContainer.hubLimelight::getTv,
-                () -> -1.5 / ShootingCalculations.calculateDistance(robotContainer.hubLimelight.getTy()),
+                () -> -1.25,
                 VisionConstants.HUB_TTT_COEFS,
                 1);
         ShootCMD shootCMD = new ShootCMD(
@@ -64,6 +64,10 @@ public class ShootCG extends ParallelCommandGroup {
                                                         new WaitCommand(0)
                                                 ),
                                                 new WaitUntilCommand(shootCMD::atSetpoint),
+                                                new MoveMovableSubsystem(
+                                                        robotContainer.transporterSS,
+                                                        () -> TransporterConstants.POWER).withTimeout(0.1),
+                                                new WaitUntilCommand(() -> shootCMD.atSetpoint()),
                                                 new MoveMovableSubsystem(
                                                         robotContainer.transporterSS,
                                                         () -> TransporterConstants.POWER))))));

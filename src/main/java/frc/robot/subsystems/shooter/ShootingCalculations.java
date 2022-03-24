@@ -12,9 +12,9 @@ public class ShootingCalculations {
             new ShooterWaypoint(1.13, 9, 2900),
             new ShooterWaypoint(1.98, 11, 3250),
             new ShooterWaypoint(2.75, 19, 3200),
-            new ShooterWaypoint(3.1, 20, 3400),
-            new ShooterWaypoint(4.1, 20, 3800),
-            new ShooterWaypoint(4.4, 20, 4100)
+            new ShooterWaypoint(3.1, 19.5, 3400),
+            new ShooterWaypoint(4.1, 19.5, 3800),
+            new ShooterWaypoint(4.4, 19.5, 4100)
     ));
 
     /**
@@ -102,7 +102,8 @@ public class ShootingCalculations {
     public static double calculateDistance(double y) {
         return HubLimelightConstants.DISTANCE_CALCULATION_A_COEFFICIENT * Math.pow(y, 2)
                 + HubLimelightConstants.DISTANCE_CALCULATION_B_COEFFICIENT * y
-                + HubLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT;
+                + HubLimelightConstants.DISTANCE_CALCULATION_C_COEFFICIENT - 0.30
+                ;
     }
 
     /**

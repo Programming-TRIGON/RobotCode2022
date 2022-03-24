@@ -140,8 +140,11 @@ public class RobotConstants {
     public static class ClimberConstants {
         public static final PIDFTalonFX LEFT_MOTOR = ClimberComponents.LEFT_MOTOR;
         public static final PIDFTalonFX RIGHT_MOTOR = ClimberComponents.RIGHT_MOTOR;
-        public static final int MAX_RIGHT_POSITION = 106133; // in ticks
-        public static final int MAX_LEFT_POSITION = 154222; // in ticks
+        public static final int MAX_RIGHT_POSITION = 130000; // in ticks
+        public static final int MAX_LEFT_POSITION = 149000; // in ticks
+        // TODO: calibrate values
+        public static final int MIN_RIGHT_POSITION = -3583495; // in ticks
+        public static final int MIN_LEFT_POSITION = -3259795; // in ticks
         public static final double TRIGGER_DEADBAND = 0.6;
         public static final double OVERRIDDEN_POWER = 0.5;
     }
@@ -155,7 +158,7 @@ public class RobotConstants {
 
     public static class IntakeConstants {
         public static final TrigonTalonSRX MOTOR = IntakeComponents.MOTOR;
-        public static final double POWER = 0.75;
+        public static final double POWER = 0.8;
 
         public static final PIDCoefs ROTATION_COEFS = LOCAL_CONSTANTS.localIntakeConstants.rotationCoefs;
     }

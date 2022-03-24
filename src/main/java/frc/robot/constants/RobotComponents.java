@@ -139,7 +139,8 @@ public class RobotComponents {
                 .coast()
                 .inverted(false)
                 .withVoltageCompSaturation(12);
-        public static final PIDFTalonSRX LEFT_MOTOR = new PIDFTalonSRX(
+        public static final PIDFTalonSRX
+                LEFT_MOTOR = new PIDFTalonSRX(
                 CAN.Shooter.LEFT_MOTOR_ID, LEFT_MOTOR_CONFIG);
         // Inverted because mechanically inverted
         private static final MotorConfig RIGHT_MOTOR_CONFIG = new MotorConfig(LEFT_MOTOR_CONFIG)

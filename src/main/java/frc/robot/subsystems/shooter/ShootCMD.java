@@ -6,7 +6,7 @@ import java.util.function.DoubleSupplier;
 
 public class ShootCMD extends CommandBase {
     private final ShooterSS shooterSS;
-    private final DoubleSupplier setpoint;
+    private DoubleSupplier setpoint;
     private boolean wasAtSetpoint;
 
     private double ballsShot;
@@ -52,7 +52,11 @@ public class ShootCMD extends CommandBase {
     }
 
     public boolean atSetpoint() {
-        return shooterSS.atSetpoint() && shooterSS.getSetpoint() > 0;
+        return shooterSS.atSetpoint() && shooterSS.getVelocity() > 2000;
+    }
+
+    public void setSetpoint(DoubleSupplier setpoint) {
+        this.setpoint = setpoint;
     }
 
     public double getBallsShot() {

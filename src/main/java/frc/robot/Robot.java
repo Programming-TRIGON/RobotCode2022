@@ -16,8 +16,8 @@ public class Robot extends TimedRobot {
         robotContainer = new RobotContainer();
         autoChooser = new SendableChooser<>();
 
-        autoChooser.setDefaultOption("Simple Auto", new SimpleAutoCG(robotContainer));
-        autoChooser.addOption("Backup Auto", new BackupAutoCG(robotContainer));
+        autoChooser.setDefaultOption("Backup Auto", new BackupAutoCG(robotContainer));
+        autoChooser.addOption("Simple Auto", new SimpleAutoCG(robotContainer));
         autoChooser.addOption("Left Stealing Auto", new StealingAutoCG(robotContainer, () -> true));
         autoChooser.addOption("Right Stealing Auto", new StealingAutoCG(robotContainer, () -> false));
         autoChooser.addOption("Three Ball Normal Auto", new ThreeBallAutoCG(robotContainer));

@@ -2,13 +2,13 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.RunWhenDisabledCommand;
+import frc.robot.commands.commandgroups.ClimbCG;
 import frc.robot.commands.commandgroups.IntakeCG;
 import frc.robot.commands.commandgroups.ShootCG;
 import frc.robot.commands.commandgroups.ShootFromCloseCG;
@@ -20,6 +20,7 @@ import frc.robot.subsystems.intake.IntakeOpenerSS;
 import frc.robot.subsystems.intake.IntakeSS;
 import frc.robot.subsystems.led.LED;
 import frc.robot.subsystems.loader.LoaderSS;
+import frc.robot.subsystems.shooter.CloseVelocitiesAndAngles;
 import frc.robot.subsystems.shooter.PitcherSS;
 import frc.robot.subsystems.shooter.ShooterSS;
 import frc.robot.subsystems.shooter.ShootingCalculations;
@@ -55,6 +56,8 @@ public class RobotContainer {
     private boolean endgame = false;
 
     private final Button userBtn;
+    private final Button rightTrigger;
+    private final Button leftTrigger;
 
     /**
      * Add classes here
@@ -77,6 +80,8 @@ public class RobotContainer {
         hubLimelight.setCamMode(CamMode.vision);
 
         userBtn = new Button(RobotController::getUserButton);
+        rightTrigger = new Button(() -> driverXbox.getRightTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND);
+        leftTrigger = new Button(() -> driverXbox.getLeftTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND);
 
         initializeSubsystems();
         initializeCommands();
@@ -134,36 +139,51 @@ public class RobotContainer {
         driverXbox.getYBtn().whenPressed(new InstantCommand(swerveSS::resetGyro));
         driverXbox.getLeftBumperBtn().whenPressed(new InstantCommand(() -> intakeOpenerSS.setState(true)));
         driverXbox.getLeftBumperBtn().whileHeld(
-                new ParallelCommandGroup(
-                        new MoveMovableSubsystem(intakeSS, () -> IntakeConstants.POWER),
-                        new MoveMovableSubsystem(transporterSS, () -> TransporterConstants.POWER)));
+                new WaitCommand(1.5).andThen(
+                        new ParallelCommandGroup(
+                                new MoveMovableSubsystem(intakeSS, () -> IntakeConstants.POWER),
+                                new MoveMovableSubsystem(transporterSS, () -> TransporterConstants.POWER))));
         driverXbox.getLeftBumperBtn().whenReleased(
                 new ParallelCommandGroup(
                         new InstantCommand(() -> intakeOpenerSS.setState(false)),
-                        new MoveMovableSubsystem(intakeSS, () -> IntakeConstants.POWER).withTimeout(0.4)
+                        new WaitCommand(0.3)
                                 .andThen(new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER).withTimeout(
                                         0.2)))
         );
         driverXbox.getBBtn().whileHeld(shootCG);
         driverXbox.getRightBumperBtn().whileHeld(new MoveMovableSubsystem(loaderSS, () -> LoaderConstants.POWER));
+
+        // Shoot from close
+        SendableChooser<CloseVelocitiesAndAngles> closeWaypoint = new SendableChooser<>();
+        closeWaypoint.setDefaultOption(CloseVelocitiesAndAngles.first.name(), CloseVelocitiesAndAngles.first);
+        for(CloseVelocitiesAndAngles waypoint : CloseVelocitiesAndAngles.values()) {
+            closeWaypoint.addOption(waypoint.name(), waypoint);
+        }
         driverXbox.getABtn()
-                .whileHeld(new ShootFromCloseCG(this));
+                .whileHeld(new ShootFromCloseCG(this, () -> closeWaypoint.getSelected().getVelocity(),
+                        () -> closeWaypoint.getSelected().getAngle()));
+
         driverXbox.getXBtn().whileHeld(new IntakeCG(this))
                 .whenReleased(new MoveMovableSubsystem(intakeSS, () -> IntakeConstants.POWER).withTimeout(0.4)
                         .andThen(new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER).withTimeout(
                                 0.2)).andThen().andThen(new InstantCommand(() -> intakeOpenerSS.setState(false))));
-        Button rightTrigger = new Button(() -> driverXbox.getRightTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND);
-        Button leftTrigger = new Button(() -> driverXbox.getLeftTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND);
         rightTrigger.whileHeld(
-                new ClimbCMD(climberSS, ClimberConstants.MAX_LEFT_POSITION, ClimberConstants.MAX_RIGHT_POSITION));
+                new ClimbCMD(
+                        climberSS, ClimberConstants.MAX_LEFT_POSITION, ClimberConstants.MAX_RIGHT_POSITION,
+                        this::isEndgame));
         leftTrigger.whileHeld(
-                new ClimbCMD(climberSS, 0, 0));
-        commanderXbox.getBBtn().whileHeld(new ParallelCommandGroup(
-                new MoveMovableSubsystem(intakeSS, () -> -IntakeConstants.POWER),
-                new MoveMovableSubsystem(transporterSS, () -> -TransporterConstants.POWER),
-                new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER)));
+                new ClimbCMD(climberSS, 0, 0, this::isEndgame));
+        commanderXbox.getBBtn().whileHeld(new SequentialCommandGroup(
+                new InstantCommand(() -> intakeOpenerSS.setState(true)),
+                new WaitCommand(1.5),
+                new ParallelCommandGroup(
+                        new MoveMovableSubsystem(intakeSS, () -> -IntakeConstants.POWER),
+                        new MoveMovableSubsystem(transporterSS, () -> -TransporterConstants.POWER),
+                        new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER))));
+        commanderXbox.getBBtn().whenReleased(new InstantCommand(() -> intakeOpenerSS.setState(false)));
         commanderXbox.getXBtn().whileHeld(new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER));
         commanderXbox.getABtn().whenPressed(new InstantCommand(() -> setEndgame(!isEndgame())));
+        commanderXbox.getStartBtn().toggleWhenPressed(new ClimbCG(this, this::isEndgame));
 
         //        userBtn.whenPressed(new RunWhenDisabledCommand(
         //                () -> hubLimelight.setLedMode(hubLimelight.getLedMode() == LedMode.off ? LedMode.on :
@@ -192,29 +212,32 @@ public class RobotContainer {
     }
 
     private void runClimber() {
-        if(driverXbox.getRightTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND)
-            new ClimbCMD(climberSS, ClimberConstants.MAX_LEFT_POSITION, ClimberConstants.MAX_RIGHT_POSITION).schedule();
-        else if(driverXbox.getLeftTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND)
-            new ClimbCMD(
-                    climberSS, -ClimberConstants.MAX_LEFT_POSITION, -ClimberConstants.MAX_RIGHT_POSITION).schedule();
-        else if(commanderXbox.getPOV() == 270)
-            new ClimbCMD(climberSS, 0, 0).schedule();
-
-        if(commanderXbox.getYButton()) {
-            if(commanderXbox.getRightBumper())
-                climberSS.moveRight(-ClimberConstants.OVERRIDDEN_POWER);
-            if(commanderXbox.getLeftBumper())
-                climberSS.moveLeft(-ClimberConstants.OVERRIDDEN_POWER);
-        } else {
-            if(commanderXbox.getRightBumper())
-                climberSS.moveRight(ClimberConstants.OVERRIDDEN_POWER);
-            if(commanderXbox.getLeftBumper())
-                climberSS.moveLeft(ClimberConstants.OVERRIDDEN_POWER);
+        //        if(driverXbox.getRightTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND)
+        //            new ClimbCMD(climberSS, ClimberConstants.MAX_LEFT_POSITION, ClimberConstants
+        //            .MAX_RIGHT_POSITION).schedule();
+        //        else if(driverXbox.getLeftTriggerAxis() > ClimberConstants.TRIGGER_DEADBAND)
+        //            new ClimbCMD(
+        //                    climberSS, -ClimberConstants.MAX_LEFT_POSITION, -ClimberConstants.MAX_RIGHT_POSITION)
+        //                    .schedule();
+        //        else if(commanderXbox.getPOV() == 270)
+        //            new ClimbCMD(climberSS, 0, 0).schedule();
+        if(!rightTrigger.getAsBoolean() && !leftTrigger.getAsBoolean() && climberSS.getCurrentCommand() == null) {
+            if(commanderXbox.getYButton()) {
+                if(commanderXbox.getRightBumper())
+                    climberSS.moveRight(-ClimberConstants.OVERRIDDEN_POWER);
+                if(commanderXbox.getLeftBumper())
+                    climberSS.moveLeft(-ClimberConstants.OVERRIDDEN_POWER);
+            } else {
+                if(commanderXbox.getRightBumper())
+                    climberSS.moveRight(ClimberConstants.OVERRIDDEN_POWER);
+                if(commanderXbox.getLeftBumper())
+                    climberSS.moveLeft(ClimberConstants.OVERRIDDEN_POWER);
+            }
+            if(!commanderXbox.getRightBumper() && climberSS.getCurrentCommand() == null)
+                climberSS.moveRight(0);
+            if(!commanderXbox.getLeftBumper() && climberSS.getCurrentCommand() == null)
+                climberSS.moveLeft(0);
         }
-        if(!commanderXbox.getRightBumper())
-            climberSS.moveRight(0);
-        if(!commanderXbox.getLeftBumper())
-            climberSS.moveLeft(0);
     }
 
     public boolean isEndgame() {

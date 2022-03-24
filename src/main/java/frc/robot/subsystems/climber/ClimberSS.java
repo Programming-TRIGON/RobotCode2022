@@ -32,7 +32,6 @@ public class ClimberSS extends OverridableSubsystem {
     public void setSetpoint(double... setpoint) {
         setpoint[0] = MathUtil.clamp(setpoint[0], 0, ClimberConstants.MAX_LEFT_POSITION);
         setpoint[1] = MathUtil.clamp(setpoint[1], 0, ClimberConstants.MAX_RIGHT_POSITION);
-
         leftMotor.setSetpoint(setpoint[0]);
         rightMotor.setSetpoint(setpoint[1]);
     }
