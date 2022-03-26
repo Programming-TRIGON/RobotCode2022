@@ -9,7 +9,7 @@ public class ThreeBallAutoCG extends SequentialCommandGroup {
         addCommands(
                 new BackupAutoCG(robotContainer).withTimeout(8),
                 new SupplierDriveCMD(
-                        robotContainer.swerveSS, () -> 0.0, () -> 0.0, () -> 0.35, false).withTimeout(0.5),
+                        robotContainer.swerveSS, () -> 0.0, () -> 0.0, () -> 0.35, false).withTimeout(1),
                 new AutoCollectCG(robotContainer, () -> 0.35).withTimeout(2.5),
                 new AutoShootCG(robotContainer, () -> 0.35));
     }

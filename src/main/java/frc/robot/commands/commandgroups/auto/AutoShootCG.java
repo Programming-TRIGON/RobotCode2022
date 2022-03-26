@@ -1,6 +1,7 @@
 package frc.robot.commands.commandgroups.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.commands.commandgroups.ShootCG;
 import frc.robot.subsystems.swerve.SupplierDriveCMD;
@@ -13,6 +14,7 @@ public class AutoShootCG extends SequentialCommandGroup {
                 new SupplierDriveCMD(
                         robotContainer.swerveSS, () -> 0.0, yPower, rotPower, true).withInterrupt(
                         () -> robotContainer.hubLimelight.getTv()),
+                new WaitCommand(0.2),
                 new ShootCG(robotContainer));
     }
 

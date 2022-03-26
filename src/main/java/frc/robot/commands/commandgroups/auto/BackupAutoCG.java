@@ -9,6 +9,7 @@ import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.commandgroups.ShootCG;
 import frc.robot.constants.RobotConstants;
 import frc.robot.subsystems.swerve.SupplierDriveCMD;
+import frc.robot.utilities.DriverStationLogger;
 
 public class BackupAutoCG extends SequentialCommandGroup {
     public BackupAutoCG(RobotContainer robotContainer) {
@@ -39,10 +40,18 @@ public class BackupAutoCG extends SequentialCommandGroup {
                                 robotContainer.transporterSS,
                                 () -> RobotConstants.TransporterConstants.POWER),
                         new SupplierDriveCMD(
-                                robotContainer.swerveSS, () -> 0.0, () -> 0.0, () -> 0.3, false)).withInterrupt(
+                                robotContainer.swerveSS, () -> 0.0, () -> 0.0, () -> 0.2, false)).withInterrupt(
                         () -> robotContainer.hubLimelight.getTv()),
                 // if you remove this everything just breaks
                 new WaitCommand(0.2),
+                new InstantCommand(() -> DriverStationLogger.logToDS(
+                        "!!!!!!!!!!!!!!!!!!! TV in auto: " + robotContainer.hubLimelight.getTv())),
+                new ShootCG(robotContainer),
+                new InstantCommand(() -> DriverStationLogger.logToDS(
+                        "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!IT STOPPED SHOOTING!!!!!!!!!!!!!!!!!!!!!")),
+                new SupplierDriveCMD(
+                        robotContainer.swerveSS, () -> 0.0, () -> 0.0, () -> 0.1, false).withInterrupt(
+                        () -> robotContainer.hubLimelight.getTv()),
                 new ShootCG(robotContainer)
         );
     }

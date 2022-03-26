@@ -67,6 +67,7 @@ public class ShootCG extends ParallelCommandGroup {
                                                 new MoveMovableSubsystem(
                                                         robotContainer.transporterSS,
                                                         () -> TransporterConstants.POWER).withTimeout(0.1),
+                                                new WaitCommand(0.2),
                                                 new WaitUntilCommand(() -> shootCMD.atSetpoint()),
                                                 new MoveMovableSubsystem(
                                                         robotContainer.transporterSS,

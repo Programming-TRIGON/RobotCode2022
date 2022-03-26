@@ -12,21 +12,27 @@ import frc.robot.constants.RobotConstants.TransporterConstants;
 import frc.robot.subsystems.shooter.ShootCMD;
 
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
 public class ShootFromCloseCG extends ParallelCommandGroup {
     GenericTurnToTargetCMD ttt;
     PIDCommand pitcher;
     ShootCMD shooter;
     RobotContainer robotContainer;
+    Supplier<Boolean> changePitch;
+    boolean stopLoad;
 
     public ShootFromCloseCG(RobotContainer robotContainer, DoubleSupplier velocity, DoubleSupplier angle) {
-
+        changePitch = () -> true;
+        stopLoad = false;
+        DoubleSupplier loaderPower = () -> stopLoad ? 0 : LoaderConstants.POWER;
         ShootCMD shootCMD = new ShootCMD(
                 robotContainer.shooterSS,
                 velocity);
+        DoubleSupplier first = () -> angle.getAsDouble() - 3;
         PIDCommand pitcherCMD = new PIDCommand(
                 robotContainer.pitcherSS,
-                angle);
+                () -> (changePitch.get() ? first.getAsDouble() : angle.getAsDouble()));
 
         shooter = shootCMD;
         pitcher = pitcherCMD;
@@ -34,11 +40,11 @@ public class ShootFromCloseCG extends ParallelCommandGroup {
         addCommands(
                 shootCMD,
                 new ParallelCommandGroup(
-                        pitcherCMD,
+                        new InstantCommand(() -> robotContainer.pitcherSS.setSetpoint(first.getAsDouble())),
                         new SequentialCommandGroup(
                                 new WaitUntilCommand(() -> shootCMD.atSetpoint()),
                                 new ParallelCommandGroup(
-                                        new MoveMovableSubsystem(robotContainer.loaderSS, () -> LoaderConstants.POWER),
+                                        new MoveMovableSubsystem(robotContainer.loaderSS, loaderPower),
                                         new SequentialCommandGroup(
                                                 new ParallelRaceGroup(
                                                         new WaitUntilCommand(() -> shootCMD.getBallsShot() >= 1),
@@ -50,7 +56,18 @@ public class ShootFromCloseCG extends ParallelCommandGroup {
                                                 new MoveMovableSubsystem(
                                                         robotContainer.transporterSS,
                                                         () -> TransporterConstants.POWER).withTimeout(0.1),
+                                                new WaitCommand(0.1),
+                                                new InstantCommand(() -> stopLoad = true),
+                                                new WaitCommand(0.1),
+                                                new InstantCommand(
+                                                        () -> robotContainer.pitcherSS.setSetpoint(
+                                                                angle.getAsDouble())),
+                                                new InstantCommand(() -> changePitch = () -> false),
+                                                new MoveMovableSubsystem(
+                                                        robotContainer.transporterSS,
+                                                        () -> TransporterConstants.POWER).withTimeout(0.3),
                                                 new WaitUntilCommand(() -> shootCMD.atSetpoint()),
+                                                new InstantCommand(() -> stopLoad = false),
                                                 new MoveMovableSubsystem(
                                                         robotContainer.transporterSS,
                                                         () -> TransporterConstants.POWER))))));

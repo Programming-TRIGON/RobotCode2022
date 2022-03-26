@@ -131,7 +131,7 @@
 			"tolerance": 8.0,
 			"deltaTolerance": 0.0
 		},
-		"encoderOffset": -3403
+		"encoderOffset": -3406
 	},
 	"Climber": {
 		"pidfCoefs": {

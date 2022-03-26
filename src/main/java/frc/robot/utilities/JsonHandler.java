@@ -59,7 +59,7 @@ public class JsonHandler {
             json = json.replaceAll("\\s{2}", "\t");
             //replace every ~ with a newline
             json = json.replaceAll("~", "\n");
-            Files.write(Path.of(path), json.getBytes(StandardCharsets.UTF_8));
+            Files.write(Path.of(path + "WRITE"), json.getBytes(StandardCharsets.UTF_8));
             System.out.println("Constants file written to " + path);
         } catch(IOException e) {
             System.out.println("Error writing constants file to " + path);

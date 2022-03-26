@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.RunWhenDisabledCommand;
 import frc.robot.commands.commandgroups.ClimbCG;
-import frc.robot.commands.commandgroups.IntakeCG;
 import frc.robot.commands.commandgroups.ShootCG;
 import frc.robot.commands.commandgroups.ShootFromCloseCG;
 import frc.robot.components.TrigonXboxController;
@@ -159,14 +158,16 @@ public class RobotContainer {
         for(CloseVelocitiesAndAngles waypoint : CloseVelocitiesAndAngles.values()) {
             closeWaypoint.addOption(waypoint.name(), waypoint);
         }
+        SmartDashboard.putData("closeeee", closeWaypoint);
         driverXbox.getABtn()
                 .whileHeld(new ShootFromCloseCG(this, () -> closeWaypoint.getSelected().getVelocity(),
                         () -> closeWaypoint.getSelected().getAngle()));
-
-        driverXbox.getXBtn().whileHeld(new IntakeCG(this))
-                .whenReleased(new MoveMovableSubsystem(intakeSS, () -> IntakeConstants.POWER).withTimeout(0.4)
-                        .andThen(new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER).withTimeout(
-                                0.2)).andThen().andThen(new InstantCommand(() -> intakeOpenerSS.setState(false))));
+        //
+        //        driverXbox.getXBtn().whileHeld(new IntakeCG(this))
+        //                .whenReleased(new MoveMovableSubsystem(intakeSS, () -> IntakeConstants.POWER).withTimeout(0.4)
+        //                        .andThen(new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER).withTimeout(
+        //                                0.2)).andThen().andThen(new InstantCommand(() -> intakeOpenerSS.setState
+        //                                (false))));
         rightTrigger.whileHeld(
                 new ClimbCMD(
                         climberSS, ClimberConstants.MAX_LEFT_POSITION, ClimberConstants.MAX_RIGHT_POSITION,
@@ -183,6 +184,8 @@ public class RobotContainer {
         commanderXbox.getBBtn().whenReleased(new InstantCommand(() -> intakeOpenerSS.setState(false)));
         commanderXbox.getXBtn().whileHeld(new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER));
         commanderXbox.getABtn().whenPressed(new InstantCommand(() -> setEndgame(!isEndgame())));
+        commanderXbox.getYBtn().whileHeld(
+                new SupplierDriveCMD(swerveSS, () -> 0d, () -> -0.5, () -> 0d, false).withInterrupt(this::isEndgame));
         commanderXbox.getStartBtn().toggleWhenPressed(new ClimbCG(this, this::isEndgame));
 
         //        userBtn.whenPressed(new RunWhenDisabledCommand(

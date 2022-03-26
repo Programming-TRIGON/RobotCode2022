@@ -43,7 +43,7 @@ public class ShootCMD extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return ballsShot >= 2 && !isShootingBall;
+        return false;
     }
 
     @Override
