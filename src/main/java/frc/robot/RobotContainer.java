@@ -162,7 +162,15 @@ public class RobotContainer {
         driverXbox.getABtn()
                 .whileHeld(new ShootFromCloseCG(this, () -> closeWaypoint.getSelected().getVelocity(),
                         () -> closeWaypoint.getSelected().getAngle()));
-        //
+        //        driverXbox.getXBtn().whenPressed(new InstantCommand(() -> {
+        //            if(shooterSS.getOutput() == 0) {
+        //                shooterSS.setSetpoint(closeWaypoint.getSelected().getVelocity());
+        //                pitcherSS.setSetpoint(closeWaypoint.getSelected().getAngle());
+        //            } else {
+        //                shooterSS.stopMoving();
+        //            }
+        //        }));
+
         //        driverXbox.getXBtn().whileHeld(new IntakeCG(this))
         //                .whenReleased(new MoveMovableSubsystem(intakeSS, () -> IntakeConstants.POWER).withTimeout(0.4)
         //                        .andThen(new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER).withTimeout(

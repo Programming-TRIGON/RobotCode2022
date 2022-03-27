@@ -43,7 +43,9 @@ public class BackupAutoCG extends SequentialCommandGroup {
                                 robotContainer.swerveSS, () -> 0.0, () -> 0.0, () -> 0.2, false)).withInterrupt(
                         () -> robotContainer.hubLimelight.getTv()),
                 // if you remove this everything just breaks
-                new WaitCommand(0.2),
+                new SupplierDriveCMD(
+                        robotContainer.swerveSS, () -> 0.0, () -> 0.0, () -> 0.1, false).withTimeout(0.2),
+                new WaitCommand(0.1),
                 new InstantCommand(() -> DriverStationLogger.logToDS(
                         "!!!!!!!!!!!!!!!!!!! TV in auto: " + robotContainer.hubLimelight.getTv())),
                 new ShootCG(robotContainer),

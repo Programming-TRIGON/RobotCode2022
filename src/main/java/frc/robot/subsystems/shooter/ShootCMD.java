@@ -1,6 +1,8 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.constants.RobotConstants;
 
 import java.util.function.DoubleSupplier;
 
@@ -8,6 +10,9 @@ public class ShootCMD extends CommandBase {
     private final ShooterSS shooterSS;
     private DoubleSupplier setpoint;
     private boolean wasAtSetpoint;
+
+    private boolean resetI = false;
+    private double startTime;
 
     private double ballsShot;
     private boolean isShootingBall;
@@ -25,10 +30,21 @@ public class ShootCMD extends CommandBase {
         wasAtSetpoint = false;
         ballsShot = 0;
         isShootingBall = false;
+        resetI = false;
+        startTime = Timer.getFPGATimestamp();
     }
 
     @Override
     public void execute() {
+        if(Timer.getFPGATimestamp() - startTime > RobotConstants.ShooterConstants.I_WAIT_TIME) {
+            if(!resetI) {
+                shooterSS.resetI();
+                shooterSS.setKi(shooterSS.getKI());
+                resetI = true;
+            }
+        } else
+            shooterSS.setKi(0);
+
         shooterSS.setSetpoint(setpoint.getAsDouble());
 
         wasAtSetpoint = wasAtSetpoint || (shooterSS.atSetpoint() && shooterSS.getSetpoint() > 0);

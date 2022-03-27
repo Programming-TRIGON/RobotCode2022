@@ -67,6 +67,13 @@ public class ShooterSS extends SubsystemBase implements PIDFSubsystem, Character
     }
 
     /**
+     * @return The current set speed. Value is between -1.0 and 1.0.
+     */
+    public double getOutput() {
+        return masterMotor.get();
+    }
+
+    /**
      * sets the feedforward for all the different components of the subsystem
      *
      * @param kV velocity gains
@@ -98,6 +105,18 @@ public class ShooterSS extends SubsystemBase implements PIDFSubsystem, Character
     @Override
     public String getName() {
         return "Shooter";
+    }
+
+    public double getKI() {
+        return masterMotor.getKI();
+    }
+
+    public void setKi(double ki) {
+        masterMotor.config_kI(0, ki);
+    }
+
+    public void resetI() {
+        masterMotor.setIntegralAccumulator(0);
     }
 
     @Override

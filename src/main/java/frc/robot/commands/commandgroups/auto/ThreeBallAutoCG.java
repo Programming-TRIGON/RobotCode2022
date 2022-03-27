@@ -7,10 +7,10 @@ import frc.robot.subsystems.swerve.SupplierDriveCMD;
 public class ThreeBallAutoCG extends SequentialCommandGroup {
     public ThreeBallAutoCG(RobotContainer robotContainer) {
         addCommands(
-                new BackupAutoCG(robotContainer).withTimeout(8),
+                new BackupAutoCG(robotContainer).withTimeout(12),
                 new SupplierDriveCMD(
-                        robotContainer.swerveSS, () -> 0.0, () -> 0.0, () -> 0.35, false).withTimeout(1),
-                new AutoCollectCG(robotContainer, () -> 0.35).withTimeout(2.5),
+                        robotContainer.swerveSS, () -> 0.0, () -> 0.0, () -> -0.05, false).withTimeout(0.2),
+                new AutoCollectCG(robotContainer, () -> -0.1).withTimeout(2.5),
                 new AutoShootCG(robotContainer, () -> 0.35));
     }
 }

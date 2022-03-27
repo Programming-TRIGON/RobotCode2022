@@ -111,6 +111,10 @@ public class Conversions {
         return kV * 1023;
     }
 
+    public static double talonToKv(double talon) {
+        return talon / 1023;
+    }
+
     /**
      * @param degrees angle of the wheel or gear in degrees
      * @param radius  radius of the wheel or pitch radius of the gear
