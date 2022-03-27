@@ -12,7 +12,11 @@ import frc.robot.subsystems.swerve.SupplierDriveCMD;
 import frc.robot.utilities.DriverStationLogger;
 
 public class BackupAutoCG extends SequentialCommandGroup {
+    private double startingAngle = 0;
+    private RobotContainer robotContainer;
+
     public BackupAutoCG(RobotContainer robotContainer) {
+        this.robotContainer = robotContainer;
         addCommands(
                 new InstantCommand(robotContainer.swerveSS::resetGyro),
                 //                 it closes then opens because mechanics
@@ -48,6 +52,9 @@ public class BackupAutoCG extends SequentialCommandGroup {
                 new WaitCommand(0.1),
                 new InstantCommand(() -> DriverStationLogger.logToDS(
                         "!!!!!!!!!!!!!!!!!!! TV in auto: " + robotContainer.hubLimelight.getTv())),
+                new MoveMovableSubsystem(
+                        robotContainer.loaderSS, () -> -RobotConstants.LoaderConstants.POWER).withTimeout(
+                        0.2),
                 new ShootCG(robotContainer),
                 new InstantCommand(() -> DriverStationLogger.logToDS(
                         "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!IT STOPPED SHOOTING!!!!!!!!!!!!!!!!!!!!!")),
@@ -56,5 +63,17 @@ public class BackupAutoCG extends SequentialCommandGroup {
                         () -> robotContainer.hubLimelight.getTv()),
                 new ShootCG(robotContainer)
         );
+    }
+
+    @Override
+    public void initialize() {
+        super.initialize();
+        startingAngle = robotContainer.swerveSS.getAngle().getDegrees();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        super.end(interrupted);
+        robotContainer.swerveSS.setAngle(startingAngle);
     }
 }
