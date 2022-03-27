@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.MoveMovableSubsystem;
+import frc.robot.commands.PIDCommand;
 import frc.robot.commands.RunWhenDisabledCommand;
 import frc.robot.commands.commandgroups.ClimbCG;
 import frc.robot.commands.commandgroups.ShootCG;
@@ -19,10 +20,7 @@ import frc.robot.subsystems.intake.IntakeOpenerSS;
 import frc.robot.subsystems.intake.IntakeSS;
 import frc.robot.subsystems.led.LED;
 import frc.robot.subsystems.loader.LoaderSS;
-import frc.robot.subsystems.shooter.CloseVelocitiesAndAngles;
-import frc.robot.subsystems.shooter.PitcherSS;
-import frc.robot.subsystems.shooter.ShooterSS;
-import frc.robot.subsystems.shooter.ShootingCalculations;
+import frc.robot.subsystems.shooter.*;
 import frc.robot.subsystems.swerve.SupplierDriveCMD;
 import frc.robot.subsystems.swerve.SwerveSS;
 import frc.robot.subsystems.transporter.TransporterSS;
@@ -109,19 +107,19 @@ public class RobotContainer {
     private void initializeCommands() {
         driveWithXboxCMD = new SupplierDriveCMD(
                 swerveSS,
-                () -> driverXbox.getLeftX() /
+                () -> (driverXbox.getLeftX() + commanderXbox.getLeftX()) /
                         (isEndgame() ?
                          DriverConstants.ENDGAME_SPEED_DIVIDER :
                          (intakeSS.isCollecting() ?
                           DriverConstants.COLLECT_SPEED_DIVIDER :
                           DriverConstants.SPEED_DIVIDER)),
-                () -> driverXbox.getLeftY() /
+                () -> (driverXbox.getLeftY() + commanderXbox.getLeftY()) /
                         (isEndgame() ?
                          DriverConstants.ENDGAME_SPEED_DIVIDER :
                          (intakeSS.isCollecting() ?
                           DriverConstants.COLLECT_SPEED_DIVIDER :
                           DriverConstants.SPEED_DIVIDER)),
-                () -> driverXbox.getRightX() /
+                () -> (driverXbox.getRightX() + commanderXbox.getRightX()) /
                         (isEndgame() ?
                          DriverConstants.ENDGAME_ROTATION_SPEED_DIVIDER :
                          (intakeSS.isCollecting() ?
@@ -193,7 +191,14 @@ public class RobotContainer {
         commanderXbox.getXBtn().whileHeld(new MoveMovableSubsystem(loaderSS, () -> -LoaderConstants.POWER));
         commanderXbox.getABtn().whenPressed(new InstantCommand(() -> setEndgame(!isEndgame())));
         commanderXbox.getYBtn().whileHeld(
-                new SupplierDriveCMD(swerveSS, () -> 0d, () -> -0.5, () -> 0d, false).withInterrupt(this::isEndgame));
+                (new ParallelCommandGroup(
+                        new ShootCMD(
+                                shooterSS,
+                                () -> closeWaypoint.getSelected().getVelocity()),
+                        new PIDCommand(
+                                pitcherSS,
+                                () -> closeWaypoint.getSelected().getAngle())
+                )).withInterrupt(this::isEndgame));
         commanderXbox.getStartBtn().toggleWhenPressed(new ClimbCG(this, this::isEndgame));
 
         //        userBtn.whenPressed(new RunWhenDisabledCommand(
